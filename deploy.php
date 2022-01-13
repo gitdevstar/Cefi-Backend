@@ -34,6 +34,7 @@ host('ec2-18-191-250-207.us-east-2.compute.amazonaws.com')
   ->hostname('18.191.250.207')
   ->stage('production')
   ->user('root')
+  ->set('php', '7.4')
   ->set('deploy_path', '/var/www/html');
 
 // host('staging.myapp.io')
@@ -52,6 +53,8 @@ task('deploy', [
     'deploy:lock',
     'deploy:release',
     'rsync',
+    'provision:php',
+    'provision:composer',
     'deploy:secrets',
     'deploy:shared',
     'deploy:vendors',

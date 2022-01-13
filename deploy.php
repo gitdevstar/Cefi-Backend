@@ -2,6 +2,8 @@
 
 namespace Deployer;
 
+use Deployer\Configuration\Configuration;
+
 require 'recipe/laravel.php';
 require 'recipe/rsync.php';
 require 'recipe/provision.php';
@@ -31,14 +33,16 @@ task('deploy:secrets', function () {
     upload('.env', get('deploy_path') . '/shared');
 });
 
+set('php_version', '7.4');
+
 host('ec2-18-191-250-207.us-east-2.compute.amazonaws.com')
 //   ->hostname('18.191.250.207')
-    // ->stage('production')
+    // ->set('hostname', '18.191.250.207')
+    ->set('labels', ['stage' => 'prod'])
 //   ->user('root')
-    ->set('hostname', '18.191.250.207')
     ->setRemoteUser('root')
-    ->set('php_version', '7.4')
-    ->set('deploy_path', '/var/www/html');
+    // ->set('php_version', '7.4')
+    ->setDeployPath('/var/www/html');
 
 // host('staging.myapp.io')
 //   ->hostname('104.248.172.220')
@@ -47,6 +51,7 @@ host('ec2-18-191-250-207.us-east-2.compute.amazonaws.com')
 //   ->set('deploy_path', '/var/www/my-app-staging');
 
 desc('Provision the server');
+
 task('provision', [
     'provision:php',
     'provision:composer',

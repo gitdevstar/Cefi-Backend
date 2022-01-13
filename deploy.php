@@ -37,18 +37,13 @@ set('php_version', '7.4');
 
 host('ec2-18-191-250-207.us-east-2.compute.amazonaws.com')
 //   ->hostname('18.191.250.207')
+    ->setHostname('18.191.250.207')
     // ->set('hostname', '18.191.250.207')
     ->set('labels', ['stage' => 'prod'])
 //   ->user('root')
     ->setRemoteUser('root')
     // ->set('php_version', '7.4')
     ->setDeployPath('/var/www/html');
-
-// host('staging.myapp.io')
-//   ->hostname('104.248.172.220')
-//   ->stage('staging')
-//   ->user('root')
-//   ->set('deploy_path', '/var/www/my-app-staging');
 
 desc('Provision the server');
 

@@ -12,14 +12,14 @@ os: linux
 files:
   - source: /
     destination: /var/www/html/
-hooks:
-  BeforeInstall:
-    - location: scripts/build-production-server.sh
-      timeout: 300
-      runas: root
-    - location: scripts/configure-apache.sh
-      timeout: 300
-      runas: root
+# hooks:
+#   BeforeInstall:
+#     - location: scripts/build-production-server.sh
+#       timeout: 300
+#       runas: root
+#     - location: scripts/configure-apache.sh
+#       timeout: 300
+#       runas: root
 permissions:
   - object: /var/www/html/
     pattern: "*.*"

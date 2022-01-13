@@ -15,7 +15,8 @@ jobs:
         image: mysql:8.0
         env:
           MYSQL_ALLOW_EMPTY_PASSWORD: yes
-          MYSQL_DATABASE: test_db
+          MYSQL_DATABASE: cryptowallet
+          MYSQL_USER: root
         ports:
           - 3306
         options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3
@@ -47,7 +48,10 @@ jobs:
       with:
         ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
         ssh-known-hosts: ${{ secrets.SSH_KNOWN_HOSTS }}
-    # - name: Deploy to Prod
-    #   env:
-    #     DOT_ENV: ${{ secrets.DOT_ENV_PRODUCTION }}
-    #   run: dep deploy production --tag=${{ env.GITHUB_REF }} -vvv
+    - name: Deploy to Prod
+      env:
+        DOT_ENV: ${{ secrets.DOT_ENV_PRODUCTION }}
+      script:
+        - bash ./scripts/build-production-server.sh
+        - bash ./scripts/configure-apache.sh
+      run: dep deploy production --tag=${{ env.GITHUB_REF }} -vvv

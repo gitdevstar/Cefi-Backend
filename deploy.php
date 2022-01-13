@@ -4,6 +4,7 @@ namespace Deployer;
 
 require 'recipe/laravel.php';
 require 'recipe/rsync.php';
+require 'recipe/provision.php';
 
 set('application', 'My App');
 set('ssh_multiplexing', true);
@@ -47,10 +48,10 @@ after('deploy:failed', 'deploy:unlock');
 
 desc('Deploy the application');
 
-task('provision', [
-    'provision:php',
-    'provision:composer'
-]);
+// task('provision', [
+//     'provision:php',
+//     'provision:composer'
+// ]);
 
 task('deploy', [
     'deploy:info',
@@ -58,6 +59,8 @@ task('deploy', [
     'deploy:lock',
     'deploy:release',
     'rsync',
+    'provision:php',
+    'provision:composer',
     'deploy:secrets',
     'deploy:shared',
     'deploy:vendors',

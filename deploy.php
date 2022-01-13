@@ -32,11 +32,13 @@ task('deploy:secrets', function () {
 });
 
 host('ec2-18-191-250-207.us-east-2.compute.amazonaws.com')
-  ->hostname('18.191.250.207')
-  ->stage('production')
-  ->user('root')
-  ->set('php_version', '7.4')
-  ->set('deploy_path', '/var/www/html');
+//   ->hostname('18.191.250.207')
+    // ->stage('production')
+//   ->user('root')
+    ->set('hostname', '18.191.250.207')
+    ->setRemoteUser('root')
+    ->set('php_version', '7.4')
+    ->set('deploy_path', '/var/www/html');
 
 // host('staging.myapp.io')
 //   ->hostname('104.248.172.220')
@@ -44,14 +46,15 @@ host('ec2-18-191-250-207.us-east-2.compute.amazonaws.com')
 //   ->user('root')
 //   ->set('deploy_path', '/var/www/my-app-staging');
 
+desc('Provision the server');
+task('provision', [
+    'provision:php',
+    'provision:composer',
+]);
+
 after('deploy:failed', 'deploy:unlock');
 
 desc('Deploy the application');
-
-// task('provision', [
-//     'provision:php',
-//     'provision:composer'
-// ]);
 
 task('deploy', [
     'deploy:info',
@@ -59,8 +62,6 @@ task('deploy', [
     'deploy:lock',
     'deploy:release',
     'rsync',
-    'provision:php',
-    'provision:composer',
     'deploy:secrets',
     'deploy:shared',
     'deploy:vendors',

@@ -12,8 +12,6 @@ os: linux
 files:
   - source: /
     destination: /var/www/html/
-  - source:
-    destination:
 
 permissions:
   - object: /var/www/html/

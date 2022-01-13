@@ -10,6 +10,8 @@
     "require": {
         "php": "^7.3|^8.0",
         "coinbase/coinbase-commerce": "^1.0",
+        "deployer/deployer": "^6.8",
+        "deployer/recipes": "^6.2",
         "flutterwavedev/flutterwave-v3": "dev-master",
         "fruitcake/laravel-cors": "^2.0",
         "guzzlehttp/guzzle": "^6.0",

@@ -5,6 +5,7 @@ require_once('raveEventHandlerInterface.php');
 
 use App\Http\Controllers\Flutterwave\library\Rave;
 use App\Http\Controllers\Flutterwave\library\EventTracker;
+use Illuminate\Support\Facades\Config;
 
 class accountEventHandler implements EventHandlerInterface
 {
@@ -91,7 +92,7 @@ class Account
 
     function __construct()
     {
-        $this->payment = new Rave($_ENV['SECRET_KEY']);
+        $this->payment = new Rave(Config::get('flutterwave.secret_key'));
         $this->type = array('debit_uk_account', 'debit_ng_account');
         $this->valType = "account";
     }

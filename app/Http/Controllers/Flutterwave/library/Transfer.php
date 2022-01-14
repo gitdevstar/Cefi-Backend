@@ -2,12 +2,12 @@
 
 namespace App\Http\Controllers\Flutterwave\library;
 
-//uncomment if you need this
-//define("BASEPATH", 1);//Allow direct access to rave.php and raveEventHandler.php
 
-require_once('rave.php');
 require_once('raveEventHandlerInterface.php');
-require_once('EventTracker.php');
+
+use Illuminate\Support\Facades\Config;
+use App\Http\Controllers\Flutterwave\library\Rave;
+use App\Http\Controllers\Flutterwave\library\EventTracker;
 
 class transferEventHandler implements EventHandlerInterface
 {
@@ -88,7 +88,7 @@ class Transfer
 
     function __construct()
     {
-        $this->transfer = new Rave($_ENV['SECRET_KEY']);
+        $this->transfer = new Rave(Config::get('flutterwave.secret_key'));
     }
 
     //initiating a single transfer

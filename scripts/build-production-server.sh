@@ -5,13 +5,15 @@
 
 sudo apt update
 sudo apt dist-upgrade
+sudo apt install git unzip
 sudo apt install apache2
 sudo apt install software-properties-common
 sudo add-apt-repository ppa:ondrej/php
 sudo apt install php7.4
-sudo apt install php-curl php-cli php-mbstring git unzip php7.4-mysql php7.4-dom php7.4-xml php7.4-xmlwriter phpunit php-mbstring php-xml
+sudo apt install php7.4-curl php7.4-cli php7.4-mbstring php7.4-mysql php7.4-dom php7.4-xml php7.4-xmlwriter phpunit php7.4-xml php7.4-zip
 sudo apt install libapache2-mod-php7.4
-sudo a2enmod rewrite
+sudo a2dismod php8.0
+sudo a2enmod php7.4
 sudo /etc/init.d/apache2 restart
 
 # install composer

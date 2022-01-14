@@ -51,7 +51,6 @@ task('deploy', [
     'deploy:shared',
     'deploy:vendors',
     'deploy:writable',
-    'artisan:key:generate',
     'artisan:storage:link',
     'artisan:view:cache',
     'artisan:config:cache',

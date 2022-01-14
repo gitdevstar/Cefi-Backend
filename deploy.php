@@ -12,10 +12,6 @@ set('rsync_src', function () {
     return __DIR__;
 });
 
-set('composer_options', '--verbose --prefer-dist --no-progress --no-interaction --no-dev --optimize-autoloader --ignore-platform-req=ext-mcrypt --ignore-platform-req=ext-curl --
-ignore-platform-req=ext-dom --ignore-platform-req=ext-curl');
-
-
 add('rsync', [
     'exclude' => [
         '.git',

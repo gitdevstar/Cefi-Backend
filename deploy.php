@@ -35,6 +35,8 @@ host('ec2-52-14-18-78.us-east-2.compute.amazonaws.com')
     ->user('root')
     ->set('deploy_path', '/var/www/html');
 
+set('current_path', '/var/www/html/production');
+
 after('deploy:failed', 'deploy:unlock');
 
 desc('Deploy the application');

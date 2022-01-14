@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "b5360b46c7ca5effeb945fea89eed586",
+    "content-hash": "8443bf087be318b5ab950b5e83c415f7",
     "packages": [
         {
             "name": "asm89/stack-cors",
@@ -730,62 +730,6 @@
                 }
             ],
             "time": "2020-12-29T14:50:06+00:00"
-        },
-        {
-            "name": "flutterwavedev/flutterwave-v3",
-            "version": "dev-master",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/Flutterwave/Flutterwave-PHP-v3.git",
-                "reference": "f32fd4f6602e5448995bec2b9eb861eaeecd4d41"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/Flutterwave/Flutterwave-PHP-v3/zipball/f32fd4f6602e5448995bec2b9eb861eaeecd4d41",
-                "reference": "f32fd4f6602e5448995bec2b9eb861eaeecd4d41",
-                "shasum": ""
-            },
-            "require": {
-                "mashape/unirest-php": ">=3.0",
-                "monolog/monolog": ">=2.0",
-                "php": ">=5.4.0",
-                "vlucas/phpdotenv": ">=2.5"
-            },
-            "require-dev": {
-                "mockery/mockery": ">=1.2",
-                "phpunit/phpunit": ">=6.0"
-            },
-            "default-branch": true,
-            "type": "library",
-            "autoload": {
-                "psr-4": {
-                    "Flutterwave\\": "library/Rave"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Flutterwave Developers",
-                    "email": "developers@flutterwavego.com"
-                }
-            ],
-            "description": "A simple SDK for integrating to Flutterwave's Rave payment",
-            "homepage": "https://github.com/Flutterwave/Flutterwave-PHP-v3",
-            "keywords": [
-                "africa",
-                "flutterwave",
-                "payment",
-                "rave",
-                "transfers"
-            ],
-            "support": {
-                "issues": "https://github.com/Flutterwave/Flutterwave-PHP-v3/issues",
-                "source": "https://github.com/Flutterwave/Flutterwave-PHP-v3/tree/master"
-            },
-            "time": "2021-11-06T08:22:00+00:00"
         },
         {
             "name": "fruitcake/laravel-cors",
@@ -8253,13 +8197,11 @@
     ],
     "aliases": [],
     "minimum-stability": "dev",
-    "stability-flags": {
-        "flutterwavedev/flutterwave-v3": 20
-    },
+    "stability-flags": [],
     "prefer-stable": true,
     "prefer-lowest": false,
     "platform": {
-        "php": "^7.3|^8.0"
+        "php": "^7.3"
     },
     "platform-dev": [],
     "plugin-api-version": "2.0.0"

@@ -11,7 +11,7 @@ WEBSITE_DIR="/var/www/html/current"
 SERVER_NAME=$(wget -qO- ifconfig.me/ip)
 SERVER_ALIAS=$(wget -qO- ifconfig.me/ip)
 
-cd $APACHE_DIR/sites-availiable
+cd $APACHE_DIR/sites-available
 
 echo "<VirtualHost *:80>" >> $CONFIG_FILE_NAME
 echo "  ServerAdmin $SERVER_ADMIN" >> $CONFIG_FILE_NAME

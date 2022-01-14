@@ -4,7 +4,7 @@
 # Not used anywhere. Just helps you set up apache2 conf, disable default site and enable new site. Change variables.
 APACHE_DIR="/etc/apache2"
 CONFIG_FILE_NAME="aws-codedeploy-laravel.conf"
-WEBSITE_DIR="/var/www/html/production"
+WEBSITE_DIR="/var/www/html/current"
 # SERVER_ADMIN="your@email.com"
 # were using our server public ip. If you want to use a domain, make sure to
 # change those values

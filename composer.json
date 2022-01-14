@@ -18,8 +18,7 @@
         "laravel/framework": "^8.65",
         "laravel/sanctum": "^2.11",
         "laravel/tinker": "^2.5",
-        "linwj/coinbase": "^1.0",
-        "tatumio/tatum-php": "dev-master"
+        "linwj/coinbase": "^1.0"
     },
     "require-dev": {
         "facade/ignition": "^2.5",

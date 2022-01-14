@@ -32,6 +32,7 @@ task('deploy:secrets', function () {
 
 host('ec2-52-14-18-78.us-east-2.compute.amazonaws.com')
     ->hostname('52.14.18.78')
+    ->stage('production')
     ->user('root')
     ->set('deploy_path', '/var/www/html');
 

@@ -2,11 +2,8 @@
 
 namespace Deployer;
 
-use Deployer\Configuration\Configuration;
-
 require 'recipe/laravel.php';
 require 'recipe/rsync.php';
-require 'recipe/provision.php';
 
 set('application', 'My App');
 set('ssh_multiplexing', true);
@@ -33,24 +30,10 @@ task('deploy:secrets', function () {
     upload('.env', get('deploy_path') . '/shared');
 });
 
-set('php_version', '7.4');
-
-host('ec2-18-191-250-207.us-east-2.compute.amazonaws.com')
-//   ->hostname('18.191.250.207')
-    ->setHostname('18.191.250.207')
-    // ->set('hostname', '18.191.250.207')
-    ->set('labels', ['stage' => 'prod'])
-//   ->user('root')
-    ->setRemoteUser('root')
-    // ->set('php_version', '7.4')
-    ->setDeployPath('/var/www/html');
-
-desc('Provision the server');
-
-task('provision', [
-    'provision:php',
-    'provision:composer',
-]);
+host('ec2-52-14-18-78.us-east-2.compute.amazonaws.com')
+    ->hostname('52.14.18.78')
+    ->user('root')
+    ->set('deploy_path', '/var/www/html');
 
 after('deploy:failed', 'deploy:unlock');
 
@@ -73,5 +56,5 @@ task('deploy', [
     'artisan:queue:restart',
     'deploy:symlink',
     'deploy:unlock',
-    // 'deploy:cleanup',
+    'cleanup',
 ]);

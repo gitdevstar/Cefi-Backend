@@ -1,9 +1,12 @@
 <?php
 
 namespace App\Http\Controllers\Flutterwave\library;
-require("rave.php");
-require("raveEventHandlerInterface.php");
-require_once('EventTracker.php');
+
+require_once('raveEventHandlerInterface.php');
+
+use Illuminate\Support\Facades\Config;
+use App\Http\Controllers\Flutterwave\library\Rave;
+use App\Http\Controllers\Flutterwave\library\EventTracker;
 
 class voucherEventHandler implements EventHandlerInterface
 {
@@ -87,7 +90,7 @@ class VoucherPayment
 {
     function __construct()
     {
-        $this->payment = new Rave($_ENV['SECRET_KEY']);
+        $this->payment = new Rave(Config::get('flutterwave.secret_key'));
 
     }
 

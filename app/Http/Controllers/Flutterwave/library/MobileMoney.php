@@ -3,6 +3,7 @@ namespace App\Http\Controllers\Flutterwave\library;
 
 require_once('raveEventHandlerInterface.php');
 
+use Illuminate\Support\Facades\Config;
 use App\Http\Controllers\Flutterwave\library\Rave;
 use App\Http\Controllers\Flutterwave\library\EventTracker;
 
@@ -91,7 +92,7 @@ class MobileMoney
 
     function __construct()
     {
-        $this->payment = new Rave($_ENV['SECRET_KEY']);
+        $this->payment = new Rave(Config::get('flutterwave.secret_key'));
         $this->type = array("mobile_money_ghana", "mobile_money_uganda", "mobile_money_zambia", "mobile_money_rwanda", "mobile_money_franco");
     }
 

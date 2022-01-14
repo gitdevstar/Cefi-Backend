@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers\Flutterwave\library;
 
-require_once('rave.php');
 require_once('raveEventHandlerInterface.php');
-require_once('EventTracker.php');
+
+use Illuminate\Support\Facades\Config;
+use App\Http\Controllers\Flutterwave\library\Rave;
+use App\Http\Controllers\Flutterwave\library\EventTracker;
 
 
 class virtualAccountEventHandler implements EventHandlerInterface
@@ -83,7 +85,7 @@ class VirtualAccount
 
     function __construct()
     {
-        $this->va = new Rave($_ENV['SECRET_KEY']);
+        $this->va = new Rave(Config::get('flutterwave.secret_key'));
     }
 
     /**

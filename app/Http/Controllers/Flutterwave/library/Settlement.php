@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers\Flutterwave\library;
 
-require("lib/rave.php");
 require_once('raveEventHandlerInterface.php');
-require_once('EventTracker.php');
+
+use Illuminate\Support\Facades\Config;
+use App\Http\Controllers\Flutterwave\library\Rave;
+use App\Http\Controllers\Flutterwave\library\EventTracker;
 
 class settlementEventHandler implements EventHandlerInterface
 {

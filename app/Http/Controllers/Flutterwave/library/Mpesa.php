@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Flutterwave\library;
 
 require("raveEventHandlerInterface.php");
 
+use Illuminate\Support\Facades\Config;
 use App\Http\Controllers\Flutterwave\library\Rave;
 use App\Http\Controllers\Flutterwave\library\EventTracker;
 
@@ -82,7 +83,7 @@ class mpesaEventHandler implements EventHandlerInterface{
 
 class Mpesa {
     function __construct(){
-        $this->payment = new Rave($_SERVER['SECRET_KEY']);
+        $this->payment = new Rave(Config::get('flutterwave.secret_key'));
         $this->type = "mpesa";
     }
 

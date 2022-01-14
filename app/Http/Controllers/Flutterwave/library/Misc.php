@@ -3,11 +3,14 @@
 use Unirest\Request;
 use Unirest\Request\Body;
 
+use Illuminate\Support\Facades\Config;
+use App\Http\Controllers\Flutterwave\library\Rave;
+
 class Misc
 {
     function __construct()
     {
-        $this->misc = new Rave($_ENV['SECRET_KEY']);
+        $this->misc = new Rave(Config::get('flutterwave.secret_key'));
     }
 
     function getBalances()

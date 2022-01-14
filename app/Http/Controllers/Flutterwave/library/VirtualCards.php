@@ -2,11 +2,9 @@
 
 namespace App\Http\Controllers\Flutterwave\library;
 
-//uncomment if you need this
-//define("BASEPATH", 1);//Allow direct access to rave.php and raveEventHandler.php
-
-require_once('rave.php');
-require_once('EventTracker.php');
+use Illuminate\Support\Facades\Config;
+use App\Http\Controllers\Flutterwave\library\Rave;
+use App\Http\Controllers\Flutterwave\library\EventTracker;
 
 class VirtualCard
 {
@@ -17,7 +15,7 @@ class VirtualCard
     //initialise the constructor
     function __construct()
     {
-        $this->vc = new Rave($_ENV['SECRET_KEY']);
+        $this->vc = new Rave(Config::get('flutterwave.secret_key'));
     }
 
     //create card function

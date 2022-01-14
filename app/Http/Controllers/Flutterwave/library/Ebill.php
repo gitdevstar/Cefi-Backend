@@ -2,11 +2,10 @@
 
 namespace App\Http\Controllers\Flutterwave\library;
 
-require_once('rave.php');
 require_once('raveEventHandlerInterface.php');
 
-use Flutterwave\Rave;
-use Flutterwave\EventHandlerInterface;
+use Illuminate\Support\Facades\Config;
+use App\Http\Controllers\Flutterwave\library\Rave;
 
 class ebillEventHandler implements EventHandlerInterface{
      /**
@@ -71,7 +70,7 @@ class ebillEventHandler implements EventHandlerInterface{
 
 class Ebill {
     function __construct(){
-        $this->eb = new Rave($_ENV['SECRET_KEY']);
+        $this->eb = new Rave(Config::get('flutterwave.secret_key'));
         $this->keys = array('amount', 'phone_number','country', 'ip','email');
     }
     function order($array){

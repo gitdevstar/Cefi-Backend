@@ -1,6 +1,7 @@
 <?php
 namespace App\Http\Controllers\Flutterwave\library;
 
+use Illuminate\Support\Facades\Config;
 use Monolog\Handler\RotatingFileHandler;
 use Monolog\Logger;
 use Unirest\Request;
@@ -69,8 +70,8 @@ class Rave
     function __construct($secretKey, $prefix = 'RV', $overrideRefWithPrefix = false)
     {
         $this->secretKey = $secretKey;
-        $this->publicKey = $_ENV['PUBLIC_KEY'];
-        $this->env = $_ENV['ENV'];
+        $this->publicKey = Config::get('flutterwave.public_key');
+        $this->env = Config::get('flutterwave.env');
         $this->transactionPrefix = $overrideRefWithPrefix ? $prefix : $prefix . '_';
         $this->overrideTransactionReference = $overrideRefWithPrefix;
         // create a log channel
@@ -692,7 +693,7 @@ class Rave
     function encryption($options)
     {
         //encrypt and return the key using the secrekKey
-        $this->key = $_ENV['ENCRYPTION_KEY'];
+        $this->key = Config::get('flutterwave.encryption_key');
         //set the data to transactionData
         $this->transactionData = $options;
         //encode the data and the

@@ -1,7 +1,5 @@
 <?php
-
-use Unirest\Request;
-use Unirest\Request\Body;
+namespace App\Http\Controllers\Flutterwave\library;
 
 use Illuminate\Support\Facades\Config;
 use App\Http\Controllers\Flutterwave\library\Rave;
@@ -46,5 +44,13 @@ class Misc
 
         return $this->misc->verifyAccount($array);
 
+    }
+
+    function rate($array)
+    {
+        $this->misc->setEndPoint("v3/rates");
+        $array['amount'] = 1;
+
+        return $this->misc->rate($array);
     }
 }

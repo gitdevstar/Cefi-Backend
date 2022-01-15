@@ -746,14 +746,14 @@ class Rave
      * @return object
      * */
 
-    function getURL($url)
+    function getURL($params = null)
     {
         // make request to endpoint using unirest.
         $bearerTkn = 'Bearer ' . $this->secretKey;
         $headers = array('Content-Type' => 'application/json', 'Authorization' => $bearerTkn);
-        //$body = Body::json($data);
+
         $path = $this->baseUrl . '/' . $this->end_point;
-        $response = Request::get($path . $url, $headers);
+        $response = Request::get($path, $headers, $params);
         return $response->raw_body;    // Unparsed body
     }
 
@@ -1510,8 +1510,10 @@ class Rave
     {
 
         $this->logger->notice('Fetching applicable fees...');
-        $url = "?currency=" . $data['currency'] . "&amount=" . $data['amount'];
-        return $this->getURL($url);
+        // $url = "?currency=" . $data['currency'] . "&amount=" . $data['amount'];
+        $result = $this->getURL($data);
+        $result = json_decode($result, true);
+        return $result;
     }
 
     /**
@@ -1547,6 +1549,24 @@ class Rave
             "account_bank" => $array['account_bank']
         );
         return $this->postURL($data);
+
+    }
+
+    /**
+     * get Transfer Rate to with this method
+     * @param string $array
+     * @return object
+     * */
+
+    public function rate($array)
+    {
+
+        $this->logger->notice('Get transfer rate ....');
+        $result = $this->getURL($array);
+
+        $result = json_decode($result, true);
+
+        return $result;
 
     }
 

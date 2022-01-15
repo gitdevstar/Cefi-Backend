@@ -8,6 +8,7 @@ use App\Http\Controllers\Flutterwave\library\Mpesa;
 use App\Http\Controllers\Flutterwave\library\Ussd;
 use App\Http\Controllers\Flutterwave\library\Account;
 use App\Http\Controllers\Flutterwave\library\Transfer;
+use App\Http\Controllers\Flutterwave\library\Misc;
 
 class FlutterwaveApiController extends Controller
 {
@@ -201,6 +202,44 @@ class FlutterwaveApiController extends Controller
         }
 
         return response()->json(['result' => $result, 'verify' => $verify]);
+    }
+
+    public function rate(Request $request)
+    {
+        $this->validate($request, [
+            'from' => 'required',
+            'to' => 'required'
+        ]);
+
+        $data = array(
+            'from' => $request->from,
+            'to' => $request->to
+        );
+
+        $misc = new Misc();
+        $result = $misc->rate($data);
+
+        return response()->json(['result' => $result]);
+    }
+
+    public function payoutFee(Request $request)
+    {
+        $this->validate($request, [
+            'amount' => 'required',
+            'currency' => 'required',
+            'type' => 'required|in:mobilemoney,account'
+        ]);
+
+        $data = array(
+            'amount' => $request->amount,
+            'currency' => $request->currency,
+            'type' => $request->type
+        );
+
+        $payout = new Transfer();
+        $result = $payout->getTransferFee($data);
+
+        return response()->json(['result' => $result]);
     }
 
     public function webhook(Request $request)

@@ -55,6 +55,8 @@ Route::prefix('/flutter')->group(function() {
     Route::post('/charge/bank',                           [FlutterwaveApiController::class, 'bankCharge']);
     Route::post('/payout/mobile',                          [FlutterwaveApiController::class, 'mobilePayout']);
     Route::post('/payout/bank',                          [FlutterwaveApiController::class, 'bankPayout']);
+    Route::get('/rate',                          [FlutterwaveApiController::class, 'rate']);
+    Route::get('/payout/fee',                          [FlutterwaveApiController::class, 'payoutFee']);
     Route::post('/webhook',                          [FlutterwaveApiController::class, 'webhook']);
 });
 

@@ -18,6 +18,7 @@ use App\Http\Controllers\XanpoolApiController;
 use App\Http\Controllers\TatumApiController;
 use App\Http\Controllers\FlutterwaveApiController;
 use App\Http\Controllers\CoinbaseApiController;
+use App\Http\Controllers\CoinApiController;
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
@@ -61,7 +62,24 @@ Route::prefix('/flutter')->group(function() {
 });
 
 Route::prefix('/coinbase')->group(function() {
+    Route::get('/accounts',                           [CoinbaseApiController::class, 'getAccounts']);
+    Route::get('/prices',                           [CoinbaseApiController::class, 'getPrices']);
     Route::post('/order',                           [CoinbaseApiController::class, 'order']);
     Route::get('/order',                           [CoinbaseApiController::class, 'order']);
+    Route::get('/charge',                           [CoinbaseApiController::class, 'charge']);
+    Route::post('/swap',                           [CoinbaseApiController::class, 'convert']);
+    Route::post('/profile',                           [CoinbaseApiController::class, 'createProfile']);
+    Route::get('/profile',                           [CoinbaseApiController::class, 'getProfile']);
+    Route::get('/currencies',                           [CoinbaseApiController::class, 'getCurrencies']);
+});
+
+Route::prefix('/coin')->group(function() {
+    Route::get('/prices',                           [CoinApiController::class, 'getPrices']);
+    Route::post('/order',                           [CoinpiController::class, 'order']);
+    Route::get('/order',                           [CoinpiController::class, 'order']);
+    Route::get('/charge',                           [CoinpiController::class, 'charge']);
+    Route::post('/profile',                           [CoinpiController::class, 'createProfile']);
+    Route::get('/profile',                           [CoinpiController::class, 'getProfile']);
+    Route::get('/currencies',                           [CoinpiController::class, 'getCurrencies']);
 });
 

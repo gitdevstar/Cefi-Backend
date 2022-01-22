@@ -9,7 +9,6 @@
     "license": "MIT",
     "require": {
         "php": "^7.3",
-        "coinbase/coinbase-commerce": "^1.0",
         "deployer/deployer": "^6.0",
         "deployer/recipes": "^6.2",
         "fruitcake/laravel-cors": "^2.0",

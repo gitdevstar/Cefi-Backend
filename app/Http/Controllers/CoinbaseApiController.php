@@ -16,19 +16,19 @@ class CoinbaseApiController extends Controller
 
     public function __construct()
     {
-        $api = Config::get('coinbase.api');
+        $api = Config::get('api.coinbase_platform');
 
-        if($api == 'pro') {
-            $apiKey = Config::get('coinbase.pro_api_key');
-            $secretKey = Config::get('coinbase.pro_secret_key');
-            $passphrase = Config::get('coinbase.passphrase');
+        if($api == 'coinbase_pro') {
+            $apiKey = Config::get('api.coinbase_pro.api_key');
+            $secretKey = Config::get('api.coinbase_pro.secret_key');
+            $passphrase = Config::get('api.coinbase_pro.passphrase');
             $this->coinbasePro=new CoinbasePro($apiKey, $secretKey, $passphrase);
         }
         else {
 
         }
-        $apiKey = Config::get('coinbase.api_key');
-        $secretKey = Config::get('coinbase.secret_key');
+        $apiKey = Config::get('api.coinbase.api_key');
+        $secretKey = Config::get('api.coinbase.secret_key');
         $this->coinbase=new Coinbase($apiKey, $secretKey);
     }
 

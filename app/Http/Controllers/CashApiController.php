@@ -3,6 +3,13 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+
+use App\Models\BankCharge;
+use App\Models\BankPayout;
+use App\Models\MobileCharge;
+use App\Models\MobilePayout;
+
 use App\Libs\Flutterwave\library\MobileMoney;
 use App\Libs\Flutterwave\library\Mpesa;
 use App\Libs\Flutterwave\library\Ussd;
@@ -10,9 +17,8 @@ use App\Libs\Flutterwave\library\Account;
 use App\Libs\Flutterwave\library\Transfer;
 use App\Libs\Flutterwave\library\Misc;
 
-class FlutterwaveApiController extends Controller
+class CashApiController extends Controller
 {
-    //
     public function mobileCharge(Request $request)
     {
         $this->validate($request, [
@@ -44,6 +50,17 @@ class FlutterwaveApiController extends Controller
             $payment = new MobileMoney();
             $result = $payment->mobilemoney($data);
         }
+
+        MobileCharge::create([
+            'user_id' => Auth::user()->id,
+            'currency' => $currency,
+            'network' => $network,
+            'amount' => $request->amount,
+            'email' => $request->email,
+            'phone' => $request->phone_number,
+            'full_name' => $request->fullname,
+            'txn_id' => ''
+        ]);
 
         return response()->json(['result' => $result]);
 
@@ -99,6 +116,19 @@ class FlutterwaveApiController extends Controller
             $result = $payment->accountCharge($data);
         }
 
+        BankCharge::create([
+            'user_id' => Auth::user()->id,
+            'currency' => $currency,
+            'network' => $network,
+            'account_bank' => $request->account_bank,
+            'account_number' => $request->account_number ?? null,
+            'amount' => $request->amount,
+            'email' => $request->email,
+            'phone' => $request->phone_number,
+            'full_name' => $request->fullname,
+            'txn_id' => ''
+        ]);
+
 
         if(isset($result['data'])){
             $id = $result['data']['id'];
@@ -121,9 +151,9 @@ class FlutterwaveApiController extends Controller
             'fullname' => 'required',
         ]);
 
-        $type = $request->type;
+        $type = $request->type ?? "MPS";
         $data = array(
-            "account_bank"=> $type ?? "MPS",
+            "account_bank"=> $type,
             "account_number"=> $request->phone_number,
             "amount"=> $request->amount,
             "currency"=> $request->currency,
@@ -148,13 +178,28 @@ class FlutterwaveApiController extends Controller
         $payment = new Transfer();
         $result = $payment->singleTransfer($data);//initiate single transfer payment
         // $getTransferFee = $payment->getTransferFee($feedata);
+
+
         $verify = null;
         if(isset($result['data'])){
             $id = $result['data']['id'];
+            MobilePayout::create([
+                'user_id' => Auth::user()->id,
+                'currency' => $request->currency,
+                'type' => $type,
+                'amount' => $request->amount,
+                'email' => $request->email,
+                'phone' => $request->phone_number,
+                'full_name' => $request->fullname,
+                'fee' => 0,
+                'txn_id' => $id
+            ]);
             $verify = $payment->verifyTransaction($id);
+            return response()->json(['result' => $result, 'verify' => $verify]);
+        } else {
+            return response()->json(['error' => $result], 500);
         }
 
-        return response()->json(['result' => $result, 'verify' => $verify]);
     }
 
     public function bankPayout(Request $request)
@@ -168,7 +213,6 @@ class FlutterwaveApiController extends Controller
             'fullname' => 'required',
         ]);
 
-        $type = $request->type;
         $data = array(
             "account_bank"=> $request->account_bank,
             "account_number"=> $request->account_number,
@@ -195,13 +239,28 @@ class FlutterwaveApiController extends Controller
         $payment = new Transfer();
         $result = $payment->singleTransfer($data);//initiate single transfer payment
         // $getTransferFee = $payment->getTransferFee($feedata);
+
+
         $verify = null;
         if(isset($result['data'])){
             $id = $result['data']['id'];
+            BankPayout::create([
+                'user_id' => Auth::user()->id,
+                'currency' => $request->currency,
+                'account_bank' => $request->account_bank,
+                'account_number' => $request->account_number,
+                'amount' => $request->amount,
+                'email' => $request->email,
+                'full_name' => $request->fullname,
+                'fee' => 0,
+                'txn_id' => $id
+            ]);
             $verify = $payment->verifyTransaction($id);
+            return response()->json(['result' => $result, 'verify' => $verify]);
+        } else {
+            return response()->json(['error' => $result], 500);
         }
 
-        return response()->json(['result' => $result, 'verify' => $verify]);
     }
 
     public function rate(Request $request)
@@ -240,10 +299,5 @@ class FlutterwaveApiController extends Controller
         $result = $payout->getTransferFee($data);
 
         return response()->json(['result' => $result]);
-    }
-
-    public function webhook(Request $request)
-    {
-
     }
 }

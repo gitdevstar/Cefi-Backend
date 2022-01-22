@@ -19,6 +19,7 @@ use App\Http\Controllers\TatumApiController;
 use App\Http\Controllers\FlutterwaveApiController;
 use App\Http\Controllers\CoinbaseApiController;
 use App\Http\Controllers\CoinApiController;
+use App\Http\Controllers\CryptocurrencyapiApiController;
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
@@ -76,10 +77,17 @@ Route::prefix('/coinbase')->group(function() {
 Route::prefix('/coin')->group(function() {
     Route::get('/prices',                           [CoinApiController::class, 'getPrices']);
     Route::post('/order',                           [CoinpiController::class, 'order']);
-    Route::get('/order',                           [CoinpiController::class, 'order']);
-    Route::get('/charge',                           [CoinpiController::class, 'charge']);
-    Route::post('/profile',                           [CoinpiController::class, 'createProfile']);
-    Route::get('/profile',                           [CoinpiController::class, 'getProfile']);
-    Route::get('/currencies',                           [CoinpiController::class, 'getCurrencies']);
+    Route::post('/charge',                           [CoinpiController::class, 'charge']);
 });
 
+Route::prefix('/cash')->group(function() {
+    Route::post('/charge/mobile',                           [FlutterwaveApiController::class, 'mobileCharge']);
+    Route::post('/charge/bank',                           [FlutterwaveApiController::class, 'bankCharge']);
+    Route::post('/payout/mobile',                          [FlutterwaveApiController::class, 'mobilePayout']);
+    Route::post('/payout/bank',                          [FlutterwaveApiController::class, 'bankPayout']);
+    Route::get('/rate',                          [FlutterwaveApiController::class, 'rate']);
+    Route::get('/payout/fee',                          [FlutterwaveApiController::class, 'payoutFee']);
+    Route::post('/webhook',                          [FlutterwaveApiController::class, 'webhook']);
+});
+
+Route::post('/cryptocurrencyapi/ipn',				            [CryptocurrencyapiApiController::class, 'check_ipn']);

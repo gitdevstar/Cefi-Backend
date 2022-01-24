@@ -12,6 +12,7 @@ use App\Models\User;
 use App\Models\CoinDeposit;
 use App\Models\CoinWallet;
 use App\Models\CoinCallbackAddress;
+use App\Repositories\UserRepository;
 
 class CryptocurrencyapiApiController extends Controller
 {
@@ -21,11 +22,16 @@ class CryptocurrencyapiApiController extends Controller
     protected static $url;
     protected static $ipn;
 
-    public function __construct()
+    /** @var  UserRepository */
+    private $userRepo;
+
+    public function __construct(UserRepository $userRepo)
     {
         self::$apiKey = Config::get('api.cryptocurrencyapi.api_key');
         self::$url = self::$base_url . self::$version;
         self::$ipn = Config::get('api.cryptocurrencyapi.ipn');
+
+        $this->userRepo = $userRepo;
     }
 
     /*
@@ -103,31 +109,7 @@ class CryptocurrencyapiApiController extends Controller
 
         if( $_POST['type'] == 'in') {
 
-            $callback = CoinCallbackAddress::where('address', $_POST['address'])->first();
-            if(isset($callback)) {
-
-                $userId = $callback->user_id;
-
-                if($_POST['confirmations'] == 1) {
-                    $coin = $_POST['currency'];
-
-                    $user = User::find($userId);
-                    // $user->updateBalance();
-                    $walletBalance = $user->coinwallet($coin) ? $user->coinwallet($coin)->balance : 0;
-                    CoinWallet::updateOrCreate(
-                        ['user_id' => $userId, 'coin' => $coin],
-                        ['balance' => $walletBalance + $_POST['amount']]
-                    );
-
-                    CoinDeposit::updateOrCreate(
-                        ['txn_id'=> $_POST['txid']],
-                        ['user_id' => $userId, 'address' => $_POST['address'], 'txn_id' => $_POST['txid'], 'currency' => $_POST['currency'], 'confirms' => $_POST['confirmations'], 'amount' => $_POST['amount']]
-                    );
-
-                    $callback->delete();
-
-                }
-            }
+            $this->userRepo->updateCoinBalance($_POST);
         } else {
             // $userId = CoinWithdraw::where('address', $_POST['to'])->first()->user_id;
             // CoinWithdraw::where('user_id', $userId)->

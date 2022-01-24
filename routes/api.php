@@ -76,8 +76,10 @@ Route::prefix('/coinbase')->group(function() {
 
 Route::prefix('/coin')->group(function() {
     Route::get('/prices',                           [CoinApiController::class, 'getPrices']);
-    Route::post('/order',                           [CoinpiController::class, 'order']);
+    Route::get('/coin',                           [CoinApiController::class, 'getCoin']);
+    Route::get('/coin/chart',                           [CoinApiController::class, 'getCoinMarketChart']);
     Route::post('/charge',                           [CoinpiController::class, 'charge']);
+    Route::post('/order',                           [CoinpiController::class, 'order']);
 });
 
 Route::prefix('/cash')->group(function() {

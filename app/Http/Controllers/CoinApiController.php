@@ -8,9 +8,10 @@ use Illuminate\Support\Facades\Config;
 
 use App\Libs\Coingecko\Coingecko;
 use App\Libs\CryptocurrencyapiApi\CryptocurrencyapiApi;
+use App\Models\Coin;
 use App\Models\CoinCallbackAddress;
 use App\Models\Order;
-
+use App\Repositories\CoinRepository;
 use App\Repositories\UserRepository;
 
 use Lin\Coinbase\CoinbasePro;
@@ -19,17 +20,55 @@ class CoinApiController extends Controller
 {
     /** @var  UserRepository */
     // private $userRepository;
+    /** @var  CoinRepository */
+    private $coinRepo;
 
 
-    public function __construct()
+    public function __construct(CoinRepository $coinRepo)
     {
+        $this->coinRepo = $coinRepo;
     }
 
     public function getPrices()
     {
-        $tokens = [];
         try {
-            $result = Coingecko::getSimplePrice($tokens);
+            $result = Coingecko::getCoinsMarkets($this->coinRepo->getIds());
+
+            return response()->json(['result' => $result]);
+
+        } catch (\Throwable $th) {
+            return response()->json(['error' => $th->getMessage()]);
+        }
+    }
+
+    public function getCoin(Request $request)
+    {
+        $this->validate($request, [
+            'coin_id' => 'required',
+        ]);
+
+        try {
+            $coinId = $request->coin_id;
+            $result = Coingecko::getCoinsMarkets($coinId);
+
+            return response()->json(['result' => $result[0]]);
+
+        } catch (\Throwable $th) {
+            return response()->json(['error' => $th->getMessage()]);
+        }
+    }
+
+    public function getCoinMarketChart(Request $request)
+    {
+        $this->validate($request, [
+            'coin_id' => 'required',
+            'days' => 'required'
+        ]);
+
+        try {
+            $coinId = $request->coin_id;
+            $data['days'] = $request->days;
+            $result = Coingecko::getCoinMarketChart($coinId);
 
             return response()->json(['result' => $result]);
 
@@ -51,7 +90,8 @@ class CoinApiController extends Controller
 
             CoinCallbackAddress::create([
                 'user_id' => Auth::user()->id,
-                'address' => $address
+                'address' => $address,
+                'symbol' => $currency
             ]);
 
             return response()->json(['address' => $address]);
@@ -98,6 +138,7 @@ class CoinApiController extends Controller
                 'pair' => $pair,
                 'price' => $price,
                 'amount' => $amount,
+                'txn_id' => ''
             ]);
 
             return response()->json(['result' => $result]);

@@ -19,6 +19,7 @@ use App\Http\Controllers\TatumApiController;
 use App\Http\Controllers\FlutterwaveApiController;
 use App\Http\Controllers\CoinbaseApiController;
 use App\Http\Controllers\CoinApiController;
+use App\Http\Controllers\CashApiController;
 use App\Http\Controllers\CryptocurrencyapiApiController;
 use App\Http\Controllers\AuthController;
 

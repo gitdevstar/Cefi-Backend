@@ -12,7 +12,7 @@ use App\Models\CoinCallbackAddress;
 use App\Models\Order;
 use App\Repositories\CoinRepository;
 use App\Repositories\UserRepository;
-
+use Illuminate\Support\Facades\Log;
 use Lin\Coinbase\CoinbasePro;
 
 class CoinApiController extends Controller
@@ -90,7 +90,7 @@ class CoinApiController extends Controller
             CoinCallbackAddress::create([
                 'user_id' => Auth::user()->id,
                 'address' => $address,
-                'symbol' => $currency
+                'coin' => $currency
             ]);
 
             return response()->json(['address' => $address]);

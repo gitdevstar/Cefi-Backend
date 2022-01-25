@@ -26,6 +26,9 @@ use App\Http\Controllers\AuthController;
 Route::post('/signup',                          [AuthController::class, 'signup']);
 Route::post('/login',                           [AuthController::class, 'authenticate']);
 Route::post('/forgot/password',                 [AuthController::class, 'forgotPassword']);
+Route::post('/validate/otp',                    [AuthController::class, 'validateOTP']);
+Route::post('/resend/otp',                    [AuthController::class, 'resendOTP']);
+Route::post('/reset/password',                  [AuthController::class, 'resetPassword']);
 
 // Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 //     return $request->user();

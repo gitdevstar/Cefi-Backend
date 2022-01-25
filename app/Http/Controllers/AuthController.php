@@ -71,6 +71,10 @@ class AuthController extends Controller
             return response()->json(['error' => 'You registerd with this phone number already'], 500);
         }
 
+        // $result = (new OtpController)->requestForOtp($request->email, $request->phone_number);
+        // if(!$result)
+        //     return response()->json(['error' => 'Invalidate email or phone number.'], 500);
+
         User::create([
             'first_name' => $request->first_name,
             'last_name' => $request->last_name,
@@ -97,6 +101,50 @@ class AuthController extends Controller
             return response()->json(['error' => 'No registered user.'], 500);
         }
 
-        return response()->json(['status' => true, 'message' => "Sent otp"]);
+        $result = (new OtpController)->requestForOtp($request->email, null);
+
+        return response()->json(['status' => $result]);
+    }
+
+    public function resetPassword(Request $request)
+    {
+        $this->validate($request, [
+            'email' => 'required|email',
+            'password' => 'required'
+        ]);
+
+        $user = User::where('email', $request->email)->first();
+
+        if(!$user) {
+            return response()->json(['error' => 'Not registered user.'], 500);
+        }
+
+        $user->password = Hash::make($request->password);
+        $user->save();
+
+        return response()->json(['status' => true, 'message' => "Updated your password."]);
+    }
+
+    public function validateOTP(Request $request)
+    {
+        $this->validate($request, [
+            'sender' => 'required',
+            'otp' => 'required'
+        ]);
+
+        $result = (new OtpController)->validateOtp($request);
+
+        return response()->json(['status' => $result]);
+    }
+
+    public function resendOTP(Request $request)
+    {
+        $this->validate($request, [
+            'sender' => 'required',
+        ]);
+
+        $result = (new OtpController)->resendOtp($request);
+
+        return response()->json(['status' => $result]);
     }
 }

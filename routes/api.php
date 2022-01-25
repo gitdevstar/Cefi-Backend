@@ -20,9 +20,34 @@ use App\Http\Controllers\FlutterwaveApiController;
 use App\Http\Controllers\CoinbaseApiController;
 use App\Http\Controllers\CoinApiController;
 use App\Http\Controllers\CryptocurrencyapiApiController;
+use App\Http\Controllers\AuthController;
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
+Route::post('/signup',                          [AuthController::class, 'signup']);
+Route::post('/login',                          [AuthController::class, 'authenticate']);
+
+// Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
+//     return $request->user();
+// });
+
+Route::group(['middleware' => ['auth:sanctum']], function () {
+
+    Route::prefix('/coin')->group(function() {
+        Route::get('/prices',                           [CoinApiController::class, 'getPrices']);
+        Route::get('/coin',                           [CoinApiController::class, 'getCoin']);
+        Route::get('/coin/chart',                           [CoinApiController::class, 'getCoinMarketChart']);
+        Route::post('/charge',                           [CoinApiController::class, 'charge']);
+        Route::post('/order',                           [CoinApiController::class, 'order']);
+    });
+
+    Route::prefix('/cash')->group(function() {
+        Route::post('/charge/mobile',                           [CashApiController::class, 'mobileCharge']);
+        Route::post('/charge/bank',                             [CashApiController::class, 'bankCharge']);
+        Route::post('/payout/mobile',                           [CashApiController::class, 'mobilePayout']);
+        Route::post('/payout/bank',                             [CashApiController::class, 'bankPayout']);
+        Route::get('/rate',                                     [CashApiController::class, 'rate']);
+        Route::get('/payout/fee',                               [CashApiController::class, 'payoutFee']);
+        Route::post('/webhook',                                 [CashApiController::class, 'webhook']);
+    });
 });
 
 Route::prefix('/xanpool')->group(function() {
@@ -72,24 +97,6 @@ Route::prefix('/coinbase')->group(function() {
     Route::post('/profile',                           [CoinbaseApiController::class, 'createProfile']);
     Route::get('/profile',                           [CoinbaseApiController::class, 'getProfile']);
     Route::get('/currencies',                           [CoinbaseApiController::class, 'getCurrencies']);
-});
-
-Route::prefix('/coin')->group(function() {
-    Route::get('/prices',                           [CoinApiController::class, 'getPrices']);
-    Route::get('/coin',                           [CoinApiController::class, 'getCoin']);
-    Route::get('/coin/chart',                           [CoinApiController::class, 'getCoinMarketChart']);
-    Route::post('/charge',                           [CoinpiController::class, 'charge']);
-    Route::post('/order',                           [CoinpiController::class, 'order']);
-});
-
-Route::prefix('/cash')->group(function() {
-    Route::post('/charge/mobile',                           [FlutterwaveApiController::class, 'mobileCharge']);
-    Route::post('/charge/bank',                           [FlutterwaveApiController::class, 'bankCharge']);
-    Route::post('/payout/mobile',                          [FlutterwaveApiController::class, 'mobilePayout']);
-    Route::post('/payout/bank',                          [FlutterwaveApiController::class, 'bankPayout']);
-    Route::get('/rate',                          [FlutterwaveApiController::class, 'rate']);
-    Route::get('/payout/fee',                          [FlutterwaveApiController::class, 'payoutFee']);
-    Route::post('/webhook',                          [FlutterwaveApiController::class, 'webhook']);
 });
 
 Route::post('/cryptocurrencyapi/ipn',				            [CryptocurrencyapiApiController::class, 'check_ipn']);

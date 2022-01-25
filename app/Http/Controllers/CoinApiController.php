@@ -7,8 +7,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Config;
 
 use App\Libs\Coingecko\Coingecko;
-use App\Libs\CryptocurrencyapiApi\CryptocurrencyapiApi;
-use App\Models\Coin;
+use App\Libs\CryptocurrencyApi\CryptocurrencyapiApi;
 use App\Models\CoinCallbackAddress;
 use App\Models\Order;
 use App\Repositories\CoinRepository;
@@ -68,7 +67,7 @@ class CoinApiController extends Controller
         try {
             $coinId = $request->coin_id;
             $data['days'] = $request->days;
-            $result = Coingecko::getCoinMarketChart($coinId);
+            $result = Coingecko::getCoinMarketChart($coinId, $data);
 
             return response()->json(['result' => $result]);
 
@@ -80,7 +79,7 @@ class CoinApiController extends Controller
     public function charge(Request $request)
     {
         $this->validate($request, [
-            'currency' => 'required'
+            'currency' => 'required|in:BTC,LTC,DASH,DOGE,BCH'
         ]);
 
         $currency = $request->currency;

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Libs\CryptocurrencyapiApi;
+namespace App\Libs\CryptocurrencyApi;
 
 use Illuminate\Support\Facades\Config;
 
@@ -14,9 +14,7 @@ class CryptocurrencyapiApi
 
     public function __construct()
     {
-        self::$apiKey = Config::get('api.cryptocurrencyapi.api_key');
-        self::$url = self::$base_url . self::$version;
-        self::$ipn = Config::get('api.cryptocurrencyapi.ipn');
+
     }
 
     /*
@@ -26,6 +24,9 @@ class CryptocurrencyapiApi
     public static function generateAddress($token)
     {
         try {
+            self::$apiKey = Config::get('api.cryptocurrencyapi.api_key');
+            self::$url = self::$base_url . self::$version;
+            self::$ipn = Config::get('api.cryptocurrencyapi.ipn');
             $result = json_decode(file_get_contents(self::$url . '/.give?key=' . self::$apiKey . '&currency='.$token.'&statusURL='.self::$ipn), true);
 
             if(!isset($result['result'])) {
@@ -45,6 +46,7 @@ class CryptocurrencyapiApi
     public function getBalance($token, $address)
     {
         try {
+            self::$apiKey = Config::get('api.cryptocurrencyapi.api_key');
             $result = json_decode(file_get_contents(self::$url . '/.balance?key=' . self::$apiKey . '&currency='.$token.'&from='.$address));
             return $result->result;
         } catch (\Throwable $th) {
@@ -57,6 +59,7 @@ class CryptocurrencyapiApi
     public function withdraw($token, $address, $amount)
     {
         try {
+            self::$apiKey = Config::get('api.cryptocurrencyapi.api_key');
             $result = json_decode(file_get_contents(self::$url . '/.send?key=' . self::$apiKey . '&currency='.$token.'&address='.$address.'&amount='.$amount));
 
             return $result;

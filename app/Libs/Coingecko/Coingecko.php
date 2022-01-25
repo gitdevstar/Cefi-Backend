@@ -2,23 +2,22 @@
 
 namespace App\Libs\Coingecko;
 
-
 class Coingecko
 {
     protected static $base_url = "https://api.coingecko.com/api/";
     protected static $version = "v3";
-    protected static $url;
 
     public function __construct()
     {
-        self::$url = self::$base_url . self::$version;
     }
 
     private static function request($path, $params=[])
     {
         try {
             $params = http_build_query($params);
-            $result = json_decode(file_get_contents(self::$url . $path . "?" . $params), true);
+            $url= self::$base_url . self::$version . $path . "?" . $params;
+            $url = str_replace('%2C', ',', $url);
+            $result = json_decode(file_get_contents($url), true);
             return $result;
         } catch (\Throwable $th) {
             throw $th;
@@ -36,9 +35,10 @@ class Coingecko
         }
     }
 
-    public static function getCoinsMarkets($data)
+    public static function getCoinsMarkets($ids)
     {
         try {
+            $data['ids'] = $ids;
             $data["vs_currency"] = 'usd';
             $data["price_change_percentage"] = '24h';
             $result = self::request('/coins/markets', $data);

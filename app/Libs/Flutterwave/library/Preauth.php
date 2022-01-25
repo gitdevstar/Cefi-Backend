@@ -48,7 +48,7 @@ class Preauth
 {
     function __construct()
     {
-        $this->preauthPayment = new Rave(Config::get('flutterwave.secret_key'));
+        $this->preauthPayment = new Rave(Config::get('api.flutterwave.secret_key'));
     }
 
     function cardCharge($array)

@@ -74,7 +74,7 @@ class transactionVerificationEventHandler implements EventHandlerInterface{
 }
 class Transactions{
     function __construct(){
-        $this->history = new Rave(Config::get('flutterwave.secret_key'));
+        $this->history = new Rave(Config::get('api.flutterwave.secret_key'));
     }
     function viewTransactions(){
         //set the payment handler

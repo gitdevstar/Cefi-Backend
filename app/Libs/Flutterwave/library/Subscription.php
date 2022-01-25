@@ -87,7 +87,7 @@ class Subscription
 
     function __construct()
     {
-        $this->subscription = new Rave(Config::get('flutterwave.secret_key'));
+        $this->subscription = new Rave(Config::get('api.flutterwave.secret_key'));
     }
 
     function activateSubscription($id)

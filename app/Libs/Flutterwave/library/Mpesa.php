@@ -83,7 +83,7 @@ class mpesaEventHandler implements EventHandlerInterface{
 
 class Mpesa {
     function __construct(){
-        $this->payment = new Rave(Config::get('flutterwave.secret_key'));
+        $this->payment = new Rave(Config::get('api.flutterwave.secret_key'));
         $this->type = "mpesa";
     }
 

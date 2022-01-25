@@ -85,7 +85,7 @@ class VirtualAccount
 
     function __construct()
     {
-        $this->va = new Rave(Config::get('flutterwave.secret_key'));
+        $this->va = new Rave(Config::get('api.flutterwave.secret_key'));
     }
 
     /**

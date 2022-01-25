@@ -92,7 +92,7 @@ class Account
 
     function __construct()
     {
-        $this->payment = new Rave(Config::get('flutterwave.secret_key'));
+        $this->payment = new Rave(Config::get('api.flutterwave.secret_key'));
         $this->type = array('debit_uk_account', 'debit_ng_account');
         $this->valType = "account";
     }

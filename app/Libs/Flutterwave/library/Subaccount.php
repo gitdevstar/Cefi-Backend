@@ -85,7 +85,7 @@ class Subaccount
 
     function __construct()
     {
-        $this->subaccount = new Rave(Config::get('flutterwave.secret_key'));
+        $this->subaccount = new Rave(Config::get('api.flutterwave.secret_key'));
     }
 
     function createSubaccount($array)

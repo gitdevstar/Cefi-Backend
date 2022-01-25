@@ -70,7 +70,7 @@ class ebillEventHandler implements EventHandlerInterface{
 
 class Ebill {
     function __construct(){
-        $this->eb = new Rave(Config::get('flutterwave.secret_key'));
+        $this->eb = new Rave(Config::get('api.flutterwave.secret_key'));
         $this->keys = array('amount', 'phone_number','country', 'ip','email');
     }
     function order($array){

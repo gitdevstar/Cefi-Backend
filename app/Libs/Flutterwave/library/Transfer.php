@@ -88,7 +88,7 @@ class Transfer
 
     function __construct()
     {
-        $this->transfer = new Rave(Config::get('flutterwave.secret_key'));
+        $this->transfer = new Rave(Config::get('api.flutterwave.secret_key'));
     }
 
     //initiating a single transfer

@@ -15,7 +15,7 @@ class VirtualCard
     //initialise the constructor
     function __construct()
     {
-        $this->vc = new Rave(Config::get('flutterwave.secret_key'));
+        $this->vc = new Rave(Config::get('api.flutterwave.secret_key'));
     }
 
     //create card function

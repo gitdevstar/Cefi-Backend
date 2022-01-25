@@ -87,7 +87,7 @@ class Bvn
 
     function __construct()
     {
-        $this->bvn = new Rave(Config::get('flutterwave.secret_key'));
+        $this->bvn = new Rave(Config::get('api.flutterwave.secret_key'));
     }
 
     function verifyBVN($bvn)

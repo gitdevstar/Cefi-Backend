@@ -70,8 +70,8 @@ class Rave
     function __construct($secretKey, $prefix = 'RV', $overrideRefWithPrefix = false)
     {
         $this->secretKey = $secretKey;
-        $this->publicKey = Config::get('flutterwave.public_key');
-        $this->env = Config::get('flutterwave.env');
+        $this->publicKey = Config::get('api.flutterwave.public_key');
+        $this->env = Config::get('api.flutterwave.env');
         $this->transactionPrefix = $overrideRefWithPrefix ? $prefix : $prefix . '_';
         $this->overrideTransactionReference = $overrideRefWithPrefix;
         // create a log channel

@@ -8,7 +8,7 @@ class Misc
 {
     function __construct()
     {
-        $this->misc = new Rave(Config::get('flutterwave.secret_key'));
+        $this->misc = new Rave(Config::get('api.flutterwave.secret_key'));
     }
 
     function getBalances()

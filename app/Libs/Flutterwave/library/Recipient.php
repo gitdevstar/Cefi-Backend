@@ -87,7 +87,7 @@ class Recipient
 
     function __construct()
     {
-        $this->recipient = new Rave(Config::get('flutterwave.secret_key'));
+        $this->recipient = new Rave(Config::get('api.flutterwave.secret_key'));
     }
 
     function createRecipient($array)

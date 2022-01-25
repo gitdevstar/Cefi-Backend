@@ -94,7 +94,7 @@ class Bill
 
     function __construct()
     {
-        $this->payment = new Rave(Config::get('flutterwave.secret_key'));
+        $this->payment = new Rave(Config::get('api.flutterwave.secret_key'));
         $this->type = array('AIRTIME', 'DSTV', 'DSTV BOX OFFICE', 'Postpaid', 'Prepaid', 'AIRTEL', 'IKEDC TOP UP', 'EKEDC POSTPAID TOPUP', 'EKEDC PREPAID TOPUP', 'LCC', 'KADUNA TOP UP');
     }
 

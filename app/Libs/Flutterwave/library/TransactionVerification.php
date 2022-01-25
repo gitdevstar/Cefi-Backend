@@ -86,7 +86,7 @@ class TransactionVerification
 
     function __construct()
     {
-        $this->validate = new Rave(Config::get('flutterwave.secret_key'));
+        $this->validate = new Rave(Config::get('api.flutterwave.secret_key'));
     }
 
     function transactionVerify($id)

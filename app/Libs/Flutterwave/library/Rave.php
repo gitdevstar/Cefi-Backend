@@ -92,7 +92,7 @@ class Rave
         // set the baseurl
         //$this->baseUrl = $this->liveUrl;
 
-        $this->logger->notice('Rave Class Initializes....');
+        //$this->logger->notice('Rave Class Initializes....');
         return $this;
     }
 
@@ -102,7 +102,7 @@ class Rave
      * */
     function createCheckSum()
     {
-        $this->logger->notice('Generating Checksum....');
+        //$this->logger->notice('Generating Checksum....');
         $options = array(
             "public_key" => $this->publicKey,
             "amount" => $this->amount,
@@ -146,13 +146,13 @@ class Rave
      * */
     function createReferenceNumber()
     {
-        $this->logger->notice('Generating Reference Number....');
+        //$this->logger->notice('Generating Reference Number....');
         if ($this->overrideTransactionReference) {
             $this->txref = $this->transactionPrefix;
         } else {
             $this->txref = uniqid($this->transactionPrefix);
         }
-        $this->logger->notice('Generated Reference Number....' . $this->txref);
+        //$this->logger->notice('Generated Reference Number....' . $this->txref);
         return $this;
     }
 
@@ -544,7 +544,7 @@ class Rave
     {
         $this->txref = $referenceNumber;
         $this->requeryCount++;
-        $this->logger->notice('Requerying Transaction....' . $this->txref);
+        //$this->logger->notice('Requerying Transaction....' . $this->txref);
         if (isset($this->handler)) {
             $this->handler->onRequery($this->txref);
         }
@@ -566,7 +566,7 @@ class Rave
         //check the status is success
         if ($response->body && $response->body->status === "success") {
             if ($response->body && $response->body->data && $response->body->data->status === "successful") {
-                $this->logger->notice('Requeryed a successful transaction....' . json_encode($response->body->data));
+                //$this->logger->notice('Requeryed a successful transaction....' . json_encode($response->body->data));
                 // Handle successful
                 if (isset($this->handler)) {
                     $this->handler->onSuccessful($response->body->data);
@@ -587,9 +587,9 @@ class Rave
                         $this->handler->onTimeout($this->txref, $response->body);
                     }
                 } else {
-                    $this->logger->notice('delaying next requery for 3 seconds');
+                    //$this->logger->notice('delaying next requery for 3 seconds');
                     sleep(3);
-                    $this->logger->notice('Now retrying requery...');
+                    //$this->logger->notice('Now retrying requery...');
                     $this->requeryTransaction($this->txref);
                 }
             }
@@ -766,7 +766,7 @@ class Rave
     {
 
         $url = "/" . $id . "/verify";
-        $this->logger->notice('Verifying transaction...');
+        //$this->logger->notice('Verifying transaction...');
         $this->setEndPoint("v3/transactions");
         $result = $this->getURL($url);
         $result = json_decode($result, true);
@@ -783,7 +783,7 @@ class Rave
     {
 
 
-        $this->logger->notice('Validating otp...');
+        //$this->logger->notice('Validating otp...');
         $this->setEndPoint("v3/validate-charge");
         $this->post_data = array(
             'type' => $type,//type can be card or account
@@ -798,7 +798,7 @@ class Rave
     function validateTransaction2($pin, $Ref)
     {
 
-        $this->logger->notice('Validating pin...');
+        //$this->logger->notice('Validating pin...');
         $this->setEndPoint("v3/validate-charge");
         $this->post_data = array(
             'PBFPubKey' => $this->publicKey,
@@ -820,7 +820,7 @@ class Rave
 
     function getAllTransactions()
     {
-        $this->logger->notice('Getting all Transactions...');
+        //$this->logger->notice('Getting all Transactions...');
         $url = "";
         $result = $this->getURL($url);
         return json_decode($result, true);
@@ -852,7 +852,7 @@ class Rave
     function getAllSettlements()
     {
 
-        $this->logger->notice('Getting all Subscription...');
+        //$this->logger->notice('Getting all Subscription...');
         $url = "";
         $result = $this->getURL($url);
         return json_decode($result, true);
@@ -866,7 +866,7 @@ class Rave
 
     function bvn($bvn)
     {
-        $this->logger->notice('Validating bvn...');
+        //$this->logger->notice('Validating bvn...');
         $url = "/" . $bvn;
         return json_decode($this->getURL($url), true);
     }
@@ -878,7 +878,7 @@ class Rave
 
     function getAllSubscription()
     {
-        $this->logger->notice('Getting all Subscription...');
+        //$this->logger->notice('Getting all Subscription...');
         $url = '';
         return json_decode($this->getURL($url), true);
     }
@@ -891,7 +891,7 @@ class Rave
 
     function cancelSubscription()
     {
-        $this->logger->notice('Canceling Subscription...');
+        //$this->logger->notice('Canceling Subscription...');
         $data = array();
         $result = $this->putURL($data);
         return json_decode($result, true);
@@ -905,7 +905,7 @@ class Rave
 
     function fetchASettlement()
     {
-        $this->logger->notice('Fetching a Subscription...');
+        //$this->logger->notice('Fetching a Subscription...');
         $url = "?seckey=" . $this->secretKey;
         return $this->getURL($url);
     }
@@ -917,7 +917,7 @@ class Rave
 
     function activateSubscription()
     {
-        $this->logger->notice('Activating Subscription...');
+        //$this->logger->notice('Activating Subscription...');
         $data = array();
         return $this->putURL($data);
     }
@@ -930,7 +930,7 @@ class Rave
 
     function createPlan($array)
     {
-        $this->logger->notice('Creating Payment Plan...');
+        //$this->logger->notice('Creating Payment Plan...');
         $result = $this->postURL($array);
         $result = json_decode($result, true);
         return $result;
@@ -939,7 +939,7 @@ class Rave
 
     function updatePlan($array)
     {
-        $this->logger->notice('Updating Payment Plan...');
+        //$this->logger->notice('Updating Payment Plan...');
 
         $result = $this->putURL($array);
         $result = json_decode($result, true);
@@ -948,7 +948,7 @@ class Rave
 
     function cancelPlan($array)
     {
-        $this->logger->notice('Canceling Payment Plan...');
+        //$this->logger->notice('Canceling Payment Plan...');
 
         $result = $this->putURL($array);
         $result = json_decode($result, true);
@@ -979,7 +979,7 @@ class Rave
 
     function createBeneficiary($array)
     {
-        $this->logger->notice('Creating beneficiaries ...');
+        //$this->logger->notice('Creating beneficiaries ...');
         $result = $this->postURL($array);
         $result = json_decode($result, true);
         return $result;
@@ -1008,7 +1008,7 @@ class Rave
 
     function transferSingle($array)
     {
-        $this->logger->notice('Processing transfer...');
+        //$this->logger->notice('Processing transfer...');
         $result = $this->postURL($array);
         $result = json_decode($result, true);
         return $result;
@@ -1033,7 +1033,7 @@ class Rave
 
     function transferBulk($array)
     {
-        $this->logger->notice('Processing bulk transfer...');
+        //$this->logger->notice('Processing bulk transfer...');
         $result = $this->postURL($array);
         $result = json_decode($result, true);
         return $result;
@@ -1048,7 +1048,7 @@ class Rave
 
     function refund($array)
     {
-        $this->logger->notice('Initiating a refund...');
+        //$this->logger->notice('Initiating a refund...');
         $result = $this->postURL($array);
         $result = json_decode($result, true);
         return $result;
@@ -1072,7 +1072,7 @@ class Rave
 
         if ($this->type === 'card') {
             $this->json_options = json_encode($this->options);
-            $this->logger->notice('Checking payment details..');
+            //$this->logger->notice('Checking payment details..');
             //encrypt the required options to pass to the server
             $this->integrityHash = $this->encryption($this->json_options);
             $this->post_data = array(
@@ -1089,7 +1089,7 @@ class Rave
             if ($result['status'] == 'success') {
                 if ($result['meta']['authorization']['mode'] == 'pin' || $result['meta']['authorization']['mode'] == 'avs_noauth'
                     || $result['meta']['authorization']['mode'] == 'redirect' || $result['meta']['authorization']['mode'] == 'otp') {
-                    $this->logger->notice('Payment requires otp validation...authmodel:' . $result['meta']['authorization']['mode']);
+                    //$this->logger->notice('Payment requires otp validation...authmodel:' . $result['meta']['authorization']['mode']);
                     $this->authModelUsed = $result['meta']['authorization']['mode'];
 
 
@@ -1139,7 +1139,7 @@ class Rave
             // }
 
             if (isset($result['data']['status'])) {
-                $this->logger->notice('Payment requires otp validation...');
+                //$this->logger->notice('Payment requires otp validation...');
                 $this->authModelUsed = $result['data']['auth_model'];
                 $this->flwRef = $result['data']['flw_ref'];
                 $this->txref = $result['data']['tx_ref'];
@@ -1194,7 +1194,7 @@ class Rave
     function createSubaccount($array)
     {
         $this->options = $array;
-        $this->logger->notice('Creating Sub account...');
+        //$this->logger->notice('Creating Sub account...');
         //pass $this->options to the postURL function to call the api
         $result = $this->postURL($this->options);
         $result = json_decode($result, true);
@@ -1222,7 +1222,7 @@ class Rave
     function updateSubaccount($array)
     {
         $this->options = $array;
-        $this->logger->notice('updating Sub account...');
+        //$this->logger->notice('updating Sub account...');
         //pass $this->options to the postURL function to call the api
         $result = $this->putURL($this->options);
         $result = json_decode($result, true);
@@ -1231,7 +1231,7 @@ class Rave
 
     function deleteSubaccount($array = array())
     {
-        $this->logger->notice('deleting  Sub account...');
+        //$this->logger->notice('deleting  Sub account...');
         //pass $this->options to the postURL function to call the api
         $result = $this->putURL($array);
         $result = json_decode($result, true);
@@ -1246,7 +1246,7 @@ class Rave
     function paymentCanceled($referenceNumber)
     {
 
-        $this->logger->notice('Payment was canceled by user..' . $this->txref);
+        //$this->logger->notice('Payment was canceled by user..' . $this->txref);
         if (isset($this->handler)) {
             $this->handler->onCancel($referenceNumber);
         }
@@ -1261,7 +1261,7 @@ class Rave
     function createVirtualAccount($array)
     {
         $this->options = $array;
-        $this->logger->notice('creating virtual account..');
+        //$this->logger->notice('creating virtual account..');
         $result = $this->postURL($this->options);
         return $result;
     }
@@ -1275,7 +1275,7 @@ class Rave
     function createBulkAccounts($array)
     {
         $this->options = $array;
-        $this->logger->notice('creating bulk virtual account..');
+        //$this->logger->notice('creating bulk virtual account..');
         $result = $this->postURL($this->options);
         return $result;
     }
@@ -1301,7 +1301,7 @@ class Rave
 
     function createOrder($array)
     {
-        $this->logger->notice('creating Ebill order for customer with email: ' . $array['email']);
+        //$this->logger->notice('creating Ebill order for customer with email: ' . $array['email']);
 
         if (empty($array['narration']) || !array_key_exists('narration', $array)) {
             $array['narration'] = '';
@@ -1343,7 +1343,7 @@ class Rave
      * */
     function updateOrder($array)
     {
-        $this->logger->notice('updating Ebill order..');
+        //$this->logger->notice('updating Ebill order..');
 
         $data = array(
             'amount' => $array['amount'],
@@ -1370,7 +1370,7 @@ class Rave
             return $error;
         }
 
-        $this->logger->notice($array['type'] . ' Billing ...');
+        //$this->logger->notice($array['type'] . ' Billing ...');
 
         $data = array();
         $data["type"] = $array["type"];
@@ -1464,7 +1464,7 @@ class Rave
 
     function listTransfers($data)
     {
-        $this->logger->notice('Fetching list of transfers...');
+        //$this->logger->notice('Fetching list of transfers...');
 
         if (isset($data['page'])) {
             $url = "?page=" . $data['page'];
@@ -1495,7 +1495,7 @@ class Rave
     function bulkTransferStatus($data)
     {
 
-        $this->logger->notice('Checking bulk transfer status...');
+        //$this->logger->notice('Checking bulk transfer status...');
         $url = "?batch_id=" . $data['batch_id'];
         return $this->getURL($url);
     }
@@ -1509,7 +1509,7 @@ class Rave
     function applicableFees($data)
     {
 
-        $this->logger->notice('Fetching applicable fees...');
+        //$this->logger->notice('Fetching applicable fees...');
         // $url = "?currency=" . $data['currency'] . "&amount=" . $data['amount'];
         $result = $this->getURL($data);
         $result = json_decode($result, true);
@@ -1524,7 +1524,7 @@ class Rave
 
     function getTransferBalance($array)
     {
-        $this->logger->notice('Fetching Transfer Balance...');
+        //$this->logger->notice('Fetching Transfer Balance...');
         if (empty($array['currency'])) {
             $array['currency'] == 'NGN';
         }
@@ -1543,7 +1543,7 @@ class Rave
     function verifyAccount($array)
     {
 
-        $this->logger->notice('Verifying transfer recipents account...');
+        //$this->logger->notice('Verifying transfer recipents account...');
         $data = array(
             "account_number" => $array['account_number'],
             "account_bank" => $array['account_bank']
@@ -1561,7 +1561,7 @@ class Rave
     public function rate($array)
     {
 
-        $this->logger->notice('Get transfer rate ....');
+        //$this->logger->notice('Get transfer rate ....');
         $result = $this->getURL($array);
 
         $result = json_decode($result, true);
@@ -1577,7 +1577,7 @@ class Rave
 
     function getBanksForTransfer()
     {
-        $this->logger->notice('Fetching banks available for Transfer...');
+        //$this->logger->notice('Fetching banks available for Transfer...');
 
         //get banks for transfer
         $url = "";
@@ -1593,7 +1593,7 @@ class Rave
 
     function captureFunds($array)
     {
-        $this->logger->notice('capturing funds for flw_ref: ' . $array['flw_ref'] . ' ...');
+        //$this->logger->notice('capturing funds for flw_ref: ' . $array['flw_ref'] . ' ...');
         unset($array['flw_ref']);
         $data = array(
             "amount" => $array['amount']
@@ -1618,7 +1618,7 @@ class Rave
 
     function void($array)
     {
-        $this->logger->notice('voided a captured fund with the flw_ref=' . $array['flw_ref']);
+        //$this->logger->notice('voided a captured fund with the flw_ref=' . $array['flw_ref']);
         unset($array['flw_ref']);
         $data = array();
         return $this->postURL($data);
@@ -1632,7 +1632,7 @@ class Rave
 
     function preRefund($array)
     {
-        $this->logger->notice('refunding a captured fund with the flw_ref=' . $array['flw_ref']);
+        //$this->logger->notice('refunding a captured fund with the flw_ref=' . $array['flw_ref']);
         unset($array['flw_ref']);
         $data = array(
             "amount" => $array['amount']

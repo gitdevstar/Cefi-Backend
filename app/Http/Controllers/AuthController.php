@@ -84,4 +84,19 @@ class AuthController extends Controller
 
 
     }
+
+    public function forgotPassword(Request $request)
+    {
+        $this->validate($request, [
+            'email' => 'required|email'
+        ]);
+
+        $user = User::where('email', $request->email)->first();
+
+        if(!$user) {
+            return response()->json(['error' => 'No registered user.'], 500);
+        }
+
+        return response()->json(['status' => true, 'message' => "Sent otp"]);
+    }
 }

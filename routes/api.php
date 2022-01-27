@@ -38,11 +38,12 @@ Route::post('/reset/password',                  [AuthController::class, 'resetPa
 Route::group(['middleware' => ['auth:sanctum']], function () {
 
     Route::prefix('/coin')->group(function() {
-        Route::get('/prices',                           [CoinApiController::class, 'getPrices']);
-        Route::get('/coin',                           [CoinApiController::class, 'getCoin']);
+        Route::get('/prices',                               [CoinApiController::class, 'getPrices']);
+        Route::get('/coin',                                 [CoinApiController::class, 'getCoin']);
         Route::get('/coin/chart',                           [CoinApiController::class, 'getCoinMarketChart']);
-        Route::post('/charge',                           [CoinApiController::class, 'charge']);
-        Route::post('/order',                           [CoinApiController::class, 'order']);
+        Route::post('/charge',                              [CoinApiController::class, 'charge']);
+        Route::post('/order',                               [CoinApiController::class, 'order']);
+        Route::post('/withdraw',                            [CoinApiController::class, 'withdraw']);
     });
 
     Route::prefix('/cash')->group(function() {
@@ -51,6 +52,7 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
         Route::post('/payout/mobile',                           [CashApiController::class, 'mobilePayout']);
         Route::post('/payout/bank',                             [CashApiController::class, 'bankPayout']);
         Route::post('/pay',                                     [CashApiController::class, 'pay']);
+        Route::post('/withdraw',                                [CashApiController::class, 'withdraw']);
         Route::get('/rate',                                     [CashApiController::class, 'rate']);
         Route::get('/payout/fee',                               [CashApiController::class, 'payoutFee']);
         Route::post('/webhook',                                 [CashApiController::class, 'webhook']);

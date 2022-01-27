@@ -10,6 +10,7 @@ use App\Libs\Coingecko\Coingecko;
 use App\Libs\CryptocurrencyApi\CryptocurrencyapiApi;
 use App\Models\CoinCallbackAddress;
 use App\Models\Order;
+use App\Models\Withdraw;
 use App\Repositories\CoinRepository;
 use App\Repositories\UserRepository;
 use Illuminate\Support\Facades\Log;
@@ -144,6 +145,30 @@ class CoinApiController extends Controller
         }catch (\Exception $e){
             return response()->json(['error' => json_decode($e->getMessage(), true)], 500);
         }
+    }
+
+    public function withdraw(Request $request)
+    {
+        $this->validate($request, [
+            'to' => 'required',
+            'amount' => 'required'
+        ]);
+
+        $user = Auth::user();
+        $amount = $request->amount;
+        if($amount == 0)
+            return response()->json(['status' => false, 'error' => 'Invalidate amount.'], 500);
+        if($user->balance < $amount)
+            return response()->json(['status' => false, 'error' => 'Insufficient amount.'], 500);
+
+        Withdraw::create([
+            'user_id' => Auth::user()->id,
+            'to' => $request->to,
+            'kind' => $request->currency ?? 'USDC',
+            'amount' => $amount,
+        ]);
+
+        return response()->json(['status' => true, 'message' => 'Sent your withdraw request. It will take 2 or 3 business days.']);
     }
 
 }

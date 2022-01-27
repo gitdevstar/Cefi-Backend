@@ -16,7 +16,7 @@ use App\Libs\Flutterwave\library\Ussd;
 use App\Libs\Flutterwave\library\Account;
 use App\Libs\Flutterwave\library\Transfer;
 use App\Libs\Flutterwave\library\Misc;
-
+use App\Models\Withdraw;
 use App\Repositories\UserRepository;
 
 class CashApiController extends Controller
@@ -331,5 +331,29 @@ class CashApiController extends Controller
         $user->pay($amount, $receiver);
 
         return response()->json(['status' => true]);
+    }
+
+    public function withdraw(Request $request)
+    {
+        $this->validate($request, [
+            'to' => 'required|email',
+            'amount' => 'required'
+        ]);
+
+        $user = Auth::user();
+        $amount = $request->amount;
+        if($amount == 0)
+            return response()->json(['status' => false, 'error' => 'Invalidate amount.'], 500);
+        if($user->balance < $amount)
+            return response()->json(['status' => false, 'error' => 'Insufficient amount.'], 500);
+
+        Withdraw::create([
+            'user_id' => $user->id,
+            'to' => $request->to,
+            'kind' => 'Cash',
+            'amount' => $amount,
+        ]);
+
+        return response()->json(['status' => true, 'message' => 'Sent your withdraw request. It will take 2 or 3 business days.']);
     }
 }

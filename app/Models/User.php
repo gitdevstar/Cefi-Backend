@@ -45,4 +45,23 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    public function pay($amount, $receiver)
+    {
+        $this->balance -= $amount;
+        $this->save();
+        $receiver->deposit($amount);
+
+        PayHistory::create([
+            'sender_id' => $this->id,
+            'receiver_id' => $receiver->id,
+            'amount' => $amount
+        ]);
+    }
+
+    public function deposit($amount)
+    {
+        $this->balance += $amount;
+        $this->save();
+    }
 }

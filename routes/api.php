@@ -22,6 +22,7 @@ use App\Http\Controllers\CoinApiController;
 use App\Http\Controllers\CashApiController;
 use App\Http\Controllers\CryptocurrencyapiApiController;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\UserController;
 
 Route::post('/signup',                          [AuthController::class, 'signup']);
 Route::post('/login',                           [AuthController::class, 'authenticate']);
@@ -49,10 +50,13 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
         Route::post('/charge/bank',                             [CashApiController::class, 'bankCharge']);
         Route::post('/payout/mobile',                           [CashApiController::class, 'mobilePayout']);
         Route::post('/payout/bank',                             [CashApiController::class, 'bankPayout']);
+        Route::post('/pay',                                     [CashApiController::class, 'pay']);
         Route::get('/rate',                                     [CashApiController::class, 'rate']);
         Route::get('/payout/fee',                               [CashApiController::class, 'payoutFee']);
         Route::post('/webhook',                                 [CashApiController::class, 'webhook']);
     });
+
+    Route::get('/users',                                 [UserController::class, 'search']);
 });
 
 Route::prefix('/xanpool')->group(function() {

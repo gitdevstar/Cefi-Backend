@@ -17,8 +17,18 @@ use App\Libs\Flutterwave\library\Account;
 use App\Libs\Flutterwave\library\Transfer;
 use App\Libs\Flutterwave\library\Misc;
 
+use App\Repositories\UserRepository;
+
 class CashApiController extends Controller
 {
+    /** @var  UserRepository */
+    private $userRepository;
+
+    public function __construct(UserRepository $userRepository)
+    {
+        $this->userRepository = $userRepository;
+    }
+
     public function mobileCharge(Request $request)
     {
         $this->validate($request, [
@@ -299,5 +309,27 @@ class CashApiController extends Controller
         $result = $payout->getTransferFee($data);
 
         return response()->json(['result' => $result]);
+    }
+
+    public function pay(Request $request)
+    {
+        $this->validate($request, [
+            'receiver' => 'required|email',
+            'amount' => 'required'
+        ]);
+
+        $user = Auth::user();
+        $amount = $request->amount;
+        if($amount == 0)
+            return response()->json(['status' => false, 'error' => 'Invalidate amount.'], 500);
+        if($user->balance < $amount)
+            return response()->json(['status' => false, 'error' => 'Insufficient amount.'], 500);
+
+        $users = $this->userRepository->all($request->receiver);
+        $receiver = $users[0];
+
+        $user->pay($amount, $receiver);
+
+        return response()->json(['status' => true]);
     }
 }

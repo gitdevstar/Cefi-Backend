@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\ValidationException;
 
 use App\Models\User;
+use Illuminate\Support\Facades\Config;
 
 class AuthController extends Controller
 {
@@ -97,13 +98,18 @@ class AuthController extends Controller
 
         $user = User::where('email', $request->email)->first();
 
-        if(!$user) {
+        if(! $user) {
             return response()->json(['error' => 'No registered user.'], 500);
         }
+        try {
+            Config::set('otp.send-by.sms', 0);
+            $result = (new OtpController)->requestForOtp($request->email, null);
+        } catch (\Throwable $th) {
+            //throw $th;
+            return response()->json(['status' => false, 'error'=>$th->getMessage()], 500);
+        }
 
-        $result = (new OtpController)->requestForOtp($request->email, null);
-
-        return response()->json(['status' => $result]);
+        return response()->json(['result' => $result]);
     }
 
     public function resetPassword(Request $request)
@@ -128,23 +134,25 @@ class AuthController extends Controller
     public function validateOTP(Request $request)
     {
         $this->validate($request, [
-            'sender' => 'required',
+            'uniqueId' => 'required',
             'otp' => 'required'
         ]);
 
+        Config::set('otp.send-by.sms', 0);
         $result = (new OtpController)->validateOtp($request);
 
-        return response()->json(['status' => $result]);
+        return response()->json(['result' => $result]);
     }
 
     public function resendOTP(Request $request)
     {
         $this->validate($request, [
-            'sender' => 'required',
+            'uniqueId' => 'required',
         ]);
 
+        Config::set('otp.send-by.sms', 0);
         $result = (new OtpController)->resendOtp($request);
 
-        return response()->json(['status' => $result]);
+        return response()->json(['result' => $result]);
     }
 }

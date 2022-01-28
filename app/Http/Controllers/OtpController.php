@@ -27,7 +27,7 @@ class OtpController extends Controller
      */
     public function validateOtp(Request $request)
     {
-        $uniqId = $request->input('sender');
+        $uniqId = $request->input('uniqueId');
         $otp = $request->input('otp');
         return OtpValidator::validateOtp(
             new OtpValidateRequestObject($uniqId,$otp)
@@ -40,7 +40,7 @@ class OtpController extends Controller
      */
     public function resendOtp(Request $request)
     {
-        $uniqueId = $request->input('sender');
+        $uniqueId = $request->input('uniqueId');
         return OtpValidator::resendOtp($uniqueId);
     }
 

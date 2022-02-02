@@ -59,6 +59,7 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     });
 
     Route::get('/users',                                 [UserController::class, 'search']);
+    Route::get('/user',                                 [UserController::class, 'user']);
 });
 
 Route::prefix('/xanpool')->group(function() {

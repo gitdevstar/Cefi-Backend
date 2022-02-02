@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 
 use App\Repositories\UserRepository;
+use Illuminate\Support\Facades\Auth;
 
 class UserController extends Controller
 {
@@ -25,5 +26,12 @@ class UserController extends Controller
         $users = $this->userRepository->all($request->email);
 
         return response()->json(['users' => $users]);
+    }
+
+    public function user()
+    {
+        $user = Auth::user();
+
+        return response()->json(['user' => $user]);
     }
 }

@@ -101,17 +101,42 @@ class CoinApiController extends Controller
         }
     }
 
+    public function orderRate(Request $request)
+    {
+        $this->validate($request, [
+            'type' => 'in:limit,market',
+            'side' => 'required|in:sell,buy',
+            'sell_coin_id' => 'required',
+            'buy_coin_id' => 'required'
+        ]);
+
+        $type = $request->type ?? 'market';
+        $side = $request->side;
+
+        try {
+            $result = Coingecko::getCoinsMarkets($request->sell_coin_id);
+            $sellCoinPrice = $result[0]->price;
+            $result = Coingecko::getCoinsMarkets($request->buy_coin_id);
+            $buyCoinPrice = $result[0]->price;
+            $fee = 0.4;
+            return response()->json(['sellCoinPrice' => $sellCoinPrice, 'buyCoinPrice' => $buyCoinPrice, 'fee' => $fee]);
+        } catch (\Throwable $th) {
+            return response()->json(['error' => json_decode($th->getMessage(), true)], 500);
+        }
+
+    }
+
     public function order(Request $request)
     {
         $this->validate($request, [
-            'type' => 'required|in:limit,market',
+            'type' => 'in:limit,market',
             'side' => 'required|in:sell,buy',
             'pair' => 'required', //'BTC-USD'
             'price' => 'required_if:type,limit',
             'amount' => 'required'
         ]);
 
-        $type = $request->type;
+        $type = $request->type ?? 'market';
         $side = $request->side;
         $pair = $request->pair;
         $price = $request->price ?? 0;

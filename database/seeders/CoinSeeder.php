@@ -437,7 +437,8 @@ class CoinSeeder extends Seeder
      */
     public function run()
     {
-        //
+        DB::table('coins')->delete();
+
         foreach($this->coins as $coin) {
             DB::table('coins')->insert([
                 'symbol' => $coin['symbol'],

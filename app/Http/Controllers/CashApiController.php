@@ -318,17 +318,16 @@ class CashApiController extends Controller
             'amount' => 'required'
         ]);
 
-        $user = Auth::user();
         $amount = $request->amount;
-        if($amount == 0)
-            return response()->json(['status' => false, 'error' => 'Invalidate amount.'], 500);
-        if($user->balance < $amount)
-            return response()->json(['status' => false, 'error' => 'Insufficient amount.'], 500);
+
 
         $users = $this->userRepository->all($request->receiver);
         $receiver = $users[0];
-
-        $user->pay($amount, $receiver);
+        try {
+            $this->userRepository->pay($amount, $receiver);
+        } catch (\Throwable $th) {
+            return response()->json(['status' => false, 'error' => $th->getMessage()], 500);
+        }
 
         return response()->json(['status' => true]);
     }

@@ -4,31 +4,36 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Support\Facades\Storage;
 
 use App\Repositories\UserRepository;
 
 use App\Models\User;
+use App\DataTables\UserDataTable;
 
 class UserController extends Controller
 {
     /** @var  UserRepository */
     private $userRepository;
+    /** @var  UserDataTable */
+    private $userdatatable;
 
-    public function __construct(UserRepository $userRepository)
+    public function __construct(UserRepository $userRepository, UserDataTable $datatable)
     {
         $this->userRepository = $userRepository;
+        $this->userdatatable = $datatable;
     }
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $users = User::orderBy('created_at' , 'desc')->get();
-        return view('admin.users.index', compact('users'));
+        if($request->ajax()) {
+            return $this->userdatatable->index();
+        }
+        return view('admin.users.index');
     }
 
     /**

@@ -15,9 +15,9 @@
                 </a>
             </li>
 			<li>
-				<a href="{{ route('admin.request.payment') }}" class="waves-effect waves-light">
+				<a href="{{ route('admin.withdraw') }}" class="waves-effect waves-light">
 					<span class="s-icon"><i class="ti-money"></i></span>
-					<span class="s-text">@lang('admin.payment.request')</span>
+					<span class="s-text">Withdraw</span>
 				</a>
 			</li>
 			<li class="menu-title">@lang('admin.include.settings')</li>

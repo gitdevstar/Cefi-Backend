@@ -14,9 +14,9 @@ class Withdraw extends Model
         'to',
         'amount',
         'kind', // [cash, coin],
-        'status',
+        'status', // 0[unpaid],1[paid],2[rejected]
         'txn_id'
     ];
 
-    protected $hidden = ['updated_at'];
+    protected $hidden = ['created_at'];
 }

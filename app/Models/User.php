@@ -21,6 +21,7 @@ class User extends Authenticatable
         'first_name',
         'last_name',
         'email',
+        'photo',
         'phone_number',
         'balance',
         'password',
@@ -46,22 +47,8 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
-    public function pay($amount, $receiver)
-    {
-        $this->balance -= $amount;
-        $this->save();
-        $receiver->deposit($amount);
-
-        PayHistory::create([
-            'sender_id' => $this->id,
-            'receiver_id' => $receiver->id,
-            'amount' => $amount
-        ]);
-    }
-
-    public function deposit($amount)
-    {
-        $this->balance += $amount;
-        $this->save();
-    }
+    public function coinwallet($symbol)
+	{
+		return $this->hasOne('App\CoinWallet', 'user_id', 'id')->where('coin', $symbol)->first();
+	}
 }

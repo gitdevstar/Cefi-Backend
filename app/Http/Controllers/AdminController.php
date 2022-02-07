@@ -2,9 +2,14 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\User;
+use App\DataTables\WithdrawDataTable;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+
+use App\Models\User;
+use App\Models\Admin;
+use App\Models\Withdraw;
+use App\Repositories\WithdrawRepository;
 
 class AdminController extends Controller
 {
@@ -99,112 +104,33 @@ class AdminController extends Controller
         }
     }
 
-    public function payment()
+    public function withdrawList(Request $request, WithdrawDataTable $withdrawdatatable)
     {
-        try {
-            $payments = UserRequests::where('paid', 1)
-                ->has('user')
-                ->has('provider')
-                ->has('payment')
-                ->orderBy('user_requests.created_at', 'desc')
-                ->get();
+        if($request->ajax()) {
+            return $withdrawdatatable->index();
+        }
+        return view('admin.payment.withdraw');
+    }
 
-            return view('admin.payment.payment-history', compact('payments'));
+    public function approveWithdraw(Request $request, WithdrawRepository $withRepo)
+    {
+        $id = $request->id;
+        try {
+            $withRepo->approve($id);
+            return back()->with('flash_success', 'Approved successfully');
         } catch (\Exception $e) {
-            return back()->with('flash_error', 'Something Went Wrong!');
+            return back()->with('flash_error', $e->getMessage());
         }
     }
 
-    public function request_payment()
+    public function unApproveWithdraw(Request $request, WithdrawRepository $withRepo)
     {
+        $id = $request->id;
         try {
-            $requestpayoutlist = ProviderWithdrawTransaction::all();
-            // Log::info($requestpayoutlist->count());
-            if ($requestpayoutlist->count() > 0)
-                $requestpayoutlist = ProviderWithdrawTransaction::with('provider')
-                    ->orderBy('provider_withdraw_transaction.created_at', 'desc')
-                    ->get();
-            return view('admin.payment.request-payout', compact('requestpayoutlist'));
+            $withRepo->unapprove($id);
+            return back()->with('flash_success', 'Unapproved successfully');
         } catch (\Exception $e) {
-            return back()->with('flash_error', 'Something Went Wrong');
-        }
-    }
-
-    public function update_request_money(Request $request)
-    {
-        $Transaction = ProviderWithdrawTransaction::find($request->id);
-        $provider_id = $Transaction->provider_id;
-
-        $Provider = Provider::find($provider_id);
-
-        if ($Provider->wallet_balance < $Transaction->request_price)
-            return back()->with('flash_error', 'Insufficient funds');
-
-
-        $Provider->wallet_balance -= $Transaction->request_price;
-        $Provider->save();
-
-        ProviderWithdrawTransaction::where('id', $request->id)->update(['status' => 'paid', 'wallet_balance' => $Provider->wallet_balance]);
-
-        // if($request->status == 'accept')
-        (new SendPushNotification)->sendPushToProvider($provider_id, "Accepted request money successful");
-        // else
-        // (new SendPushNotification)->sendPushToProvider($provider_id, "Denied request money");
-
-        try {
-            $requestpayoutlist = ProviderWithdrawTransaction::all();
-            // Log::info($requestpayoutlist->count());
-            if ($requestpayoutlist->count() > 0)
-                $requestpayoutlist = ProviderWithdrawTransaction::with('provider')
-                    ->orderBy('provider_withdraw_transaction.created_at', 'desc')
-                    ->get();
-            return view('admin.payment.request-payout', compact('requestpayoutlist'));
-        } catch (\Exception $e) {
-            return back()->with('flash_error', 'Something Went Wrong');
-        }
-    }
-
-    public function request_user_payment()
-    {
-        try {
-            $requestpayoutlist = UserWithdrawTransaction::all();
-            // Log::info($requestpayoutlist->count());
-            if ($requestpayoutlist->count() > 0)
-                $requestpayoutlist = UserWithdrawTransaction::with('user')
-                    ->orderBy('user_withdraw_transaction.id', 'desc')
-                    ->get();
-            return view('admin.payment.user-request-payout', compact('requestpayoutlist'));
-        } catch (\Exception $e) {
-            return back()->with('flash_error', 'Something Went Wrong');
-        }
-    }
-
-    public function update_request_user_money(Request $request)
-    {
-        $Transaction = UserWithdrawTransaction::find($request->id);
-        $user_id = $Transaction->user_id;
-
-        $User = User::find($user_id);
-        $User->wallet_balance -= $Transaction->request_price;
-        $User->save();
-
-        UserWithdrawTransaction::where('id', $request->id)->update(['status' => 'paid', 'wallet_balance' => $User->wallet_balance]);
-
-        // if($request->status == 'accept')
-        (new SendPushNotification)->sendPushToUser($User, "Accepted request money successful");
-        // else
-        // (new SendPushNotification)->sendPushToProvider($provider_id, "Denied request money");
-
-        try {
-            $requestpayoutlist = UserWithdrawTransaction::all();
-            // Log::info($requestpayoutlist->count());
-            if ($requestpayoutlist->count() > 0)
-                $requestpayoutlist = UserWithdrawTransaction::with('user')
-                    ->orderBy('user_withdraw_transaction.created_at', 'desc')
-                    ->get();
-            return view('admin.payment.user-request-payout', compact('requestpayoutlist'));
-        } catch (\Exception $e) {
-            return back()->with('flash_error', 'Something Went Wrong');
+            return back()->with('flash_error', $e->getMessage());
         }
     }
 

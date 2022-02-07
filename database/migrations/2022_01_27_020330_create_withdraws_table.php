@@ -17,7 +17,7 @@ class CreateWithdrawsTable extends Migration
             $table->bigIncrements('id');
             $table->integer('user_id');
             $table->string('to');
-            $table->double('amount', 20, 2);
+            $table->double('amount', 20, 4);
             $table->string('kind');
             $table->integer('status')->default(0);
             $table->string('txn_id')->nullable();

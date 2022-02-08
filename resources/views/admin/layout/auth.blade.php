@@ -10,7 +10,7 @@
     <meta name="author" content="">
 
     <!-- Title -->
-    <title>{{ Setting::get('admin_site_title', 'Pepper Global Admin') }}</title>
+    <title>{{ Setting::get('admin_site_title', 'Admin') }}</title>
     <link rel="shortcut icon" type="image/png" href="{{ Setting::get('site_icon') }}"/>
 
     <!-- Vendor CSS -->

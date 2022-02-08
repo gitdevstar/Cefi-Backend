@@ -56,7 +56,7 @@ return [
 	'forgetCacheByWrite' => true,
 	// TTL in seconds.
 	'cacheTtl' => 15,
-    
+
     /*
     |--------------------------------------------------------------------------
     | Default Settings
@@ -67,7 +67,4 @@ return [
     | hardcoding the same defaults in all 'Settings::get()' calls
     |
     */
-    'defaults' => [
-        'foo' => 'bar',
-    ]
 ];

@@ -175,7 +175,7 @@ return [
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
 
-        anlutro\LaravelSettings\ServiceProvider::class,
+        // anlutro\LaravelSettings\ServiceProvider::class,
 
     ],
 

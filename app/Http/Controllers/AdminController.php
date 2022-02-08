@@ -6,10 +6,14 @@ use App\DataTables\WithdrawDataTable;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
+use App\Helpers\Helper;
+
 use App\Models\User;
 use App\Models\Admin;
 use App\Models\Withdraw;
 use App\Repositories\WithdrawRepository;
+
+use anlutro\LaravelSettings\Facade as Setting;
 
 class AdminController extends Controller
 {
@@ -110,6 +114,57 @@ class AdminController extends Controller
             return $withdrawdatatable->index();
         }
         return view('admin.payment.withdraw');
+    }
+
+     /**
+     * Remove the specified resource from storage.
+     *
+     * @param  \App\Provider  $provider
+     * @return \Illuminate\Http\Response
+     */
+    public function settings()
+    {
+        return view('admin.settings.application');
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param  \App\Provider  $provider
+     * @return \Illuminate\Http\Response
+     */
+    public function settings_store(Request $request)
+    {
+        $this->validate($request, [
+            'site_title' => 'required',
+            'site_icon' => 'mimes:jpeg,jpg,bmp,png|max:5242880',
+            'site_logo' => 'mimes:jpeg,jpg,bmp,png|max:5242880',
+        ]);
+
+        if ($request->hasFile('site_icon')) {
+            $site_icon = Helper::upload_picture($request->file('site_icon'));
+            Setting::set('site_icon', $site_icon);
+        }
+
+        if ($request->hasFile('site_logo')) {
+            $site_logo = Helper::upload_picture($request->file('site_logo'));
+            Setting::set('site_logo', $site_logo);
+        }
+
+        if ($request->hasFile('site_email_logo')) {
+            $site_email_logo = Helper::upload_picture($request->file('site_email_logo'));
+            Setting::set('site_email_logo', $site_email_logo);
+        }
+
+        Setting::set('site_title', $request->site_title);
+        Setting::set('store_link_android', $request->store_link_android);
+        // Setting::set('store_link_ios', $request->store_link_ios);
+        Setting::set('contact_number', $request->contact_number);
+        Setting::set('contact_email', $request->contact_email);
+        Setting::set('site_copyright', $request->site_copyright);
+        Setting::save();
+
+        return back()->with('flash_success', 'Settings Updated Successfully');
     }
 
     public function approveWithdraw(Request $request, WithdrawRepository $withRepo)

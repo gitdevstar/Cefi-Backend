@@ -11,5 +11,10 @@ class CoinWallet extends Model
 
     protected $fillable = ['user_id', 'coin', 'balance'];
 
-    protected $hidden = ['created_at', 'updated_at'];
+    protected $hidden = ['created_at', 'updated_at', 'user_id', 'id'];
+
+    public function coin()
+	{
+		return $this->belongsTo('App\models\Coin', 'coin', 'symbol')->first();
+	}
 }

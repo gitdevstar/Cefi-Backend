@@ -3,24 +3,18 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
-
-use App\Repositories\UserRepository;
 
 use App\Models\User;
 use App\DataTables\UserDataTable;
 
 class UserController extends Controller
 {
-    /** @var  UserRepository */
-    private $userRepository;
     /** @var  UserDataTable */
     private $userdatatable;
 
-    public function __construct(UserRepository $userRepository, UserDataTable $datatable)
+    public function __construct(UserDataTable $datatable)
     {
-        $this->userRepository = $userRepository;
         $this->userdatatable = $datatable;
     }
     /**
@@ -170,23 +164,5 @@ class UserController extends Controller
         catch (\Exception $e) {
             return back()->with('flash_error', 'User Not Found');
         }
-    }
-
-    public function search(Request $request)
-    {
-        $this->validate($request, [
-            'email' => 'required|email'
-        ]);
-
-        $users = $this->userRepository->all($request->email);
-
-        return response()->json(['users' => $users]);
-    }
-
-    public function user()
-    {
-        $user = Auth::user();
-
-        return response()->json(['user' => $user]);
     }
 }

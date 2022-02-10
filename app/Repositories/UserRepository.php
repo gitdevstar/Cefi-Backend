@@ -44,6 +44,19 @@ class UserRepository extends BaseRepository
         return User::class;
     }
 
+    public function getPortfolio()
+    {
+        $total = 0;
+        $user = Auth::user();
+        $coinwallets = $user->coinwallets;
+        foreach ($coinwallets as $wallet) {
+            $coin = $wallet->coin();
+            $total += $coin->current_price * $wallet->balance;
+        }
+
+        return $total;
+    }
+
     public function updateCoinBalance($data)
     {
         $callback = CoinCallbackAddress::where('address', $data['address'])->first();

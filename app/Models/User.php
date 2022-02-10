@@ -49,6 +49,11 @@ class User extends Authenticatable
 
     public function coinwallet($symbol)
 	{
-		return $this->hasOne('App\CoinWallet', 'user_id', 'id')->where('coin', $symbol)->first();
+		return $this->hasOne('App\Models\CoinWallet', 'user_id', 'id')->where('coin', $symbol)->first();
 	}
+
+    public function coinwallets()
+    {
+        return $this->hasMany('App\Models\CoinWallet', 'user_id', 'id');
+    }
 }

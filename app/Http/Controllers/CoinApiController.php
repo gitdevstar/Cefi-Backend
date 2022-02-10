@@ -19,26 +19,55 @@ use Lin\Coinbase\CoinbasePro;
 class CoinApiController extends Controller
 {
     /** @var  UserRepository */
-    // private $userRepository;
+    private $userRepo;
     /** @var  CoinRepository */
     private $coinRepo;
 
 
-    public function __construct(CoinRepository $coinRepo)
+    public function __construct(CoinRepository $coinRepo, UserRepository $userRepo)
     {
         $this->coinRepo = $coinRepo;
+        $this->userRepo = $userRepo;
     }
 
     public function getPrices()
     {
         try {
-            $result = Coingecko::getCoinsMarkets($this->coinRepo->getIds());
+            $result = $this->coinRepo->all();
 
             return response()->json(['result' => $result]);
 
         } catch (\Throwable $th) {
-            return response()->json(['error' => $th->getMessage()]);
+            return response()->json(['error' => $th->getMessage()], 500);
         }
+    }
+
+    public function updatePrices()
+    {
+        $this->coinRepo->updatePrices();
+    }
+
+    public function getPortfolio()
+    {
+        try {
+            $portfolio = $this->userRepo->getPortfolio();
+            return response()->json(['result' => $portfolio]);
+        } catch (\Throwable $th) {
+            return response()->json(['error' => $th->getMessage()], 500);
+        }
+
+    }
+
+    public function getWalletBalances()
+    {
+        try {
+            $user = Auth::user();
+            $wallets = $user->coinwallets;
+            return response()->json(['result' => $wallets]);
+        } catch (\Throwable $th) {
+            return response()->json(['error' => $th->getMessage()], 500);
+        }
+
     }
 
     public function getCoin(Request $request)

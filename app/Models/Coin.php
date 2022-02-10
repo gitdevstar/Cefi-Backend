@@ -9,7 +9,8 @@ class Coin extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['symbol', 'name', 'coingecko_id'];
+    protected $fillable = ['symbol', 'name', 'coingecko_id',
+            'image', 'current_price', 'price_change_24h', 'price_change_percentage_24h', 'high_24h', 'low_24h'];
 
-    public $timestamps = false;
+    protected $hidden = ['created_at', 'coingecko_id'];
 }

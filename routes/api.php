@@ -22,13 +22,13 @@ use App\Http\Controllers\CoinApiController;
 use App\Http\Controllers\CashApiController;
 use App\Http\Controllers\CryptocurrencyapiApiController;
 use App\Http\Controllers\AuthController;
-use App\Http\Controllers\UserController;
+use App\Http\Controllers\UserApiController;
 
 Route::post('/signup',                          [AuthController::class, 'signup']);
 Route::post('/login',                           [AuthController::class, 'authenticate']);
 Route::post('/forgot/password',                 [AuthController::class, 'forgotPassword']);
 Route::post('/validate/otp',                    [AuthController::class, 'validateOTP']);
-Route::post('/resend/otp',                    [AuthController::class, 'resendOTP']);
+Route::post('/resend/otp',                      [AuthController::class, 'resendOTP']);
 Route::post('/reset/password',                  [AuthController::class, 'resetPassword']);
 
 // Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
@@ -39,6 +39,8 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
 
     Route::prefix('/coin')->group(function() {
         Route::get('/prices',                               [CoinApiController::class, 'getPrices']);
+        Route::get('/portfolio',                            [CoinApiController::class, 'getPortfolio']);
+        Route::get('/balances',                             [CoinApiController::class, 'getWalletBalances']);
         Route::get('/coin',                                 [CoinApiController::class, 'getCoin']);
         Route::get('/coin/chart',                           [CoinApiController::class, 'getCoinMarketChart']);
         Route::post('/charge',                              [CoinApiController::class, 'charge']);
@@ -59,8 +61,9 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
         Route::post('/webhook',                                 [CashApiController::class, 'webhook']);
     });
 
-    Route::get('/users',                                 [UserController::class, 'search']);
-    Route::get('/user',                                 [UserController::class, 'user']);
+    Route::get('/users',                                    [UserApiController::class, 'search']);
+    Route::get('/user',                                     [UserApiController::class, 'user']);
+    Route::post('/user',                                    [UserApiController::class, 'update']);
 });
 
 Route::prefix('/xanpool')->group(function() {

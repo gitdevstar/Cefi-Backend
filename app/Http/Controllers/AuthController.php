@@ -57,6 +57,7 @@ class AuthController extends Controller
             'email' => 'required|email',
             'password' => 'required',
             'phone_number' => 'required',
+            'photo' => 'mimes:jpeg,jpg,bmp,png|max:5242880',
             'device' => 'required|in:android,ios',
         ]);
 
@@ -85,9 +86,12 @@ class AuthController extends Controller
             'device' => $request->device,
         ]);
 
+        if($request->hasFile('photo')) {
+            $user['photo'] = $request->photo->store('users');
+            $user->save();
+        }
+
         return response()->json(['message'=>'Registered successfully.']);
-
-
     }
 
     public function forgotPassword(Request $request)

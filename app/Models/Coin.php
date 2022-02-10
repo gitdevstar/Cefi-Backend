@@ -12,7 +12,7 @@ class Coin extends Model
     protected $fillable = ['symbol', 'name', 'coingecko_id',
             'image', 'current_price', 'price_change_24h', 'price_change_percentage_24h', 'high_24h', 'low_24h'];
 
-    protected $hidden = ['created_at', 'coingecko_id'];
+    protected $hidden = ['created_at'];
 
     public function coinwallet($userId)
     {

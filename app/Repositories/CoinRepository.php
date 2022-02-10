@@ -35,7 +35,7 @@ class CoinRepository extends BaseRepository
 
     public function getIds()
     {
-        $coins = Coin::all();
+        $coins = $this->all();
         $ids = array_column(json_decode($coins), 'coingecko_id');
         return implode(',', $ids);
     }
@@ -46,9 +46,10 @@ class CoinRepository extends BaseRepository
             $result = Coingecko::getCoinsMarkets($this->getIds());
 
             foreach($result as $item) {
-                $coin = Coin::where('coingecko_id', $item->id)->first();
+                $coin = Coin::where('coingecko_id', $item['id'])->first();
                 $this->update([
                     'image' => $item['image'],
+                    'current_price' => $item['current_price'],
                     'price_change_24h' => $item['price_change_24h'],
                     'price_change_percentage_24h' => $item['price_change_percentage_24h'],
                     'high_24h' => $item['high_24h'],

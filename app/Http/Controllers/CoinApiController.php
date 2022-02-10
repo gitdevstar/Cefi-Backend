@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Config;
 
 use App\Libs\Coingecko\Coingecko;
 use App\Libs\CryptocurrencyApi\CryptocurrencyapiApi;
+use App\Models\Coin;
 use App\Models\CoinCallbackAddress;
 use App\Models\Order;
 use App\Models\Withdraw;
@@ -77,7 +78,8 @@ class CoinApiController extends Controller
         ]);
 
         try {
-            $coinId = $request->coin_id;
+            $id = $request->coin_id;
+            $coinId = Coin::find($id)->coingecko_id;
             $result = Coingecko::getCoinsMarkets($coinId);
 
             return response()->json(['result' => $result[0]]);
@@ -95,7 +97,8 @@ class CoinApiController extends Controller
         ]);
 
         try {
-            $coinId = $request->coin_id;
+            $id = $request->coin_id;
+            $coinId = Coin::find($id)->coingecko_id;
             $data['days'] = $request->days;
             $result = Coingecko::getCoinMarketChart($coinId, $data);
 
@@ -142,10 +145,15 @@ class CoinApiController extends Controller
         $type = $request->type ?? 'market';
         $side = $request->side;
 
+        $sellid = $request->sell_coin_id;
+        $buyid = $request->buy_coin_id;
+        $sellcoinId = Coin::find($sellid)->coingecko_id;
+        $buycoinId = Coin::find($buyid)->coingecko_id;
+
         try {
-            $result = Coingecko::getCoinsMarkets($request->sell_coin_id);
+            $result = Coingecko::getCoinsMarkets($sellcoinId);
             $sellCoinPrice = $result[0]->price;
-            $result = Coingecko::getCoinsMarkets($request->buy_coin_id);
+            $result = Coingecko::getCoinsMarkets($buycoinId);
             $buyCoinPrice = $result[0]->price;
             $fee = 0.4;
             return response()->json(['sellCoinPrice' => $sellCoinPrice, 'buyCoinPrice' => $buyCoinPrice, 'fee' => $fee]);

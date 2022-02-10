@@ -84,7 +84,7 @@ class CoinApiController extends Controller
             $result = Coingecko::getCoinsMarkets($coinId);
             $wallet = $coin->coinwallet(Auth::id());
             $data = $result[0];
-            $data['balance'] = $wallet->balance;
+            $data['balance'] = $wallet ? $wallet->balance : 0;
 
             return response()->json(['result' => $data]);
 

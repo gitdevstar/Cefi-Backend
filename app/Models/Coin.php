@@ -13,4 +13,9 @@ class Coin extends Model
             'image', 'current_price', 'price_change_24h', 'price_change_percentage_24h', 'high_24h', 'low_24h'];
 
     protected $hidden = ['created_at', 'coingecko_id'];
+
+    public function coinwallet($userId)
+    {
+        return $this->hasOne('App\Models\CoinWallet', 'coin', 'symbol')->where('user_id', $userId)->first();
+    }
 }

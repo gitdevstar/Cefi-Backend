@@ -79,10 +79,14 @@ class CoinApiController extends Controller
 
         try {
             $id = $request->coin_id;
-            $coinId = Coin::find($id)->coingecko_id;
+            $coin = Coin::find($id);
+            $coinId = $coin->coingecko_id;
             $result = Coingecko::getCoinsMarkets($coinId);
+            $wallet = $coin->coinwallet(Auth::id());
+            $data = $result[0];
+            $data['balance'] = $wallet->balance;
 
-            return response()->json(['result' => $result[0]]);
+            return response()->json(['result' => $data]);
 
         } catch (\Throwable $th) {
             return response()->json(['error' => $th->getMessage()]);

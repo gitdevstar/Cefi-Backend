@@ -9,6 +9,11 @@ class CoinSeeder extends Seeder
 {
     private $coins = array(
         [
+            'symbol' => 'PEPE',
+            'name' => 'PEPPER Token',
+            'coingecko_id' => 'pepe',
+        ],
+        [
             'symbol' => 'BTC',
             'name' => 'Bitcoin',
             'coingecko_id' => 'bitcoin',
@@ -428,6 +433,106 @@ class CoinSeeder extends Seeder
             'symbol' => 'ZEN',
             'name' => 'Horizen',
             'coingecko_id' => 'zencash',
+        ],
+        [
+            'symbol' => 'NCT',
+            'name' => 'PolySwarm',
+            'coingecko_id' => 'polyswarm',
+        ],
+        [
+            'symbol' => 'LQTY',
+            'name' => 'Liquity',
+            'coingecko_id' => 'liquity',
+        ],
+        [
+            'symbol' => 'COVAL',
+            'name' => 'Circuits of Value',
+            'coingecko_id' => 'circuits-of-value',
+        ],
+        [
+            'symbol' => 'INV',
+            'name' => 'Inverse Finance',
+            'coingecko_id' => 'inverse-finance',
+        ],
+        [
+            'symbol' => 'GYEN',
+            'name' => 'GYEN',
+            'coingecko_id' => 'gyen',
+        ],
+        [
+            'symbol' => 'PLU',
+            'name' => 'Pluton',
+            'coingecko_id' => 'pluton',
+        ],
+        [
+            'symbol' => 'UPI',
+            'name' => 'Pawtocol',
+            'coingecko_id' => 'pawtocol',
+        ],
+        [
+            'symbol' => 'PLAY',
+            'name' => 'PLAY Token',
+            'coingecko_id' => 'play-token',
+        ],
+        [
+            'symbol' => 'GODS',
+            'name' => 'Gods Unchained',
+            'coingecko_id' => 'gods-unchained',
+        ],
+        [
+            'symbol' => 'SNX',
+            'name' => 'Synthetix Network Token',
+            'coingecko_id' => 'havven',
+        ],
+        [
+            'symbol' => 'POLS',
+            'name' => 'Polkastarter',
+            'coingecko_id' => 'polkastarter',
+        ],
+        [
+            'symbol' => 'API3',
+            'name' => 'API3',
+            'coingecko_id' => 'api3',
+        ],
+        [
+            'symbol' => 'LCX',
+            'name' => 'LCX',
+            'coingecko_id' => 'lcx',
+        ],
+        [
+            'symbol' => 'GFI',
+            'name' => 'GameFi Token',
+            'coingecko_id' => 'gamefi-token',
+        ],
+        [
+            'symbol' => 'RNDR',
+            'name' => 'Render Token',
+            'coingecko_id' => 'render-token',
+        ],
+        [
+            'symbol' => 'ORCA',
+            'name' => 'Orca',
+            'coingecko_id' => 'orca',
+        ],
+        [
+            'symbol' => 'XYO',
+            'name' => 'XYO Network',
+            'coingecko_id' => 'xyo-network',
+        ],
+        [
+            'symbol' => 'FIDA',
+            'name' => 'Bonfida',
+            'coingecko_id' => 'bonfida',
+        ],
+        [
+            'symbol' => 'MUSD',
+            'name' => 'mStable USD',
+            'coingecko_id' => 'musd',
+        ],
+        [
+            'symbol' => 'FORTH',
+            'name' => 'Ampleforth Governance Token',
+            'coingecko_id' => 'ampleforth-governance-token',
         ],
     );
     /**

@@ -52,6 +52,7 @@ class CoinRepository extends BaseRepository
                     'current_price' => $item['current_price'],
                     'price_change_24h' => $item['price_change_24h'],
                     'price_change_percentage_24h' => $item['price_change_percentage_24h'],
+                    'market_cap' => $item['market_cap'],
                     'high_24h' => $item['high_24h'],
                     'low_24h' => $item['low_24h'],
                 ], $coin->id);

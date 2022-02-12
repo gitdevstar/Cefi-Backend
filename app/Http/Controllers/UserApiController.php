@@ -70,7 +70,7 @@ class UserApiController extends Controller
             $user->save();
         }
 
-        $user = Auth::user();
+        $user = User::find(Auth::id());
 
         return response()->json(['user' => $user]);
     }

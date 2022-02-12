@@ -108,11 +108,12 @@ class CoinApiController extends Controller
             $data['days'] = $request->days;
             $result = Coingecko::getCoinMarketChart($coinId, $data);
 
-            return response()->json(['result' => $result]);
 
         } catch (\Throwable $th) {
-            return response()->json(['error' => $th->getMessage()]);
+            // return response()->json(['error' => $th->getMessage()]);
+            $result = [];
         }
+        return response()->json(['result' => $result]);
     }
 
     public function charge(Request $request)

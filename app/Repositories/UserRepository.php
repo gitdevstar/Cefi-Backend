@@ -55,7 +55,8 @@ class UserRepository extends BaseRepository
             $coin = $wallet->coin();
             $total += $coin->current_price * $wallet->balance;
             $changeTotal += $coin->price_change_24h * $wallet->balance;
-            $changePercentTotal += $coin->price_change_percentage_24h;
+            if($wallet->balance > 0)
+                $changePercentTotal += $coin->price_change_percentage_24h;
         }
 
         return array(

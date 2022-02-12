@@ -47,14 +47,22 @@ class UserRepository extends BaseRepository
     public function getPortfolio()
     {
         $total = 0;
+        $changeTotal = 0;
+        $changePercentTotal = 0;
         $user = Auth::user();
         $coinwallets = $user->coinwallets;
         foreach ($coinwallets as $wallet) {
             $coin = $wallet->coin();
             $total += $coin->current_price * $wallet->balance;
+            $changeTotal += $coin->price_change_24h * $wallet->balance;
+            $changePercentTotal += $coin->price_change_percentage_24h;
         }
 
-        return $total;
+        return array(
+            'portfolio' => $total,
+            'portfolio_change_24h' => $changeTotal,
+            'portfolio_change_percentage_24h' => $changePercentTotal,
+        );
     }
 
     public function updateCoinBalance($data)

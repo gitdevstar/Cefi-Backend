@@ -154,8 +154,15 @@ class CoinApiController extends Controller
 
         $sellid = $request->sell_coin_id;
         $buyid = $request->buy_coin_id;
-        $sellcoinId = Coin::find($sellid)->coingecko_id;
-        $buycoinId = Coin::find($buyid)->coingecko_id;
+        $sellCoin = Coin::find($sellid);
+        $buyCoin = Coin::find($buyid);
+        if ( ! $sellCoin || ! $buyCoin ) {
+            return response()->json(['error' => "Can't find coin"]);
+        }
+
+        $sellcoinId = $sellCoin->coingecko_id;
+        $buycoinId = $buyCoin->coingecko_id;
+
 
         try {
             $result = Coingecko::getCoinsMarkets($sellcoinId);

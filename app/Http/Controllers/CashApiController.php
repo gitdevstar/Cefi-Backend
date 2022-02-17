@@ -321,7 +321,8 @@ class CashApiController extends Controller
         $amount = $request->amount;
 
         try {
-            $users = $this->userRepository->all($request->receiver);
+            $users = $this->userRepository->all(
+                [ 'email' => $request->receiver ]);
             if (! $users) {
                 return response()->json(['status' => false, 'error' => 'Can\'t find receiver.']);
             }

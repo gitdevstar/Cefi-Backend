@@ -108,8 +108,6 @@ class CoinApiController extends Controller
             $coinId = Coin::find($id)->coingecko_id;
             $data['days'] = $request->days;
             $result = Coingecko::getCoinMarketChart($coinId, $data);
-
-
         } catch (\Throwable $th) {
             // return response()->json(['error' => $th->getMessage()]);
             $result = [];
@@ -117,7 +115,7 @@ class CoinApiController extends Controller
         return response()->json(['result' => $result]);
     }
 
-    public function charge(Request $request)
+    public function generateAddress(Request $request)
     {
         $this->validate($request, [
             'currency' => 'required|in:BTC,LTC,DASH,DOGE,BCH'
@@ -126,6 +124,11 @@ class CoinApiController extends Controller
         $currency = $request->currency;
 
         try {
+            $user = Auth::user();
+            $callback = CoinCallbackAddress::where('user_id', $user->id)->where('coin', $currency)->first();
+            if(! $callback)
+                return response()->json(['address' => $callback->address]);
+
             $address = CryptocurrencyapiApi::generateAddress($currency);
 
             CoinCallbackAddress::create([

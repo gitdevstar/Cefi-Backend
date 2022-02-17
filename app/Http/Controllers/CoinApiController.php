@@ -166,9 +166,13 @@ class CoinApiController extends Controller
             $sellcoinId = $sellCoin->coingecko_id;
             $buycoinId = $buyCoin->coingecko_id;
             $result = Coingecko::getCoinsMarkets($sellcoinId);
-            $sellCoinPrice = $result[0]->price;
+            if (count($result) == 0)
+                $sellCoinPrice = $sellCoin->price;
+            else $sellCoinPrice = $result['price'];
             $result = Coingecko::getCoinsMarkets($buycoinId);
-            $buyCoinPrice = $result[0]->price;
+            if (count($result) == 0)
+                $buyCoinPrice = $buyCoin->price;
+            else $buyCoinPrice = $result['price'];
             $fee = 0.4;
             return response()->json(['sellCoinPrice' => $sellCoinPrice, 'buyCoinPrice' => $buyCoinPrice, 'fee' => $fee]);
         } catch (\Throwable $th) {

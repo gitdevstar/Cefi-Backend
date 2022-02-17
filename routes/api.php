@@ -45,6 +45,7 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
         Route::get('/coin/chart',                           [CoinApiController::class, 'getCoinMarketChart']);
         Route::post('/charge',                              [CoinApiController::class, 'charge']);
         Route::post('/order',                               [CoinApiController::class, 'order']);
+        Route::post('/order/cancel',                        [CoinApiController::class, 'cancelOrder']);
         Route::post('/order/rate',                          [CoinApiController::class, 'orderRate']);
         Route::post('/withdraw',                            [CoinApiController::class, 'withdraw']);
     });

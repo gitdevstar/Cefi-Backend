@@ -2,9 +2,6 @@
 
 namespace App\Repositories;
 
-use App\Models\CoinCallbackAddress;
-use App\Models\CoinDeposit;
-use App\Models\CoinWallet;
 use App\Models\User;
 use App\Models\Withdraw;
 use App\Repositories\BaseRepository;

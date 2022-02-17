@@ -16,6 +16,7 @@ class Order extends Model
         'amount',
         'side',
         'price',
+        'status',
         'txn_id',
     ];
 

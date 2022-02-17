@@ -21,4 +21,31 @@ class UserDataTable
         ->removeColumn('password')
         ->make(true);
     }
+
+    public function portfolio()
+    {
+        $users = User::orderBy('id', 'desc')->get();
+        return DataTables::of($users)
+        ->addColumn('portfolio', function ($user) {
+            $portfolio = $user->portfolio();
+            return "$ ".$portfolio['portfolio'];
+        })
+        ->addColumn('portfolio_change', function ($user) {
+            $portfolio = $user->portfolio();
+            return "$ ".$portfolio['portfolio_change_24h'];
+        })
+        ->addColumn('portfolio_change_percent', function ($user) {
+            $portfolio = $user->portfolio();
+            return $portfolio['portfolio_change_percentage_24h']." %";
+        })
+        ->removeColumn('password')
+        ->removeColumn('balance')
+        ->removeColumn('email')
+        ->removeColumn('photo')
+        ->removeColumn('phone_number')
+        ->removeColumn('device')
+        ->removeColumn('remember_token')
+        ->removeColumn('created_at')
+        ->make(true);
+    }
 }

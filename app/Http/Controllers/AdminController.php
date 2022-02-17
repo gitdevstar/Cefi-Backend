@@ -19,6 +19,7 @@ use App\DataTables\WithdrawDataTable;
 use App\DataTables\CoinDepositDataTable;
 use App\DataTables\CoinOrdersDataTable;
 use App\DataTables\PayDataTable;
+use App\DataTables\UserDataTable;
 
 class AdminController extends Controller
 {
@@ -196,8 +197,14 @@ class AdminController extends Controller
 
     public function coinWallet(Request $request, CoinWalletDataTable $datatable)
     {
+        $id = $request->user;
+        return $datatable->wallets($id);
+    }
+
+    public function coinPortfolio(Request $request, UserDataTable $datatable)
+    {
         if($request->ajax()) {
-            return $datatable->index();
+            return $datatable->portfolio();
         }
         return view('admin.coin.wallet');
     }

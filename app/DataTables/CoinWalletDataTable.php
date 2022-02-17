@@ -21,4 +21,11 @@ class CoinWalletDataTable
         })
         ->make(true);
     }
+
+    public function wallets($id)
+    {
+        $data = CoinWallet::where('user_id', $id)->orderBy('id', 'desc')->get();
+        return DataTables::of($data)
+        ->make(true);
+    }
 }

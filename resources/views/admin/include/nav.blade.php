@@ -21,9 +21,9 @@
 				</a>
 			</li>
 			<li>
-				<a href="{{ route('admin.coin.wallet') }}" class="waves-effect waves-light">
+				<a href="{{ route('admin.coin.portfolio') }}" class="waves-effect waves-light">
 					<span class="s-icon"><i class="ti-money"></i></span>
-					<span class="s-text">Coin Wallets</span>
+					<span class="s-text">Coin Portfolios</span>
 				</a>
 			</li>
 			<li>

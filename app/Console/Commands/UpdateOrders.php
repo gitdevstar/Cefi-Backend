@@ -2,37 +2,37 @@
 
 namespace App\Console\Commands;
 
-use App\Repositories\CoinRepository;
+use App\Repositories\OrderRepository;
 use Illuminate\Console\Command;
 
-class UpdateCoinPrice extends Command
+class UpdateOrders extends Command
 {
-    /** @var  CoinRepository */
-    private $coinRepo;
+    /** @var  OrderRepository */
+    private $orderRepo;
 
     /**
      * The name and signature of the console command.
      *
      * @var string
      */
-    protected $signature = 'everymin:set_coin_data';
+    protected $signature = 'everymin:set_order_data';
 
     /**
      * The console command description.
      *
      * @var string
      */
-    protected $description = 'Set coin data realtime';
+    protected $description = 'Set order data realtime';
 
     /**
      * Create a new command instance.
      *
      * @return void
      */
-    public function __construct(CoinRepository $coinRepo)
+    public function __construct(OrderRepository $orderRepo)
     {
         parent::__construct();
-        $this->coinRepo = $coinRepo;
+        $this->orderRepo = $orderRepo;
     }
 
     /**
@@ -42,6 +42,6 @@ class UpdateCoinPrice extends Command
      */
     public function handle()
     {
-        $this->coinRepo->updatePrices();
+        $this->orderRepo->updateStatus();
     }
 }

@@ -20,7 +20,7 @@ class OrderRepository extends BaseRepository
      * @var array
      */
     protected $fieldSearchable = [
-        'txn_id'
+        'txn_id', 'status'
     ];
 
     protected $coinbasePro;
@@ -87,5 +87,20 @@ class OrderRepository extends BaseRepository
 
         $this->create($data);
 
+    }
+
+    public function updateStatus()
+    {
+        $orders = $this->all(['status' => 'Created']);
+
+        foreach($orders as $order) {
+            try {
+                $result = $this->coinbasePro->order()->get(['id' => $order->txn_id]);
+                $order->status = $result['status'];
+                $order->save();
+            } catch (\Throwable $th) {
+                //throw $th;
+            }
+        }
     }
 }

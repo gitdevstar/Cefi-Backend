@@ -28,4 +28,7 @@ Route::group(['middleware' => 'admin'], function () {
     Route::get('/withdraw', 								[AdminController::class, 'withdrawList'])->name('withdraw');
     Route::get('/withdraw/{id}/approve', 			    [AdminController::class, 'approveWithdraw'])->name('withdraw.approve');// provider request payout
     Route::get('/withdraw/{id}/unapprove', 		        [AdminController::class, 'unApproveWithdraw'])->name('withdraw.unapprove');
+
+    Route::get('coin/wallet',                            [AdminController::class, 'coinWallet'])->name('coin.wallet');
+    Route::get('coin/deposit',                            [AdminController::class, 'coinDepositHistory'])->name('coin.deposit.history');
 });

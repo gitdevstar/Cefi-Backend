@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\DataTables\WithdrawDataTable;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -10,10 +9,14 @@ use App\Helpers\Helper;
 
 use App\Models\User;
 use App\Models\Admin;
-use App\Models\Withdraw;
+
 use App\Repositories\WithdrawRepository;
 
 use anlutro\LaravelSettings\Facade as Setting;
+
+use App\DataTables\CoinWalletDataTable;
+use App\DataTables\WithdrawDataTable;
+use App\DataTables\CoinDepositDataTable;
 
 class AdminController extends Controller
 {
@@ -189,5 +192,20 @@ class AdminController extends Controller
         }
     }
 
+    public function coinWallet(Request $request, CoinWalletDataTable $datatable)
+    {
+        if($request->ajax()) {
+            return $datatable->index();
+        }
+        return view('admin.coin.wallet');
+    }
+
+    public function coinDepositHistory(Request $request, CoinDepositDataTable $datatable)
+    {
+        if($request->ajax()) {
+            return $datatable->index();
+        }
+        return view('admin.coin.deposit');
+    }
 
 }

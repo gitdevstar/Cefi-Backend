@@ -7,20 +7,16 @@
     <div class="container-fluid">
         <div class="box box-block bg-white">
             <h5 class="mb-1">
-                Withdraw History
+                User Coin Wallets
             </h5>
-            <table class="table table-striped table-bordered dataTable withdraw-table">
+            <table class="table table-striped table-bordered dataTable deposit-table">
                 <thead>
                     <tr>
                         <th>@lang('admin.id')</th>
                         <th>User</th>
-                        <th>To</th>
-                        <th>Amount</th>
-                        <th>Kind</th>
-                        <th>Status</th>
-                        <th>Txn ID</th>
-                        <th>Updated At</th>
-                        <th>Action</th>
+                        <th>Portfolio</th>
+                        <th>Portfolio Change</th>
+                        <th>Portfolio Change Percent</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -37,23 +33,22 @@
 <script type="text/javascript">
 $(document).ready(function(){
 
-    var table = $('.withdraw-table').DataTable({
+    var table = $('.deposit-table').DataTable({
         processing: true,
         serverSide: true,
         ajax: {
-          url: "{{ route('admin.withdraw') }}"
+          url: "{{ route('admin.coin.deposit.history') }}"
         },
         order: [[0, 'desc']],
         columns: [
             {data: 'id', name: 'id', searchable: false},
             {data: 'user_id', name: 'user_id', orderable: false},
-            {data: 'to', name: 'to', orderable: false},
+            {data: 'symbol', name: 'symbol', orderable: false},
             {data: 'amount', name: 'amount', orderable: false, searchable: false},
-            {data: 'kind', name: 'kind', orderable: false, searchable: false},
+            {data: 'address', name: 'address', orderable: false, searchable: false},
             {data: 'status', name: 'status', orderable: false, searchable: false},
             {data: 'txn_id', name: 'txn_id', orderable: false, searchable: false},
             {data: 'updated_at', name: 'updated_at', searchable: false},
-            {data: 'action', name: 'action', orderable: false, searchable: false},
         ],
     });
 

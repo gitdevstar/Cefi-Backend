@@ -26,7 +26,9 @@ class UserApiController extends Controller
             'email' => 'required|email'
         ]);
 
-        $users = $this->userRepository->all(['email' => $request->email]);
+        $search = array(['email' => $request->email]);
+
+        $users = $this->userRepository->all($search);
 
         return response()->json(['users' => $users]);
     }

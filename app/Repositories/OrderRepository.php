@@ -56,6 +56,8 @@ class OrderRepository extends BaseRepository
     {
         try {
             $orders = $this->all(['txn_id' => $id]);
+            if(count($orders) == 0)
+                throw new Exception("No exist order");
             $orderId = $orders[0]->id;
             $this->coinbasePro->order()->delete(['id' => $id]);
         } catch (\Throwable $th) {

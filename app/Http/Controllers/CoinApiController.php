@@ -208,7 +208,7 @@ class CoinApiController extends Controller
                 'type'=>$type,
                 'side'=>$side,
                 'product_id'=>$pair,
-                'price'=>$price,
+                // 'price'=>$price,
                 'size'=>$amount
             ]);
 

@@ -176,7 +176,8 @@ class CoinApiController extends Controller
             $fee = 0.4;
             return response()->json(['sellCoinPrice' => $sellCoinPrice, 'buyCoinPrice' => $buyCoinPrice, 'fee' => $fee]);
         } catch (\Throwable $th) {
-            return response()->json(['error' => json_decode($th->getMessage(), true)], 500);
+            return response()->json(['error' => $th->getMessage()], 500);
+            // return response()->json(['error' => json_decode($th->getMessage(), true)], 500);
         }
 
     }

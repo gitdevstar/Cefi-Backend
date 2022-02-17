@@ -224,7 +224,8 @@ class CoinApiController extends Controller
 
             return response()->json(['result' => $result]);
         }catch (\Exception $e){
-            return response()->json(['error' => json_decode($e->getMessage(), true)], 500);
+            $error = json_decode($e->getMessage(), true);
+            return response()->json(['error' => $error['message']], 500);
         }
     }
 

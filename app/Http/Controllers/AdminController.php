@@ -17,6 +17,7 @@ use anlutro\LaravelSettings\Facade as Setting;
 use App\DataTables\CoinWalletDataTable;
 use App\DataTables\WithdrawDataTable;
 use App\DataTables\CoinDepositDataTable;
+use App\DataTables\CoinOrdersDataTable;
 
 class AdminController extends Controller
 {
@@ -206,6 +207,14 @@ class AdminController extends Controller
             return $datatable->index();
         }
         return view('admin.coin.deposit');
+    }
+
+    public function coinOrderHistory(Request $request, CoinOrdersDataTable $datatable)
+    {
+        if($request->ajax()) {
+            return $datatable->index();
+        }
+        return view('admin.coin.orders');
     }
 
 }

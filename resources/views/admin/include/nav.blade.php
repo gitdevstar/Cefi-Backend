@@ -32,6 +32,12 @@
 					<span class="s-text">Coin Deposits</span>
 				</a>
 			</li>
+			<li>
+				<a href="{{ route('admin.coin.order.history') }}" class="waves-effect waves-light">
+					<span class="s-icon"><i class="ti-money"></i></span>
+					<span class="s-text">Coin Orders</span>
+				</a>
+			</li>
 			<li class="menu-title">@lang('admin.include.settings')</li>
 			<li>
 				<a href="{{ route('admin.settings') }}" class="waves-effect  waves-light">

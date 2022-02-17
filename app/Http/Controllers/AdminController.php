@@ -18,6 +18,7 @@ use App\DataTables\CoinWalletDataTable;
 use App\DataTables\WithdrawDataTable;
 use App\DataTables\CoinDepositDataTable;
 use App\DataTables\CoinOrdersDataTable;
+use App\DataTables\PayDataTable;
 
 class AdminController extends Controller
 {
@@ -215,6 +216,14 @@ class AdminController extends Controller
             return $datatable->index();
         }
         return view('admin.coin.orders');
+    }
+
+    public function cashPayHistory(Request $request, PayDataTable $datatable)
+    {
+        if($request->ajax()) {
+            return $datatable->index();
+        }
+        return view('admin.cash.pay');
     }
 
 }

@@ -111,7 +111,7 @@ class UserRepository extends BaseRepository
         $this->update(['balance' => $receiver->balance+$amount], $receiver->id);
 
         PayHistory::create([
-            'sender_id' => $this->id,
+            'sender_id' => $user->id,
             'receiver_id' => $receiver->id,
             'amount' => $amount
         ]);

@@ -28,9 +28,9 @@ class OrderRepository extends BaseRepository
     public function __construct()
     {
         $this->coinbasePro = new CoinbasePro(
-            Config::get('api.coinbase_pro.api_key'),
-            Config::get('api.coinbase_pro.secret_key'),
-            Config::get('api.coinbase_pro.passphrase')
+            Config::get('api.coinbase_pro.api_key', ''),
+            Config::get('api.coinbase_pro.secret_key', ''),
+            Config::get('api.coinbase_pro.passphrase', '')
         );
     }
 

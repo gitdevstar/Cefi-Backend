@@ -48,7 +48,7 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
         Route::post('/order/cancel',                        [CoinApiController::class, 'cancelOrder']);
         Route::post('/order/rate',                          [CoinApiController::class, 'orderRate']);
         Route::post('/withdraw',                            [CoinApiController::class, 'withdraw']);
-        Route::post('/withdraw/fee',                        [CoinApiController::class, 'withdrawFee']);
+        Route::get('/withdraw/fee',                        [CoinApiController::class, 'withdrawFee']);
     });
 
     Route::prefix('/cash')->group(function() {
@@ -58,7 +58,7 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
         Route::post('/payout/bank',                             [CashApiController::class, 'bankPayout']);
         Route::post('/pay',                                     [CashApiController::class, 'pay']);
         Route::post('/withdraw',                                [CashApiController::class, 'withdraw']);
-        Route::post('/withdraw/fee',                            [CashApiController::class, 'withdrawFee']);
+        Route::get('/withdraw/fee',                            [CashApiController::class, 'withdrawFee']);
         Route::get('/rate',                                     [CashApiController::class, 'rate']);
         Route::get('/payout/fee',                               [CashApiController::class, 'payoutFee']);
         Route::post('/webhook',                                 [CashApiController::class, 'webhook']);

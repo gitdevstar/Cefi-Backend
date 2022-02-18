@@ -251,4 +251,11 @@ class CoinApiController extends Controller
         return response()->json(['status' => true, 'message' => 'Sent your withdraw request. It will take 2 or 3 business days.']);
     }
 
+    public function withdrawFee()
+    {
+        $fee = 4; // %
+
+        return response()->json(['fee' => $fee]);
+    }
+
 }

@@ -335,6 +335,13 @@ class CashApiController extends Controller
         return response()->json(['status' => true]);
     }
 
+    public function withdrawFee()
+    {
+        $fee = 4; // %
+
+        return response()->json(['fee' => $fee]);
+    }
+
     public function withdraw(Request $request)
     {
         $this->validate($request, [

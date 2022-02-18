@@ -287,6 +287,7 @@ class CashApiController extends Controller
 
         $misc = new Misc();
         $result = $misc->rate($data);
+        $result['data']['fee'] = 8;
 
         return response()->json(['result' => $result]);
     }

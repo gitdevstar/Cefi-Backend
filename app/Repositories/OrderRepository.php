@@ -51,9 +51,9 @@ class OrderRepository extends BaseRepository
     public function cancel($id)
     {
         $this->coinbasePro = new CoinbasePro(
-            Config::get('api.coinbase_pro.api_key', 'test'),
-            Config::get('api.coinbase_pro.secret_key', 'test'),
-            Config::get('api.coinbase_pro.passphrase', 'test')
+            Config::get('api.coinbase_pro.api_key'),
+            Config::get('api.coinbase_pro.secret_key'),
+            Config::get('api.coinbase_pro.passphrase')
         );
         try {
             $orders = $this->all(['txn_id' => $id]);
@@ -72,9 +72,9 @@ class OrderRepository extends BaseRepository
     {
         try {
             $this->coinbasePro = new CoinbasePro(
-                Config::get('api.coinbase_pro.api_key', 'test'),
-                Config::get('api.coinbase_pro.secret_key', 'test'),
-                Config::get('api.coinbase_pro.passphrase', 'test')
+                Config::get('api.coinbase_pro.api_key'),
+                Config::get('api.coinbase_pro.secret_key'),
+                Config::get('api.coinbase_pro.passphrase')
             );
             $result = $this->coinbasePro->order()->post([
                 'type' => $data["type"],
@@ -98,9 +98,9 @@ class OrderRepository extends BaseRepository
     {
         $orders = $this->all(['status' => 'Created']);
         $this->coinbasePro = new CoinbasePro(
-            Config::get('api.coinbase_pro.api_key', 'test'),
-            Config::get('api.coinbase_pro.secret_key', 'test'),
-            Config::get('api.coinbase_pro.passphrase', 'test')
+            Config::get('api.coinbase_pro.api_key'),
+            Config::get('api.coinbase_pro.secret_key'),
+            Config::get('api.coinbase_pro.passphrase')
         );
         foreach($orders as $order) {
             try {

@@ -253,7 +253,7 @@ class CoinApiController extends Controller
 
     public function withdrawFee()
     {
-        $fee = 4; // %
+        $fee = 30; // %
 
         return response()->json(['fee' => $fee]);
     }

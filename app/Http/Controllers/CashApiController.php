@@ -83,11 +83,11 @@ class CashApiController extends Controller
     public function bankCharge(Request $request)
     {
         $this->validate($request, [
-            'currency' => 'required_if:network,ussd|in:NGN|in:NGN,GBP',
-            'network' => 'required|in:ussd,bank',
-            'type' => 'required_if:network,bank|in:debit_ng_account,debit_uk_account',
-            'account_bank' => 'required_if:network,ussd|in:044,050,070,011,214,058,030,082,221,232,032,033,215,090110,035,057',
-            'account_number' => 'required_if:network,bank',
+            'type' => 'required|in:debit_ng_account,debit_uk_account,ussd',
+            // 'account_bank' => 'required_if:type,ussd|in:044,050,070,011,214,058,030,082,221,232,032,033,215,035,057',
+            'account_bank' => 'required',
+            // 'account_number' => 'required_unless:type,ussd',
+            'currency' => 'required_if:type,ussd|in:NGN|in:NGN,GBP',
             'amount' => 'required',
             'email' => 'required|email',
             'phone_number' => 'required',
@@ -95,9 +95,9 @@ class CashApiController extends Controller
         ]);
 
         $currency = $request->currency;
-        $network = $request->network;
+        $type = $request->type;
 
-        if($network == "ussd")
+        if($type == "ussd")
         {
             $data = array(
                 "amount" => $request->amount,
@@ -113,7 +113,7 @@ class CashApiController extends Controller
         } else {
             $data = array(
                 "amount" => $request->amount,
-                "type" => $request->type,
+                "type" => $type,
                 "account_bank" => $request->account_bank,
                 "account_number" => $request->account_number,
                 "currency" => $currency,
@@ -129,7 +129,7 @@ class CashApiController extends Controller
         BankCharge::create([
             'user_id' => Auth::user()->id,
             'currency' => $currency,
-            'network' => $network,
+            'network' => $type,
             'account_bank' => $request->account_bank,
             'account_number' => $request->account_number ?? null,
             'amount' => $request->amount,
@@ -155,7 +155,7 @@ class CashApiController extends Controller
         $this->validate($request, [
             'currency' => 'required',
             'amount' => 'required',
-            'type' => 'in:MTN,TIGO,VODAFONE,AIRTEL',
+            'type' => 'in:MPS,MTN,TIGO,VODAFONE,AIRTEL',
             'email' => 'required|email',
             'phone_number' => 'required',
             'fullname' => 'required',
@@ -215,7 +215,7 @@ class CashApiController extends Controller
     public function bankPayout(Request $request)
     {
         $this->validate($request, [
-            'account_bank' => 'required|in:044,050,070,011,214,058,030,082,221,232,032,033,215,090110,035,057',
+            'account_bank' => 'required',
             'account_number' => 'required',
             'currency' => 'required',
             'amount' => 'required',
@@ -338,7 +338,7 @@ class CashApiController extends Controller
 
     public function withdrawFee()
     {
-        $fee = 4; // %
+        $fee = 25; // %
 
         return response()->json(['fee' => $fee]);
     }

@@ -87,7 +87,7 @@ class CashApiController extends Controller
             // 'account_bank' => 'required_if:type,ussd|in:044,050,070,011,214,058,030,082,221,232,032,033,215,035,057',
             'account_bank' => 'required',
             // 'account_number' => 'required_unless:type,ussd',
-            'currency' => 'required_if:type,ussd|in:NGN|in:NGN,GBP',
+            'currency' => 'required',//'required_if:type,ussd|in:NGN|in:NGN,GBP',
             'amount' => 'required',
             'email' => 'required|email',
             'phone_number' => 'required',

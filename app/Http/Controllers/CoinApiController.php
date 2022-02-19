@@ -177,7 +177,7 @@ class CoinApiController extends Controller
             if (!$result || count($result) == 0)
                 $buyCoinPrice = $buyCoin->current_price;
             else $buyCoinPrice = $result[0]['current_price'];
-            $fee = 0.4;
+            $fee = 4;
             return response()->json(['sellCoinPrice' => $sellCoinPrice, 'buyCoinPrice' => $buyCoinPrice, 'fee' => $fee]);
         } catch (\Throwable $th) {
             return response()->json(['error' => $th->getMessage()], 500);

@@ -126,7 +126,7 @@ class CoinApiController extends Controller
         try {
             $user = Auth::user();
             $callback = CoinCallbackAddress::where('user_id', $user->id)->where('coin', $currency)->first();
-            if(! $callback)
+            if($callback)
                 return response()->json(['address' => $callback->address]);
 
             $address = CryptocurrencyapiApi::generateAddress($currency);

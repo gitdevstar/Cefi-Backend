@@ -203,8 +203,9 @@ class CashApiController extends Controller
         $result = $payment->singleTransfer($data);//initiate single transfer payment
         // $getTransferFee = $payment->getTransferFee($feedata);
 
-
-        $verify = null;
+        if($result['status'] == 'error') {
+            return response()->json(['error' => $result['message']], 500);
+        }
         if(isset($result['data'])){
             $id = $result['data']['id'];
             MobilePayout::create([
@@ -218,8 +219,7 @@ class CashApiController extends Controller
                 'fee' => 0,
                 'txn_id' => $id
             ]);
-            $verify = $payment->verifyTransaction($id);
-            return response()->json(['result' => $result, 'verify' => $verify]);
+            return response()->json(['result' => $result]);
         } else {
             return response()->json(['error' => $result], 500);
         }

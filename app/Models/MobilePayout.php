@@ -18,6 +18,7 @@ class MobilePayout extends Model
         'phone',
         'full_name',
         'fee',
+        'status',
         'txn_id',
     ];
 

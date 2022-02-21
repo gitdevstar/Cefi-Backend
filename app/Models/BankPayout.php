@@ -18,6 +18,7 @@ class BankPayout extends Model
         'fee',
         'email',
         'full_name',
+        'status',
         'txn_id',
     ];
 

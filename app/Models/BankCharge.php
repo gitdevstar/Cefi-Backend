@@ -19,6 +19,7 @@ class BankCharge extends Model
         'email',
         'phone',
         'full_name',
+        'status',
         'txn_id',
     ];
 

@@ -11,5 +11,5 @@ class CoinDeposit extends Model
 
     protected $fillable = ['user_id', 'symbol', 'address', 'confirms', 'amount', 'txn_id'];
 
-    protected $hidden = ['created_at', 'updated_at'];
+    protected $hidden = ['created_at', 'confirms', 'txn_id'];
 }

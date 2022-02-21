@@ -96,6 +96,14 @@ class CoinApiController extends Controller
         }
     }
 
+    public function getCoinActivities()
+    {
+        $user = Auth::user();
+        $activities = $user->coinActivities;
+
+        return response()->json(['result' => $activities]);
+    }
+
     public function getCoinMarketChart(Request $request)
     {
         $this->validate($request, [
@@ -227,6 +235,14 @@ class CoinApiController extends Controller
         }
     }
 
+    public function orderHistory()
+    {
+        $user = Auth::user();
+        $orders = $user->orders;
+
+        return response()->json(['result' => $orders]);
+    }
+
     public function withdraw(Request $request)
     {
         $this->validate($request, [
@@ -256,6 +272,14 @@ class CoinApiController extends Controller
         $fee = 30; // %
 
         return response()->json(['fee' => $fee]);
+    }
+
+    public function withdrawHistory()
+    {
+        $user = Auth::user();
+        $withdraws = $user->withdraws;
+
+        return response()->json(['result' => $withdraws]);
     }
 
 }

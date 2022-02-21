@@ -22,5 +22,5 @@ class BankPayout extends Model
         'txn_id',
     ];
 
-    protected $hidden = ['created_at', 'updated_at'];
+    protected $hidden = ['created_at'];
 }

@@ -42,13 +42,15 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
         Route::get('/portfolio',                            [CoinApiController::class, 'getPortfolio']);
         Route::get('/balances',                             [CoinApiController::class, 'getWalletBalances']);
         Route::get('/coin',                                 [CoinApiController::class, 'getCoin']);
+        Route::get('/coin/activities',                      [CoinApiController::class, 'getCoinActivities']);
         Route::get('/coin/chart',                           [CoinApiController::class, 'getCoinMarketChart']);
         Route::post('/charge',                              [CoinApiController::class, 'generateAddress']);
         Route::post('/order',                               [CoinApiController::class, 'order']);
+        Route::get('/order/history',                       [CoinApiController::class, 'orderHistory']);
         Route::post('/order/cancel',                        [CoinApiController::class, 'cancelOrder']);
         Route::post('/order/rate',                          [CoinApiController::class, 'orderRate']);
         Route::post('/withdraw',                            [CoinApiController::class, 'withdraw']);
-        Route::get('/withdraw/fee',                        [CoinApiController::class, 'withdrawFee']);
+        Route::get('/withdraw/fee',                         [CoinApiController::class, 'withdrawFee']);
     });
 
     Route::prefix('/cash')->group(function() {
@@ -57,8 +59,13 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
         Route::post('/payout/mobile',                           [CashApiController::class, 'mobilePayout']);
         Route::post('/payout/bank',                             [CashApiController::class, 'bankPayout']);
         Route::post('/pay',                                     [CashApiController::class, 'pay']);
+        Route::get('/charge/mobile/history',                    [CashApiController::class, 'mobileChargeHistory']);
+        Route::get('/charge/bank/history',                      [CashApiController::class, 'bankChargeHistory']);
+        Route::get('/payout/mobile/history',                    [CashApiController::class, 'mobilePayoutHistory']);
+        Route::get('/payout/bank/history',                      [CashApiController::class, 'bankPayoutHistory']);
+        Route::get('/pay/history',                              [CashApiController::class, 'payHistory']);
         Route::post('/withdraw',                                [CashApiController::class, 'withdraw']);
-        Route::get('/withdraw/fee',                            [CashApiController::class, 'withdrawFee']);
+        Route::get('/withdraw/fee',                             [CashApiController::class, 'withdrawFee']);
         Route::get('/rate',                                     [CashApiController::class, 'rate']);
         Route::get('/payout/fee',                               [CashApiController::class, 'payoutFee']);
         Route::post('/webhook',                                 [CashApiController::class, 'webhook']);
@@ -67,6 +74,7 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::get('/users',                                    [UserApiController::class, 'search']);
     Route::get('/user',                                     [UserApiController::class, 'user']);
     Route::post('/user',                                    [UserApiController::class, 'update']);
+    Route::get('/withdraw/history',                         [CoinApiController::class, 'withdrawHistory']);
 });
 
 Route::prefix('/xanpool')->group(function() {

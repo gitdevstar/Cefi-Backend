@@ -16,6 +16,8 @@ use App\Libs\Flutterwave\library\Ussd;
 use App\Libs\Flutterwave\library\Account;
 use App\Libs\Flutterwave\library\Transfer;
 use App\Libs\Flutterwave\library\Misc;
+use App\Models\PayHistory;
+use App\Models\User;
 use App\Models\Withdraw;
 use App\Repositories\UserRepository;
 use Illuminate\Support\Facades\Log;
@@ -372,5 +374,45 @@ class CashApiController extends Controller
         ]);
 
         return response()->json(['status' => true, 'message' => 'Sent your withdraw request. It will take 2 or 3 business days.']);
+    }
+
+    public function mobileChargeHistory()
+    {
+        $user = Auth::user();
+        $charges = $user->mobileCharges;
+
+        return response()->json(['result' => $charges]);
+    }
+
+    public function bankChargeHistory()
+    {
+        $user = Auth::user();
+        $charges = $user->bankCharges;
+
+        return response()->json(['result' => $charges]);
+    }
+
+    public function mobilePayoutHistory()
+    {
+        $user = Auth::user();
+        $payouts = $user->mobilePayouts;
+
+        return response()->json(['result' => $payouts]);
+    }
+
+    public function bankPayoutHistory()
+    {
+        $user = Auth::user();
+        $payouts = $user->bankPayouts;
+
+        return response()->json(['result' => $payouts]);
+    }
+
+    public function payHistory()
+    {
+        $userId = Auth::id();
+        $pays = PayHistory::where('sender_id', $userId)->orWhere('receiver_id', $userId)->get();
+
+        return response()->json(['result' => $pays]);
     }
 }

@@ -77,4 +77,36 @@ class User extends Authenticatable
             'portfolio_change_percentage_24h' => $changePercentTotal,
         );
     }
+
+    public function coinActivities()
+    {
+        return $this->hasMany('App\Models\CoinDeposit', 'user_id', 'id');
+    }
+
+    public function withdraws()
+    {
+        return $this->hasMany('App\Models\Withdraw', 'user_id', 'id');
+    }
+
+    public function orders()
+    {
+        return $this->hasMany('App\Models\Order', 'user_id', 'id');
+    }
+    public function mobileCharges()
+    {
+        return $this->hasMany('App\Models\MobileCharge', 'user_id', 'id');
+    }
+    public function mobilePayouts()
+    {
+        return $this->hasMany('App\Models\MobilePayout', 'user_id', 'id');
+    }
+
+    public function bankCharges()
+    {
+        return $this->hasMany('App\Models\BankCharge', 'user_id', 'id');
+    }
+    public function bankPayouts()
+    {
+        return $this->hasMany('App\Models\BankPayout', 'user_id', 'id');
+    }
 }

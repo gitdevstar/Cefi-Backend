@@ -76,9 +76,11 @@ class CashApiController extends Controller
             $payment = new MobileMoney();
             $result = $payment->mobilemoney($data);
         }
-
+        Log::info('result '.json_encode($result));
         $charge->txn_id = $result['data']['tx_ref'] ?? '';
-        $charge->redirect_url = isset($result['meta']) ? $result['meta']['authorization']['redirect']: null;
+        if (isset($result['data']))
+            $charge->status = $result['data']['status'];
+        $charge->redirect_url = isset($result['meta']) && $result['meta']['authorization']['mode'] == 'redirect' ? $result['meta']['authorization']['redirect']: null;
         $charge->save();
 
         return response()->json(['result' => $result]);

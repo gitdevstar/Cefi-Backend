@@ -18,6 +18,7 @@ use App\Libs\Flutterwave\library\Transfer;
 use App\Libs\Flutterwave\library\Misc;
 use App\Models\Withdraw;
 use App\Repositories\UserRepository;
+use Illuminate\Support\Facades\Log;
 
 class CashApiController extends Controller
 {
@@ -52,25 +53,31 @@ class CashApiController extends Controller
             "fullname" => $request->fullname,
         );
 
-        if($network == "mpesa")
-        {
-            $payment = new Mpesa();
-            $result = $payment->mpesa($data);
-        } else {
-            $payment = new MobileMoney();
-            $result = $payment->mobilemoney($data);
-        }
-
-        MobileCharge::create([
-            'user_id' => Auth::user()->id,
+        $charge = MobileCharge::create([
+            'user_id' => Auth::id(),
             'currency' => $currency,
             'network' => $network,
             'amount' => $request->amount,
             'email' => $request->email,
             'phone' => $request->phone_number,
             'full_name' => $request->fullname,
-            'txn_id' => ''
+            'txn_id' => '',
         ]);
+
+        if($network == "mpesa")
+        {
+            $payment = new Mpesa();
+            $result = $payment->mpesa($data);
+        } else {
+            if($network != 'mobile_money_franco')
+                $data['redirect_url'] = 'http://52.14.18.78/api/flutter/mobilecharge/webhook/'.$charge->id;
+            $payment = new MobileMoney();
+            $result = $payment->mobilemoney($data);
+        }
+
+        $charge->txn_id = $result['data']['tx_ref'] ?? '';
+        $charge->redirect_url = isset($result['meta']) ? $result['meta']['authorization']['redirect']: null;
+        $charge->save();
 
         return response()->json(['result' => $result]);
 

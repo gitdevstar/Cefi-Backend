@@ -19,6 +19,7 @@ class MobileCharge extends Model
         'full_name',
         'status',
         'txn_id',
+        'redirect_url'
     ];
 
     protected $hidden = ['created_at', 'updated_at'];

@@ -9,6 +9,8 @@ use App\Libs\Flutterwave\library\Ussd;
 use App\Libs\Flutterwave\library\Account;
 use App\Libs\Flutterwave\library\Transfer;
 use App\Libs\Flutterwave\library\Misc;
+use App\Models\MobileCharge;
+use Illuminate\Support\Facades\Log;
 
 class FlutterwaveApiController extends Controller
 {
@@ -245,5 +247,15 @@ class FlutterwaveApiController extends Controller
     public function webhook(Request $request)
     {
 
+    }
+
+    public function mobileChargeWebhook(Request $request)
+    {
+        Log::info('flutter mobile charge: '.json_encode($request));
+        $id = $request->id;
+        $data = $request->data;
+        $charge = MobileCharge::find($id);
+        $charge->status = $data->status;
+        $charge->save();
     }
 }

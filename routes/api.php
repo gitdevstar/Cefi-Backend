@@ -42,7 +42,7 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
         Route::get('/portfolio',                            [CoinApiController::class, 'getPortfolio']);
         Route::get('/balances',                             [CoinApiController::class, 'getWalletBalances']);
         Route::get('/coin',                                 [CoinApiController::class, 'getCoin']);
-        Route::get('/coin/activities',                      [CoinApiController::class, 'getCoinActivities']);
+        Route::get('/activities',                      [CoinApiController::class, 'getCoinActivities']);
         Route::get('/coin/chart',                           [CoinApiController::class, 'getCoinMarketChart']);
         Route::post('/charge',                              [CoinApiController::class, 'generateAddress']);
         Route::post('/order',                               [CoinApiController::class, 'order']);

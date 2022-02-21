@@ -96,7 +96,7 @@ class OrderRepository extends BaseRepository
 
     public function updateStatus()
     {
-        $orders = $this->all(['status' => 'Created']);
+        $orders = Order::where('status', 'Created')->get();
         $this->coinbasePro = new CoinbasePro(
             Config::get('api.coinbase_pro.api_key'),
             Config::get('api.coinbase_pro.secret_key'),

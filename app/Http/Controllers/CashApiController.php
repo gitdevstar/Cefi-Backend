@@ -143,7 +143,7 @@ class CashApiController extends Controller
             'email' => $request->email,
             'phone' => $request->phone_number,
             'full_name' => $request->fullname,
-            'txn_id' => ''
+            'txn_id' => $result['tx_ref']
         ]);
 
 

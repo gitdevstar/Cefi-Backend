@@ -2,6 +2,7 @@
 
 namespace App\Libs\Flutterwave\library;
 
+use Illuminate\Support\Facades\Config;
 use Unirest\Request;
 use Unirest\Request\Body;
 
@@ -29,7 +30,7 @@ Trait EventTracker
         $url = "https://kgelfdz7mf.execute-api.us-east-1.amazonaws.com/staging/sendevent";
 
         $data = [
-            "publicKey" => getenv('PUBLIC_KEY'),
+            "publicKey" => Config::get('api.flutterwave.public_key'),
             "language" => "PHP V3",
             "version" => "1.0.0",
             "title" => $title,

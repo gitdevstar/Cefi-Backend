@@ -76,7 +76,10 @@ class CashApiController extends Controller
             $payment = new MobileMoney();
             $result = $payment->mobilemoney($data);
         }
-        Log::info('result '.json_encode($result));
+        if  ($result['status'] == 'error') {
+            return response()->json(['error' => $result['message']], 500);
+        }
+
         $charge->txn_id = $result['data']['tx_ref'] ?? '';
         if (isset($result['data']))
             $charge->status = $result['data']['status'];

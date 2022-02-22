@@ -422,6 +422,11 @@ class CashApiController extends Controller
         $userId = Auth::id();
         $pays = PayHistory::where('sender_id', $userId)->orWhere('receiver_id', $userId)->get();
 
+        foreach ($pays as $payment) {
+            $payment['sender'] = User::find($payment->sender_id)->email;
+            $payment['receiver'] = User::find($payment->receiver_id)->email;
+        }
+
         return response()->json(['result' => $pays]);
     }
 }

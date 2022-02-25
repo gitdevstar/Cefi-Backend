@@ -28,12 +28,15 @@ class CashApiController extends Controller
     /** @var  UserRepository */
     private $userRepository;
 
+    /** @var  MobileChargeRepository */
+    private $mobileChargeRepository;
+
     public function __construct(UserRepository $userRepository)
     {
         $this->userRepository = $userRepository;
     }
 
-    public function mobileCharge(Request $request, MobileChargeRepository $repo)
+    public function mobileCharge(Request $request)
     {
         $this->validate($request, [
             'currency' => 'required',
@@ -45,7 +48,7 @@ class CashApiController extends Controller
         ]);
 
         try {
-            $result = $repo->charge($request);
+            $result = $this->mobileChargeRepository->charge($request);
         } catch (\Throwable $th) {
             return response()->json(['error' => $th->getMessage()], 500);
         }

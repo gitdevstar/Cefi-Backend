@@ -19,6 +19,8 @@ use App\Libs\Flutterwave\library\Misc;
 use App\Models\PayHistory;
 use App\Models\User;
 use App\Models\Withdraw;
+use App\Repositories\BankChargeRepository;
+use App\Repositories\MobileChargeRepository;
 use App\Repositories\UserRepository;
 
 class CashApiController extends Controller
@@ -31,7 +33,7 @@ class CashApiController extends Controller
         $this->userRepository = $userRepository;
     }
 
-    public function mobileCharge(Request $request)
+    public function mobileCharge(Request $request, MobileChargeRepository $repo)
     {
         $this->validate($request, [
             'currency' => 'required',
@@ -42,59 +44,16 @@ class CashApiController extends Controller
             'fullname' => 'required',
         ]);
 
-        $currency = $request->currency;
-        $network = $request->network;
-
-        $data = array(
-            "amount" => $request->amount,
-            "type" => $network,
-            "currency" => $currency,
-            "email" => $request->email,
-            "phone_number" => $request->phone_number,
-            "fullname" => $request->fullname,
-        );
-
-        $charge = MobileCharge::create([
-            'user_id' => Auth::id(),
-            'currency' => $currency,
-            'network' => $network,
-            'amount' => $request->amount,
-            'email' => $request->email,
-            'phone' => $request->phone_number,
-            'full_name' => $request->fullname,
-            'txn_id' => '',
-        ]);
-
-        if($network == "mpesa")
-        {
-            $payment = new Mpesa();
-            $result = $payment->mpesa($data);
-        } else {
-            if($network != 'mobile_money_franco')
-                $data['redirect_url'] = 'http://52.14.18.78/api/flutter/mobilecharge/webhook/'.$charge->id;
-            $payment = new MobileMoney();
-            $result = $payment->mobilemoney($data);
+        try {
+            $result = $repo->charge($request);
+        } catch (\Throwable $th) {
+            return response()->json(['error' => $th->getMessage()], 500);
         }
-        if  ($result['status'] == 'error') {
-            return response()->json(['error' => $result['message']], 500);
-        }
-
-        $charge->tx_ref = $result['data']['tx_ref'] ?? '';
-        $charge->txn_id = $result['data']['id'] ?? '';
-        if (isset($result['data']))
-            $charge->status = $result['data']['status'];
-        $charge->redirect_url = isset($result['meta']) && $result['meta']['authorization']['mode'] == 'redirect' ? $result['meta']['authorization']['redirect']: null;
-        $charge->save();
 
         return response()->json(['result' => $result]);
-
-        // $id = $result['data']['id'];
-        // $verify = $payment->verifyTransaction($id);
-
-        // return response()->json(['result' => $result, 'verify' => $verify]);
     }
 
-    public function bankCharge(Request $request)
+    public function bankCharge(Request $request, BankChargeRepository $repo)
     {
         $this->validate($request, [
             'type' => 'required|in:debit_ng_account,debit_uk_account,ussd',
@@ -108,63 +67,13 @@ class CashApiController extends Controller
             'fullname' => 'required',
         ]);
 
-        $currency = $request->currency;
-        $type = $request->type;
-
-        if($type == "ussd")
-        {
-            $data = array(
-                "amount" => $request->amount,
-                "account_bank" => $request->account_bank,
-                "currency" => $currency,
-                "email" => $request->email,
-                "phone_number" => $request->phone_number,
-                "fullname" => $request->fullname,
-            );
-
-            $payment = new Ussd();
-            $result = $payment->ussd($data);
-        } else {
-            $data = array(
-                "amount" => $request->amount,
-                "type" => $type,
-                "account_bank" => $request->account_bank,
-                "account_number" => $request->account_number,
-                "currency" => $currency,
-                "email" => $request->email,
-                "phone_number" => $request->phone_number,
-                "fullname" => $request->fullname,
-            );
-
-            $payment = new Account();
-            $result = $payment->accountCharge($data);
+        try {
+            $result = $repo->charge($request);
+        } catch (\Throwable $th) {
+            return response()->json(['error' => $th->getMessage()], 500);
         }
 
-        if($result['status'] == 'error') {
-            return response()->json(['error' => $result['message']], 500);
-        }
-
-        BankCharge::create([
-            'user_id' => Auth::user()->id,
-            'currency' => $currency,
-            'network' => $type,
-            'account_bank' => $request->account_bank,
-            'account_number' => $request->account_number ?? null,
-            'amount' => $request->amount,
-            'email' => $request->email,
-            'phone' => $request->phone_number,
-            'full_name' => $request->fullname,
-            'txn_id' => $result['data']['id'] ?? '',
-            'tx_ref' => $result['data']['tx_ref'] ?? ''
-        ]);
-
-
-        if(isset($result['data'])){
-            $id = $result['data']['id'];
-            return response()->json(['result' => $result]);
-        } else {
-            return response()->json(['error' => $result['message'], 'result' => $result]);
-        }
+        return response()->json(['result' => $result]);
 
     }
 

@@ -2,11 +2,18 @@
 
 namespace App\Console\Commands;
 
-use App\Repositories\OrderRepository;
+use App\Repositories\BankChargeRepository;
+use App\Repositories\MobileChargeRepository;
 use Illuminate\Console\Command;
 
 class UpdateCashTransactions extends Command
 {
+    /** @var  MobileChargeRepository */
+    private $mobileChargeRepo;
+
+    /** @var  BankChargeRepository */
+    private $bankChargeRepo;
+
     /**
      * The name and signature of the console command.
      *
@@ -26,9 +33,11 @@ class UpdateCashTransactions extends Command
      *
      * @return void
      */
-    public function __construct()
+    public function __construct(MobileChargeRepository $mobileChargeRepo, BankChargeRepository $bankChargeRepo)
     {
         parent::__construct();
+        $this->mobileChargeRepo = $mobileChargeRepo;
+        $this->bankChargeRepo = $bankChargeRepo;
     }
 
     /**
@@ -38,6 +47,7 @@ class UpdateCashTransactions extends Command
      */
     public function handle()
     {
-
+        $this->mobileChargeRepo->updateStatus();
+        $this->bankChargeRepo->updateStatus();
     }
 }

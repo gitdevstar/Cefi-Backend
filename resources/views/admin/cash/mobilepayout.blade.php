@@ -30,7 +30,7 @@ $(document).ready(function(){
         columns: [
             {title: 'ID', data: 'id', name: 'id', searchable: false},
             {title: 'User', data: 'user_id', name: 'user_id', orderable: false},
-            {title: 'Network', data: 'network', name: 'network', orderable: false},
+            {title: 'Network', data: 'type', name: 'type', orderable: false},
             {title: 'Currency', data: 'currency', name: 'currency', orderable: false, searchable: false},
             {title: 'Amount', data: 'amount', name: 'amount', orderable: false, searchable: false},
             {title: 'Fee', data: 'fee', name: 'fee', orderable: false, searchable: false},

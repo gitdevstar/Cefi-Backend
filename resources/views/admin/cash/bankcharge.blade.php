@@ -35,7 +35,6 @@ $(document).ready(function(){
             {title: 'Account Number', data: 'account_number', name: 'account_number', orderable: false},
             {title: 'Currency', data: 'currency', name: 'currency', orderable: false, searchable: false},
             {title: 'Amount', data: 'amount', name: 'amount', orderable: false, searchable: false},
-            {title: 'Phone', data: 'phone', name: 'phone', orderable: false, searchable: false},
             {title: 'Status', data: 'status', name: 'status', orderable: false, searchable: false},
             {title: 'TXN ID', data: 'txn_id', name: 'txn_id', orderable: false, searchable: false},
             {title: 'TXN REF', data: 'tx_ref', name: 'tx_ref', orderable: false, searchable: false},

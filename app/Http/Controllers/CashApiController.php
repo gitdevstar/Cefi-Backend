@@ -31,9 +31,10 @@ class CashApiController extends Controller
     /** @var  MobileChargeRepository */
     private $mobileChargeRepository;
 
-    public function __construct(UserRepository $userRepository)
+    public function __construct(UserRepository $userRepository, MobileChargeRepository $moileChargeRepo)
     {
         $this->userRepository = $userRepository;
+        $this->mobileChargeRepository = $moileChargeRepo;
     }
 
     public function mobileCharge(Request $request)

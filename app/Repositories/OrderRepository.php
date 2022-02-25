@@ -25,11 +25,6 @@ class OrderRepository extends BaseRepository
 
     protected $coinbasePro;
 
-    public function __construct()
-    {
-
-    }
-
     /**
      * Return searchable fields
      *

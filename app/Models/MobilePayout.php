@@ -9,19 +9,19 @@ class MobilePayout extends Model
 {
     use HasFactory;
 
-    protected $attributes = [
-        'user_id',
-        'currency',
-        'type',
-        'amount',
-        'email',
-        'phone',
-        'full_name',
-        'fee',
-        'status',
-        'txn_id',
-        'tx_ref',
-    ];
+    // protected $attributes = [
+    //     'user_id',
+    //     'currency',
+    //     'type',
+    //     'amount',
+    //     'email',
+    //     'phone',
+    //     'full_name',
+    //     'fee',
+    //     'status',
+    //     'txn_id',
+    //     'tx_ref',
+    // ];
 
     protected $fillable = [
         'user_id',

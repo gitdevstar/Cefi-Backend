@@ -28,20 +28,17 @@ class CashApiController extends Controller
     /** @var  UserRepository */
     private $userRepository;
 
-    /** @var  MobileChargeRepository */
-    private $mobileChargeRepository;
-
-    public function __construct(UserRepository $userRepository, MobileChargeRepository $moileChargeRepo)
+    public function __construct(UserRepository $userRepository)
     {
         $this->userRepository = $userRepository;
-        $this->mobileChargeRepository = $moileChargeRepo;
     }
 
-    public function mobileCharge(Request $request)
+    public function mobileCharge(Request $request, MobileChargeRepository $moileChargeRepo)
     {
         $this->validate($request, [
             'currency' => 'required',
             'network' => 'required|in:mobile_money_rwanda,mobile_money_uganda,mobile_money_zambia,mobile_money_ghana,mobile_money_franco,mpesa',
+            // 'type' => 'required_if:network,mobile_money_ghana|in:MTN,VODAFONE,TIGO',
             'amount' => 'required',
             'email' => 'required|email',
             'phone_number' => 'required',
@@ -49,7 +46,7 @@ class CashApiController extends Controller
         ]);
 
         try {
-            $result = $this->mobileChargeRepository->charge($request);
+            $result = $moileChargeRepo->charge($request);
         } catch (\Throwable $th) {
             return response()->json(['error' => $th->getMessage()], 500);
         }

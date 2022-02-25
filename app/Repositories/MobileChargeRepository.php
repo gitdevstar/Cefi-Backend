@@ -10,6 +10,7 @@ use App\Repositories\BaseRepository;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
 
 /**
  * Class MobileChargeRepository
@@ -25,11 +26,6 @@ class MobileChargeRepository extends BaseRepository
     protected $fieldSearchable = [
         'txn_id', 'status'
     ];
-
-    public function __construct()
-    {
-
-    }
 
     /**
      * Return searchable fields
@@ -63,7 +59,7 @@ class MobileChargeRepository extends BaseRepository
             "fullname" => $request->fullname,
         );
 
-        $chargeData = array(
+        $chargeData = [
             'user_id' => Auth::id(),
             'currency' => $currency,
             'network' => $network,
@@ -72,7 +68,7 @@ class MobileChargeRepository extends BaseRepository
             'phone' => $request->phone_number,
             'full_name' => $request->fullname,
             'txn_id' => '',
-        );
+        ];
 
         $charge = $this->create($chargeData);
 
@@ -82,6 +78,7 @@ class MobileChargeRepository extends BaseRepository
             try {
                 $result = $payment->mpesa($data);
             } catch (\Throwable $th) {
+                $this->delete($charge->id);
                 $error = json_decode($th->getMessage(), true);
                 throw new Exception($error['message']);
             }
@@ -89,16 +86,20 @@ class MobileChargeRepository extends BaseRepository
         else {
             if($network != 'mobile_money_franco')
                 $data['redirect_url'] = 'http://52.14.18.78/api/flutter/mobilecharge/webhook/'.$charge->id;
+            if($network == 'mobile_money_ghana')
+                $data['network'] = $request->type ?? "MTN";
             $payment = new MobileMoney();
             try {
                 $result = $payment->mobilemoney($data);
             } catch (\Throwable $th) {
+                $this->delete($charge->id);
                 $error = json_decode($th->getMessage(), true);
                 throw new Exception($error['message']);
             }
         }
 
         if  ($result['status'] == 'error') {
+            $this->delete($charge->id);
             throw new Exception($result['message']);
         }
 

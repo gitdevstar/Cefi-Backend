@@ -26,13 +26,6 @@ class BankChargeRepository extends BaseRepository
         'txn_id', 'status'
     ];
 
-    protected $coinbasePro;
-
-    public function __construct()
-    {
-
-    }
-
     /**
      * Return searchable fields
      *

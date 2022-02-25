@@ -9,19 +9,19 @@ class MobileCharge extends Model
 {
     use HasFactory;
 
-    protected $attributes = [
-        'user_id',
-        'currency',
-        'network',
-        'amount',
-        'email',
-        'phone',
-        'full_name',
-        'status',
-        'txn_id',
-        'tx_ref',
-        'redirect_url'
-    ];
+    // protected $attributes = [
+    //     'user_id',
+    //     'currency',
+    //     'network',
+    //     'amount',
+    //     'email',
+    //     'phone',
+    //     'full_name',
+    //     'status',
+    //     'txn_id',
+    //     'tx_ref',
+    //     'redirect_url'
+    // ];
 
     protected $fillable = [
         'user_id',

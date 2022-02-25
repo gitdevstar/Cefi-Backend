@@ -26,7 +26,7 @@ $(document).ready(function(){
         ajax: {
           url: "{{ route('admin.cash.mobilecharge.history') }}"
         },
-        // order: [[0, 'desc']],
+        order: [[0, 'desc']],
         columns: [
             {title: 'ID', data: 'id', name: 'id', searchable: false},
             {title: 'User', data: 'user_id', name: 'user_id', orderable: false},

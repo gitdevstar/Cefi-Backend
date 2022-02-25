@@ -767,8 +767,8 @@ class Rave
 
         $url = "/" . $id . "/verify";
         //$this->logger->notice('Verifying transaction...');
-        $this->setEndPoint("v3/transactions");
-        $result = $this->getURL($url);
+        $this->setEndPoint("v3/transactions".$url);
+        $result = $this->getURL();
         $result = json_decode($result, true);
         return $result;
 
@@ -821,8 +821,7 @@ class Rave
     function getAllTransactions()
     {
         //$this->logger->notice('Getting all Transactions...');
-        $url = "";
-        $result = $this->getURL($url);
+        $result = $this->getURL();
         return json_decode($result, true);
 
     }
@@ -830,7 +829,7 @@ class Rave
     function getTransactionFee()
     {
         $url = "";
-        $result = $this->getURL($url);
+        $result = $this->getURL();
         return json_decode($result, true);
 
     }
@@ -838,7 +837,7 @@ class Rave
     function transactionTimeline()
     {
         $url = "";
-        $result = $this->getURL($url);
+        $result = $this->getURL();
         return json_decode($result, true);
 
     }
@@ -854,7 +853,7 @@ class Rave
 
         //$this->logger->notice('Getting all Subscription...');
         $url = "";
-        $result = $this->getURL($url);
+        $result = $this->getURL();
         return json_decode($result, true);
     }
 
@@ -864,11 +863,10 @@ class Rave
      * @return object
      * */
 
-    function bvn($bvn)
+    function bvn()
     {
         //$this->logger->notice('Validating bvn...');
-        $url = "/" . $bvn;
-        return json_decode($this->getURL($url), true);
+        return json_decode($this->getURL(), true);
     }
 
     /**
@@ -880,7 +878,7 @@ class Rave
     {
         //$this->logger->notice('Getting all Subscription...');
         $url = '';
-        return json_decode($this->getURL($url), true);
+        return json_decode($this->getURL(), true);
     }
 
     /**
@@ -958,7 +956,7 @@ class Rave
     function getPlans()
     {
         $url = "";
-        $result = $this->getURL($url);
+        $result = $this->getURL();
         $result = json_decode($result, true);
         return $result;
     }
@@ -966,7 +964,7 @@ class Rave
     function get_a_Plan()
     {
         $url = "";
-        $result = $this->getURL($url);
+        $result = $this->getURL();
         $result = json_decode($result, true);
         return $result;
     }

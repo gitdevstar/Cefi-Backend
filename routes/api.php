@@ -112,7 +112,9 @@ Route::prefix('/flutter')->group(function() {
     Route::get('/rate',                                     [FlutterwaveApiController::class, 'rate']);
     Route::get('/payout/fee',                               [FlutterwaveApiController::class, 'payoutFee']);
     Route::post('/webhook',                                 [FlutterwaveApiController::class, 'webhook']);
-    Route::post('/mobilecharge/webhook/{id}',               [FlutterwaveApiController::class, 'mobileChargeWebhook']);
+    Route::get('/mobilecharge/webhook/{id}',                [FlutterwaveApiController::class, 'mobileChargeWebhook']);
+    Route::post('/mobilecharge/webhook/{id}',                [FlutterwaveApiController::class, 'mobileChargeWebhook']);
+    Route::get('/transaction',                              [FlutterwaveApiController::class, 'verifyTransaction']);
 });
 
 Route::prefix('/coinbase')->group(function() {

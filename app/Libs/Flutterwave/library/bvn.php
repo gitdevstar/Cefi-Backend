@@ -95,11 +95,11 @@ class Bvn
         //set the payment handler
         $this->bvn->eventHandler(new bvnEventHandler)
             //set the endpoint for the api call
-            ->setEndPoint("v3/kyc/bvns");
+            ->setEndPoint("v3/kyc/bvns/".$bvn);
         //returns the value from the results
 
         bvnEventHandler::startRecording();
-        $response= $this->bvn->bvn($bvn);
+        $response= $this->bvn->bvn();
         bvnEventHandler::sendAnalytics("Verify-BVN");
 
         return $response;

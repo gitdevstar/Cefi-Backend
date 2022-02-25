@@ -12,6 +12,7 @@ use App\Libs\Flutterwave\library\Misc;
 use App\Libs\Flutterwave\library\momoEventHandler;
 use App\Models\User;
 use App\Models\MobileCharge;
+use App\Repositories\MobileChargeRepository;
 use Illuminate\Support\Facades\Log;
 
 class FlutterwaveApiController extends Controller
@@ -265,130 +266,136 @@ class FlutterwaveApiController extends Controller
             $user->save();
         }
     }
-}
 
-class MobileChargeEventHandler extends momoEventHandler {
-    function onSuccessful($transactionData)
+    public function verifyTransaction(Request $request, MobileChargeRepository $repo)
     {
-        Log::info('mobilecharge momo event: '.json_encode($transactionData));
-        if ($transactionData["data"]["chargecode"] === '00' || $transactionData["data"]["chargecode"] === '0') {
-            self::sendAnalytics("Initiate-Mobile-Money-charge");
-            echo "Transaction Completed";
-        } else {
-            $this->onFailure($transactionData);
-        }
-    }
-
-    /**
-     * This is called only when a transaction failed
-     * */
-    function onFailure($transactionData)
-    {
-        Log::info('mobilecharge momo failure event: '.json_encode($transactionData));
-        self::sendAnalytics("Initiate-Mobile-Money-error");
-        // Get the transaction from your DB using the transaction reference (txref)
-        // Update the db transaction record (includeing parameters that didn't exist before the transaction is completed. for audit purpose)
-        // You can also redirect to your failure page from here
-
-    }
-
-    /**
-     * This is called when a transaction is requeryed from the payment gateway
-     * */
-    function onRequery($transactionReference)
-    {
-        // Do something, anything!
-    }
-
-    /**
-     * This is called a transaction requery returns with an error
-     * */
-    function onRequeryError($requeryResponse)
-    {
-        // Do something, anything!
-    }
-
-    /**
-     * This is called when a transaction is canceled by the user
-     * */
-    function onCancel($transactionReference)
-    {
-        // Do something, anything!
-        // Note: Somethings a payment can be successful, before a user clicks the cancel button so proceed with caution
-
-    }
-
-    /**
-     * This is called when a transaction doesn't return with a success or a failure response. This can be a timedout transaction on the Rave server or an abandoned transaction by the customer.
-     * */
-    function onTimeout($transactionReference, $data)
-    {
-        // Get the transaction from your DB using the transaction reference (txref)
-        // Queue it for requery. Preferably using a queue system. The requery should be about 15 minutes after.
-        // Ask the customer to contact your support and you should escalate this issue to the flutterwave support team. Send this as an email and as a notification on the page. just incase the page timesout or disconnects
-
+        $transaction = $repo->verifyTransaction($request->txn_id);
+        return response()->json($transaction);
     }
 }
 
-class MpesaEventHandler extends mpesaEventHandler {
-    function onSuccessful($transactionData)
-    {
-        Log::info('mobilecharge mpesa event: '.json_encode($transactionData));
-        if ($transactionData["data"]["chargecode"] === '00' || $transactionData["data"]["chargecode"] === '0') {
-            // self::sendAnalytics("Initiate-Mobile-Money-charge");
-            echo "Transaction Completed";
-        } else {
-            $this->onFailure($transactionData);
-        }
-    }
+// class MobileChargeEventHandler extends momoEventHandler {
+//     function onSuccessful($transactionData)
+//     {
+//         Log::info('mobilecharge momo event: '.json_encode($transactionData));
+//         if ($transactionData["data"]["chargecode"] === '00' || $transactionData["data"]["chargecode"] === '0') {
+//             self::sendAnalytics("Initiate-Mobile-Money-charge");
+//             echo "Transaction Completed";
+//         } else {
+//             $this->onFailure($transactionData);
+//         }
+//     }
 
-    /**
-     * This is called only when a transaction failed
-     * */
-    function onFailure($transactionData)
-    {
-        Log::info('mobilecharge mpesa failure event: '.json_encode($transactionData));
-        // self::sendAnalytics("Initiate-Mobile-Money-error");
-        // Get the transaction from your DB using the transaction reference (txref)
-        // Update the db transaction record (includeing parameters that didn't exist before the transaction is completed. for audit purpose)
-        // You can also redirect to your failure page from here
+//     /**
+//      * This is called only when a transaction failed
+//      * */
+//     function onFailure($transactionData)
+//     {
+//         Log::info('mobilecharge momo failure event: '.json_encode($transactionData));
+//         self::sendAnalytics("Initiate-Mobile-Money-error");
+//         // Get the transaction from your DB using the transaction reference (txref)
+//         // Update the db transaction record (includeing parameters that didn't exist before the transaction is completed. for audit purpose)
+//         // You can also redirect to your failure page from here
 
-    }
+//     }
 
-    /**
-     * This is called when a transaction is requeryed from the payment gateway
-     * */
-    function onRequery($transactionReference)
-    {
-        // Do something, anything!
-    }
+//     /**
+//      * This is called when a transaction is requeryed from the payment gateway
+//      * */
+//     function onRequery($transactionReference)
+//     {
+//         // Do something, anything!
+//     }
 
-    /**
-     * This is called a transaction requery returns with an error
-     * */
-    function onRequeryError($requeryResponse)
-    {
-        // Do something, anything!
-    }
+//     /**
+//      * This is called a transaction requery returns with an error
+//      * */
+//     function onRequeryError($requeryResponse)
+//     {
+//         // Do something, anything!
+//     }
 
-    /**
-     * This is called when a transaction is canceled by the user
-     * */
-    function onCancel($transactionReference)
-    {
-        // Do something, anything!
-        // Note: Somethings a payment can be successful, before a user clicks the cancel button so proceed with caution
+//     /**
+//      * This is called when a transaction is canceled by the user
+//      * */
+//     function onCancel($transactionReference)
+//     {
+//         // Do something, anything!
+//         // Note: Somethings a payment can be successful, before a user clicks the cancel button so proceed with caution
 
-    }
+//     }
 
-    /**
-     * This is called when a transaction doesn't return with a success or a failure response. This can be a timedout transaction on the Rave server or an abandoned transaction by the customer.
-     * */
-    function onTimeout($transactionReference, $data)
-    {
-        // Get the transaction from your DB using the transaction reference (txref)
-        // Queue it for requery. Preferably using a queue system. The requery should be about 15 minutes after.
-        // Ask the customer to contact your support and you should escalate this issue to the flutterwave support team. Send this as an email and as a notification on the page. just incase the page timesout or disconnects
+//     /**
+//      * This is called when a transaction doesn't return with a success or a failure response. This can be a timedout transaction on the Rave server or an abandoned transaction by the customer.
+//      * */
+//     function onTimeout($transactionReference, $data)
+//     {
+//         // Get the transaction from your DB using the transaction reference (txref)
+//         // Queue it for requery. Preferably using a queue system. The requery should be about 15 minutes after.
+//         // Ask the customer to contact your support and you should escalate this issue to the flutterwave support team. Send this as an email and as a notification on the page. just incase the page timesout or disconnects
 
-    }
-}
+//     }
+// }
+
+// class MpesaEventHandler extends mpesaEventHandler {
+//     function onSuccessful($transactionData)
+//     {
+//         Log::info('mobilecharge mpesa event: '.json_encode($transactionData));
+//         if ($transactionData["data"]["chargecode"] === '00' || $transactionData["data"]["chargecode"] === '0') {
+//             // self::sendAnalytics("Initiate-Mobile-Money-charge");
+//             echo "Transaction Completed";
+//         } else {
+//             $this->onFailure($transactionData);
+//         }
+//     }
+
+//     /**
+//      * This is called only when a transaction failed
+//      * */
+//     function onFailure($transactionData)
+//     {
+//         Log::info('mobilecharge mpesa failure event: '.json_encode($transactionData));
+//         // self::sendAnalytics("Initiate-Mobile-Money-error");
+//         // Get the transaction from your DB using the transaction reference (txref)
+//         // Update the db transaction record (includeing parameters that didn't exist before the transaction is completed. for audit purpose)
+//         // You can also redirect to your failure page from here
+
+//     }
+
+//     /**
+//      * This is called when a transaction is requeryed from the payment gateway
+//      * */
+//     function onRequery($transactionReference)
+//     {
+//         // Do something, anything!
+//     }
+
+//     /**
+//      * This is called a transaction requery returns with an error
+//      * */
+//     function onRequeryError($requeryResponse)
+//     {
+//         // Do something, anything!
+//     }
+
+//     /**
+//      * This is called when a transaction is canceled by the user
+//      * */
+//     function onCancel($transactionReference)
+//     {
+//         // Do something, anything!
+//         // Note: Somethings a payment can be successful, before a user clicks the cancel button so proceed with caution
+
+//     }
+
+//     /**
+//      * This is called when a transaction doesn't return with a success or a failure response. This can be a timedout transaction on the Rave server or an abandoned transaction by the customer.
+//      * */
+//     function onTimeout($transactionReference, $data)
+//     {
+//         // Get the transaction from your DB using the transaction reference (txref)
+//         // Queue it for requery. Preferably using a queue system. The requery should be about 15 minutes after.
+//         // Ask the customer to contact your support and you should escalate this issue to the flutterwave support team. Send this as an email and as a notification on the page. just incase the page timesout or disconnects
+
+//     }
+// }

@@ -128,14 +128,25 @@ class MobileChargeRepository extends BaseRepository
                 }
 
                 if($transaction['status'] == 'success') {
-                    $amount = $transaction['amount_settled'];
-                    $user = User::find($charge->user_id);
-                    $user->balance += $amount;
-                    $user->save();
-                    $charge->status = $transaction['data']['status'];
+                    $data = $transaction['data'];
+                    $status = $data['status'];
+                    if($status == 'successful') {
+                        $amount = $data['amount_settled'];
+                        $user = User::find($charge->user_id);
+                        $user->balance += $amount;
+                        $user->save();
+                    }
+                    $charge->status = $status;
                     $charge->save();
                 }
             }
         }
+    }
+
+    public function verifyTransaction($txnId)
+    {
+        $payment = new MobileMoney();
+        $transactions = $payment->verifyTransaction($txnId);
+        return $transactions;
     }
 }

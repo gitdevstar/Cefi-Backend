@@ -6,7 +6,7 @@ require_once('raveEventHandlerInterface.php');
 use Illuminate\Support\Facades\Config;
 use App\Libs\Flutterwave\library\Rave;
 use App\Libs\Flutterwave\library\EventTracker;
-
+use Illuminate\Support\Facades\Log;
 
 class momoEventHandler implements EventHandlerInterface
 {
@@ -18,6 +18,7 @@ class momoEventHandler implements EventHandlerInterface
      * */
     function onSuccessful($transactionData)
     {
+        Log::info("mobile money libe txn data: --> ".json_encode($transactionData));
         // Get the transaction from your DB using the transaction reference (txref)
         // Check if you have previously given value for the transaction. If you have, redirect to your successpage else, continue
         // Comfirm that the transaction is successful

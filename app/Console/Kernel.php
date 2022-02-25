@@ -17,6 +17,7 @@ class Kernel extends ConsoleKernel
     {
         $schedule->command('everymin:set_coin_data')->everyMinute();
         $schedule->command('everymin:set_order_data')->everyMinute();
+        $schedule->command('everymin:check_cash_transactions')->everyMinute();
         // $schedule->command('inspire')->hourly();
     }
 

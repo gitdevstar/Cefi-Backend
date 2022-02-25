@@ -20,7 +20,6 @@ use App\Models\PayHistory;
 use App\Models\User;
 use App\Models\Withdraw;
 use App\Repositories\UserRepository;
-use Illuminate\Support\Facades\Log;
 
 class CashApiController extends Controller
 {
@@ -80,7 +79,8 @@ class CashApiController extends Controller
             return response()->json(['error' => $result['message']], 500);
         }
 
-        $charge->txn_id = $result['data']['tx_ref'] ?? '';
+        $charge->tx_ref = $result['data']['tx_ref'] ?? '';
+        $charge->txn_id = $result['data']['id'] ?? '';
         if (isset($result['data']))
             $charge->status = $result['data']['status'];
         $charge->redirect_url = isset($result['meta']) && $result['meta']['authorization']['mode'] == 'redirect' ? $result['meta']['authorization']['redirect']: null;
@@ -154,7 +154,8 @@ class CashApiController extends Controller
             'email' => $request->email,
             'phone' => $request->phone_number,
             'full_name' => $request->fullname,
-            'txn_id' => $result['tx_ref']
+            'txn_id' => $result['data']['id'] ?? '',
+            'tx_ref' => $result['data']['tx_ref'] ?? ''
         ]);
 
 

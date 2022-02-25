@@ -34,5 +34,10 @@ Route::group(['middleware' => 'admin'], function () {
     Route::get('coin/deposit',                            [AdminController::class, 'coinDepositHistory'])->name('coin.deposit.history');
     Route::get('coin/orders',                            [AdminController::class, 'coinOrderHistory'])->name('coin.order.history');
 
+    Route::get('cash/mobilecharges',                     [AdminController::class, 'mobileChargeHistory'])->name('cash.mobilecharge.history');
+    Route::get('cash/bankcharges',                     [AdminController::class, 'bankChargeHistory'])->name('cash.bankcharge.history');
+    Route::get('cash/mobilepayouts',                     [AdminController::class, 'mobilePayoutHistory'])->name('cash.mobilepayout.history');
+    Route::get('cash/bankpayouts',                     [AdminController::class, 'bankPayoutHistory'])->name('cash.bankpayout.history');
+
     Route::get('cash/pay',                              [AdminController::class, 'cashPayHistory'])->name('cash.pay.history');
 });

@@ -12,7 +12,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 /**
- * Class MobileChargeRepository
+ * Class BankChargeRepository
  * @package App\Repositories
  * @version March 27, 2020, 5:16 pm EDT
 */

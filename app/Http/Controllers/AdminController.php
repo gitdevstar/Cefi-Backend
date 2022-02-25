@@ -18,6 +18,10 @@ use App\DataTables\CoinWalletDataTable;
 use App\DataTables\WithdrawDataTable;
 use App\DataTables\CoinDepositDataTable;
 use App\DataTables\CoinOrdersDataTable;
+use App\DataTables\MobileChargeDataTable;
+use App\DataTables\MobilePayoutDataTable;
+use App\DataTables\BankChargeDataTable;
+use App\DataTables\BankPayoutDataTable;
 use App\DataTables\PayDataTable;
 use App\DataTables\UserDataTable;
 
@@ -231,6 +235,35 @@ class AdminController extends Controller
             return $datatable->index();
         }
         return view('admin.cash.pay');
+    }
+
+    public function mobileChargeHistory(Request $request, MobileChargeDataTable $datatable)
+    {
+        if($request->ajax()) {
+            return $datatable->index();
+        }
+        return view('admin.cash.mobilecharge');
+    }
+    public function mobilePayoutHistory(Request $request, MobilePayoutDataTable $datatable)
+    {
+        if($request->ajax()) {
+            return $datatable->index();
+        }
+        return view('admin.cash.mobilepayout');
+    }
+    public function bankChargeHistory(Request $request, BankChargeDataTable $datatable)
+    {
+        if($request->ajax()) {
+            return $datatable->index();
+        }
+        return view('admin.cash.bankcharge');
+    }
+    public function bankPayoutHistory(Request $request, BankPayoutDataTable $datatable)
+    {
+        if($request->ajax()) {
+            return $datatable->index();
+        }
+        return view('admin.cash.bankpayout');
     }
 
 }

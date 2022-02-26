@@ -192,7 +192,6 @@ class AdminController extends Controller
 
         Setting::set('coin_trade_fee', $request->coin_trade_fee);
         Setting::set('usdc_withdraw_fee', $request->usdc_withdraw_fee);
-        // Setting::set('store_link_ios', $request->store_link_ios);
         Setting::set('paypal_withdraw_fee', $request->paypal_withdraw_fee);
         Setting::set('cash_conversation_fee', $request->cash_conversation_fee);
         Setting::save();

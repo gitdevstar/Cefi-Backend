@@ -24,6 +24,22 @@ class SettingsSeeder extends Seeder
                 'key' => 'admin_site_title',
                 'value' => 'Pepper Global Admin'
             ],
+            [
+                'key' => 'coin_trade_fee',
+                'value' => 4
+            ],
+            [
+                'key' => 'usdc_withdraw_fee',
+                'value' => 30
+            ],
+            [
+                'key' => 'paypal_withdraw_fee',
+                'value' => 25
+            ],
+            [
+                'key' => 'cash_conversation_fee',
+                'value' => 8
+            ],
         ]);
     }
 }

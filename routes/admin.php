@@ -19,6 +19,9 @@ Route::group(['middleware' => 'admin'], function () {
     Route::get('/settings',                              [AdminController::class, 'settings'])->name('settings');
     Route::post('/settings/store',                       [AdminController::class, 'settings_store'])->name('settings.store');
 
+    Route::get('/settings/payment',                      [AdminController::class, 'paymentSettings'])->name('payment.settings');
+    Route::post('/settings/payment/store',               [AdminController::class, 'storePaymentSettings'])->name('payment.settings.store');
+
     Route::get('/profile', 								[AdminController::class, 'profile'])->name('profile');
     Route::post('/profile', 								[AdminController::class, 'profile_update'])->name('profile.update');
 

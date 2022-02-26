@@ -185,7 +185,7 @@ class CoinApiController extends Controller
             if (!$result || count($result) == 0)
                 $buyCoinPrice = $buyCoin->current_price;
             else $buyCoinPrice = $result[0]['current_price'];
-            $fee = 4;
+            $fee = Setting::get('coin_trade_fee', 4);
             return response()->json(['sellCoinPrice' => $sellCoinPrice, 'buyCoinPrice' => $buyCoinPrice, 'fee' => $fee]);
         } catch (\Throwable $th) {
             return response()->json(['error' => $th->getMessage()], 500);
@@ -269,7 +269,7 @@ class CoinApiController extends Controller
 
     public function withdrawFee()
     {
-        $fee = 30; // %
+        $fee = Setting::get('usdc_withdraw_fee', 30); // usdc
 
         return response()->json(['fee' => $fee]);
     }

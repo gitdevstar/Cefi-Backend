@@ -140,7 +140,6 @@ class AdminController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Provider  $provider
      * @return \Illuminate\Http\Response
      */
     public function settings_store(Request $request)
@@ -172,6 +171,30 @@ class AdminController extends Controller
         Setting::set('contact_number', $request->contact_number);
         Setting::set('contact_email', $request->contact_email);
         Setting::set('site_copyright', $request->site_copyright);
+        Setting::save();
+
+        return back()->with('flash_success', 'Settings Updated Successfully');
+    }
+
+    public function paymentSettings()
+    {
+        return view('admin.settings.payment');
+    }
+
+    public function storePaymentSettings(Request $request)
+    {
+        $this->validate($request, [
+            'coin_trade_fee' => 'required',
+            'usdc_withdraw_fee' => 'required',
+            'paypal_withdraw_fee' => 'required',
+            'cash_conversation_fee' => 'required',
+        ]);
+
+        Setting::set('coin_trade_fee', $request->coin_trade_fee);
+        Setting::set('usdc_withdraw_fee', $request->usdc_withdraw_fee);
+        // Setting::set('store_link_ios', $request->store_link_ios);
+        Setting::set('paypal_withdraw_fee', $request->paypal_withdraw_fee);
+        Setting::set('cash_conversation_fee', $request->cash_conversation_fee);
         Setting::save();
 
         return back()->with('flash_success', 'Settings Updated Successfully');

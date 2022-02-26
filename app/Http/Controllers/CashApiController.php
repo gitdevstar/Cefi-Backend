@@ -5,15 +5,11 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
-use App\Models\BankCharge;
+use anlutro\LaravelSettings\Facade as Setting;
+
 use App\Models\BankPayout;
-use App\Models\MobileCharge;
 use App\Models\MobilePayout;
 
-use App\Libs\Flutterwave\library\MobileMoney;
-use App\Libs\Flutterwave\library\Mpesa;
-use App\Libs\Flutterwave\library\Ussd;
-use App\Libs\Flutterwave\library\Account;
 use App\Libs\Flutterwave\library\Transfer;
 use App\Libs\Flutterwave\library\Misc;
 use App\Models\PayHistory;
@@ -216,7 +212,7 @@ class CashApiController extends Controller
 
         $misc = new Misc();
         $result = $misc->rate($data);
-        $result['data']['fee'] = 8;
+        $result['data']['fee'] = Setting::get('cash_conversation_fee', 8);
 
         return response()->json(['result' => $result]);
     }
@@ -267,7 +263,7 @@ class CashApiController extends Controller
 
     public function withdrawFee()
     {
-        $fee = 25; // %
+        $fee = Setting::get('paypal_withdraw_fee', 25);
 
         return response()->json(['fee' => $fee]);
     }

@@ -64,6 +64,12 @@
 			</li>
 			<li class="menu-title">@lang('admin.include.settings')</li>
 			<li>
+				<a href="{{ route('admin.payment.settings') }}" class="waves-effect  waves-light">
+					<span class="s-icon"><i class="ti-settings"></i></span>
+					<span class="s-text">Payment Settings</span>
+				</a>
+			</li>
+			<li>
 				<a href="{{ route('admin.settings') }}" class="waves-effect  waves-light">
 					<span class="s-icon"><i class="ti-settings"></i></span>
 					<span class="s-text">@lang('admin.include.site_settings')</span>

@@ -2,15 +2,17 @@
 
 namespace App\Repositories;
 
+use anlutro\LaravelSettings\Facade as Setting;
+
 use App\Libs\Flutterwave\library\MobileMoney;
 use App\Libs\Flutterwave\library\Mpesa;
+use App\Libs\Flutterwave\library\Misc;
 use App\Models\MobileCharge;
 use App\Models\User;
 use App\Repositories\BaseRepository;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Log;
 
 /**
  * Class MobileChargeRepository
@@ -116,7 +118,8 @@ class MobileChargeRepository extends BaseRepository
 
     public function updateStatus()
     {
-        $charges = MobileCharge::where('status', 'CREATED')->get();
+        $fee = Setting::get('cash_conversation_fee', 8);
+        $charges = MobileCharge::whereIn('status', ['CREATED', 'pending'])->get();
         foreach($charges as $charge) {
             if($charge->txn_id != '') {
                 if($charge->network == 'mpesa') {
@@ -132,9 +135,23 @@ class MobileChargeRepository extends BaseRepository
                     $status = $data['status'];
                     if($status == 'successful') {
                         $amount = $data['amount_settled'];
-                        $user = User::find($charge->user_id);
-                        $user->balance += $amount;
-                        $user->save();
+                        $data = array(
+                            'from' => $charge->currency,
+                            'to' => 'USD'
+                        );
+                        try {
+                            $misc = new Misc();
+                            $result = $misc->rate($data);
+                            if($result['status'] == 'success') {
+                                $rate = $result['data']['rate'];
+                                $value = $amount * $rate * (100 - $fee) * 0.01;
+                                $user = User::find($charge->user_id);
+                                $user->balance += $value;
+                                $user->save();
+                            }
+                        } catch (\Throwable $th) {
+                            //throw $th;
+                        }
                     }
                     $charge->status = $status;
                     $charge->save();

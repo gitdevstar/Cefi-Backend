@@ -85,7 +85,7 @@ class MobileChargeRepository extends BaseRepository
         }
         else {
             if($network != 'mobile_money_franco')
-                $data['redirect_url'] = 'http://52.14.18.78/api/flutter/mobilecharge/webhook/'.$charge->id;
+                $data['redirect_url'] = 'https://okanewallet.com/api/flutter/mobilecharge/webhook/'.$charge->id;
             if($network == 'mobile_money_ghana')
                 $data['network'] = $request->type ?? "MTN";
             $payment = new MobileMoney();

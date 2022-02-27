@@ -4,19 +4,17 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Config;
+
+use anlutro\LaravelSettings\Facade as Setting;
 
 use App\Libs\Coingecko\Coingecko;
 use App\Libs\CryptocurrencyApi\CryptocurrencyapiApi;
 use App\Models\Coin;
 use App\Models\CoinCallbackAddress;
-use App\Models\Order;
 use App\Models\Withdraw;
 use App\Repositories\CoinRepository;
 use App\Repositories\OrderRepository;
 use App\Repositories\UserRepository;
-use Illuminate\Support\Facades\Log;
-use Lin\Coinbase\CoinbasePro;
 
 class CoinApiController extends Controller
 {

@@ -62,6 +62,12 @@
 					<span class="s-text">Bank Payouts</span>
 				</a>
 			</li>
+			<li>
+				<a href="{{ route('admin.cash.pay.history') }}" class="waves-effect waves-light">
+					<span class="s-icon"><i class="ti-money"></i></span>
+					<span class="s-text">Pay History</span>
+				</a>
+			</li>
 			<li class="menu-title">@lang('admin.include.settings')</li>
 			<li>
 				<a href="{{ route('admin.payment.settings') }}" class="waves-effect  waves-light">

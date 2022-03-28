@@ -193,11 +193,11 @@ class CoinSeeder extends Seeder
             'name' => 'Chiliz',
             'coingecko_id' => 'chiliz',
         ],
-        [
-            'symbol' => 'CLV',
-            'name' => 'Clover',
-            'coingecko_id' => 'clover',
-        ],
+        // [
+        //     'symbol' => 'CLV',
+        //     'name' => 'Clover',
+        //     'coingecko_id' => 'clover',
+        // ],
         [
             'symbol' => 'COMP',
             'name' => 'Compound',

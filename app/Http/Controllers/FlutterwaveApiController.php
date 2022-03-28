@@ -249,7 +249,8 @@ class FlutterwaveApiController extends Controller
 
     public function webhook(Request $request)
     {
-        Log::info('flutterwave charge: '.json_encode($request));
+        Log::info('flutterwave charge event: '. $request['event']);
+        Log::info('flutterwave charge data: '. json_encode($request['data']));
     }
 
     public function mobileChargeWebhook(Request $request)

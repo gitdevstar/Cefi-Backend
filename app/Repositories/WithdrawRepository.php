@@ -2,6 +2,9 @@
 
 namespace App\Repositories;
 
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+
 use App\Models\User;
 use App\Models\Withdraw;
 use App\Repositories\BaseRepository;
@@ -37,6 +40,22 @@ class WithdrawRepository extends BaseRepository
     public function model()
     {
         return Withdraw::class;
+    }
+
+    public function request(Request $request) {
+        $user = Auth::user();
+        $amount = $request->amount;
+        if($amount == 0)
+            throw new Exception("Invalidate amount.");
+        if($user->balance < $amount)
+            throw new Exception("Insufficient amount.");
+
+        $this->create([
+            'user_id' => $user->id,
+            'to' => $request->to,
+            'kind' => 'Cash',
+            'amount' => $amount,
+        ]);
     }
 
     public function unapprove($id)

@@ -11,7 +11,6 @@ use App\Libs\Flutterwave\library\Transfer;
 use App\Libs\Flutterwave\library\Misc;
 use App\Models\PayHistory;
 use App\Models\User;
-use App\Models\Withdraw;
 use App\Repositories\BankChargeRepository;
 use App\Repositories\BankPayoutRepository;
 use App\Repositories\MobileChargeRepository;

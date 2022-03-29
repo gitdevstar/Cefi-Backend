@@ -7,12 +7,14 @@ use anlutro\LaravelSettings\Facade as Setting;
 use App\Libs\Flutterwave\library\MobileMoney;
 use App\Libs\Flutterwave\library\Mpesa;
 use App\Libs\Flutterwave\library\Misc;
+use App\Libs\Flutterwave\library\Transactions;
 use App\Models\MobileCharge;
 use App\Models\User;
 use App\Repositories\BaseRepository;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
 
 /**
  * Class MobileChargeRepository
@@ -108,6 +110,14 @@ class MobileChargeRepository extends BaseRepository
         if (isset($result['data'])) {
             $charge->tx_ref = $result['data']['tx_ref'] ?? '';
             $charge->txn_id = $result['data']['id'] ?? '';
+
+            try {
+                $this->verifyTransaction($result['data']['id']);
+            } catch (\Throwable $th) {
+                throw $th;
+            }
+
+
         }
         //     $charge->status = $result['data']['status'];
         $charge->redirect_url = isset($result['meta']) && $result['meta']['authorization']['mode'] == 'redirect' ? $result['meta']['authorization']['redirect']: null;
@@ -122,12 +132,12 @@ class MobileChargeRepository extends BaseRepository
         $charges = MobileCharge::whereIn('status', ['CREATED', 'pending'])->get();
         foreach($charges as $charge) {
             if($charge->txn_id != '') {
-                if($charge->network == 'mpesa') {
-                    $payment = new Mpesa();
-                    $transaction = $payment->verifyTransaction($charge->txn_id);
-                } else {
-                    $payment = new MobileMoney();
-                    $transaction = $payment->verifyTransaction($charge->txn_id);
+
+                try {
+                    $transaction = $this->verifyTransaction($charge->txn_id);
+                } catch (\Throwable $th) {
+                    // throw $th;
+                    return;
                 }
 
                 if($transaction['status'] == 'success') {
@@ -160,10 +170,24 @@ class MobileChargeRepository extends BaseRepository
         }
     }
 
-    public function verifyTransaction($txnId)
+    private function verifyTransaction($txnId)
     {
-        $payment = new MobileMoney();
-        $transactions = $payment->verifyTransaction($txnId);
-        return $transactions;
+
+        $transactions = new Transactions();
+
+        $response = $transactions->verifyTransaction($txnId);
+        if (
+            $response['status'] == 'success'
+            // $response['data']['status'] === "successful"
+            // && $response['data']['amount'] === $request->amount
+            // && $response['data']['currency'] === $request->currency
+            ) {
+            // Success! Confirm the customer's payment
+            return $response;
+        } else {
+            // Inform the customer their payment was unsuccessful
+            Log::info('mobile charge unverified'.json_encode($response));
+            throw new Exception($response['message']);
+        }
     }
 }

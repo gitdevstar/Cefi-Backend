@@ -8,7 +8,6 @@ use Illuminate\Support\Facades\Auth;
 use anlutro\LaravelSettings\Facade as Setting;
 
 use App\Models\BankPayout;
-use App\Models\MobilePayout;
 
 use App\Libs\Flutterwave\library\Transfer;
 use App\Libs\Flutterwave\library\Misc;
@@ -17,6 +16,7 @@ use App\Models\User;
 use App\Models\Withdraw;
 use App\Repositories\BankChargeRepository;
 use App\Repositories\MobileChargeRepository;
+use App\Repositories\MobilePayoutRepository;
 use App\Repositories\UserRepository;
 
 class CashApiController extends Controller
@@ -74,7 +74,7 @@ class CashApiController extends Controller
 
     }
 
-    public function mobilePayout(Request $request)
+    public function mobilePayout(Request $request, MobilePayoutRepository $moilePayoutRepo)
     {
         $this->validate($request, [
             'currency' => 'required',
@@ -85,55 +85,13 @@ class CashApiController extends Controller
             'fullname' => 'required',
         ]);
 
-        $type = $request->type ?? "MPS";
-        $data = array(
-            "account_bank"=> $type,
-            "account_number"=> $request->phone_number,
-            "amount"=> $request->amount,
-            "currency"=> $request->currency,
-            "debit_currency"=> "USD"
-        );
-
-        $getdata = array(
-            //"reference"=>"edf-12de5223d2f32434753432"
-             "id"=>"BIL136",
-             "product_id"=>"OT150"
-        );
-
-        $listdata = array(
-            'status'=>'failed'
-        );
-
-        $feedata = array(
-            'currency'=> $request->currency, //if currency is omitted. the default currency of NGN would be used.
-            'amount'=> 1000
-        );
-
-        $payment = new Transfer();
-        $result = $payment->singleTransfer($data);//initiate single transfer payment
-        // $getTransferFee = $payment->getTransferFee($feedata);
-
-        if($result['status'] == 'error') {
-            return response()->json(['error' => $result['message']], 500);
-        }
-        if(isset($result['data'])){
-            $id = $result['data']['id'];
-            MobilePayout::create([
-                'user_id' => Auth::user()->id,
-                'currency' => $request->currency,
-                'type' => $type,
-                'amount' => $request->amount,
-                'email' => $request->email,
-                'phone' => $request->phone_number,
-                'full_name' => $request->fullname,
-                'fee' => 0,
-                'txn_id' => $id
-            ]);
-            return response()->json(['result' => $result]);
-        } else {
-            return response()->json(['error' => $result], 500);
+        try {
+            $result = $moilePayoutRepo->payout($request);
+        } catch (\Throwable $th) {
+            return response()->json(['error' => $th->getMessage()], 500);
         }
 
+        return response()->json(['result' => $result]);
     }
 
     public function bankPayout(Request $request)

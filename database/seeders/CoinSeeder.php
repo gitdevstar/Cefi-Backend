@@ -534,6 +534,216 @@ class CoinSeeder extends Seeder
             'name' => 'Ampleforth Governance Token',
             'coingecko_id' => 'ampleforth-governance-token',
         ],
+        [
+            'symbol' => 'CRO',
+            'name' => 'Cronos',
+            'coingecko_id' => 'crypto-com-chain',
+        ],
+        [
+            'symbol' => 'APE',
+            'name' => 'APE',
+            'coingecko_id' => 'ape',
+        ],
+        [
+            'symbol' => 'XTZ',
+            'name' => 'Tezos',
+            'coingecko_id' => 'tezos',
+        ],
+        [
+            'symbol' => 'GALA',
+            'name' => 'Gala',
+            'coingecko_id' => 'gala',
+        ],
+        [
+            'symbol' => 'STX',
+            'name' => 'Stacks',
+            'coingecko_id' => 'blockstack',
+        ],
+        [
+            'symbol' => 'MINA',
+            'name' => 'Mina',
+            'coingecko_id' => 'mina-protocol',
+        ],
+        [
+            'symbol' => 'IOTX',
+            'name' => 'IoTex',
+            'coingecko_id' => 'iotex',
+        ],
+        [
+            'symbol' => 'RNDR',
+            'name' => 'Render Token',
+            'coingecko_id' => 'render-token',
+        ],
+        [
+            'symbol' => 'RLY',
+            'name' => 'Rally',
+            'coingecko_id' => 'rally-2',
+        ],
+        [
+            'symbol' => 'SPELL',
+            'name' => 'Spell Token',
+            'coingecko_id' => 'spell-token',
+        ],
+        [
+            'symbol' => 'POLY',
+            'name' => 'Polymath',
+            'coingecko_id' => 'polymath',
+        ],
+        [
+            'symbol' => 'PLA',
+            'name' => 'PlayDapp',
+            'coingecko_id' => 'playdapp',
+        ],
+        [
+            'symbol' => 'PERP',
+            'name' => 'Perpetual',
+            'coingecko_id' => 'perpetual-protocol',
+        ],
+        [
+            'symbol' => 'SUPER',
+            'name' => 'SuperCoin',
+            'coingecko_id' => 'supercoin',
+        ],
+        [
+            'symbol' => 'FET',
+            'name' => 'Fetch.ai',
+            'coingecko_id' => 'fetch-ai',
+        ],
+        [
+            'symbol' => 'POWER',
+            'name' => 'Power Nodes',
+            'coingecko_id' => 'power-nodes',
+        ],
+        [
+            'symbol' => 'TRAC',
+            'name' => 'OriginTrail',
+            'coingecko_id' => 'origintrail',
+        ],
+        [
+            'symbol' => 'COTI',
+            'name' => 'COTI',
+            'coingecko_id' => 'coti',
+        ],
+        [
+            'symbol' => 'ALICE',
+            'name' => 'My Neighbor Alice',
+            'coingecko_id' => 'my-neighbor-alice',
+        ],
+        [
+            'symbol' => 'NKN',
+            'name' => 'NKN',
+            'coingecko_id' => 'nkn',
+        ],
+        [
+            'symbol' => 'JASMY',
+            'name' => 'JasmyCoin',
+            'coingecko_id' => 'jasmycoin',
+        ],
+        [
+            'symbol' => 'AIOZ',
+            'name' => 'Aioz',
+            'coingecko_id' => 'aioz-network',
+        ],
+        [
+            'symbol' => 'PRO',
+            'name' => 'Propy',
+            'coingecko_id' => 'propy',
+        ],
+        [
+            'symbol' => 'INDEX',
+            'name' => 'Index Cooperative',
+            'coingecko_id' => 'index-cooperative',
+        ],
+        [
+            'symbol' => 'AERGO',
+            'name' => 'AERGO',
+            'coingecko_id' => 'aergo',
+        ],
+        [
+            'symbol' => 'LCX',
+            'name' => 'LCX',
+            'coingecko_id' => 'lck',
+        ],
+        [
+            'symbol' => 'FIDA',
+            'name' => 'Bonfida',
+            'coingecko_id' => 'bonfida',
+        ],
+        [
+            'symbol' => 'RBN',
+            'name' => 'Robinos',
+            'coingecko_id' => 'robinos',
+        ],
+        [
+            'symbol' => 'NCT',
+            'name' => 'Name Change Token',
+            'coingecko_id' => 'name-changing-token',
+        ],
+        [
+            'symbol' => 'HIGH',
+            'name' => 'Highstreet',
+            'coingecko_id' => 'highstreet',
+        ],
+        [
+            'symbol' => 'QSP',
+            'name' => 'Quantstamp',
+            'coingecko_id' => 'quantstamp',
+        ],
+        [
+            'symbol' => 'ASM',
+            'name' => 'Assemble',
+            'coingecko_id' => 'assemble-protocol',
+        ],
+        [
+            'symbol' => 'BLZ',
+            'name' => 'Bluzelle',
+            'coingecko_id' => 'bluzelle',
+        ],
+        [
+            'symbol' => 'DNT',
+            'name' => 'District0x',
+            'coingecko_id' => 'district0x',
+        ],
+        [
+            'symbol' => 'SHPING',
+            'name' => 'Shping',
+            'coingecko_id' => 'shping',
+        ],
+        [
+            'symbol' => 'SUKU',
+            'name' => 'SUKU',
+            'coingecko_id' => 'suku',
+        ],
+        [
+            'symbol' => 'MDT',
+            'name' => 'Measurable Data Token',
+            'coingecko_id' => 'measurable-data-token',
+        ],
+        [
+            'symbol' => 'CRPT',
+            'name' => 'Crypterium',
+            'coingecko_id' => 'crypterium',
+        ],
+        [
+            'symbol' => 'UPI',
+            'name' => 'Pawtocol',
+            'coingecko_id' => 'pawtocol',
+        ],
+        [
+            'symbol' => 'GODS',
+            'name' => 'Gods Unchained',
+            'coingecko_id' => 'gods-unchained',
+        ],
+        [
+            'symbol' => 'Syn',
+            'name' => 'Synapse',
+            'coingecko_id' => 'synapse-network',
+        ],
+        [
+            'symbol' => 'Mco2',
+            'name' => 'Moss Carbon Credit',
+            'coingecko_id' => 'moss-carbon-credit',
+        ],
     );
     /**
      * Run the database seeds.
